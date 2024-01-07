@@ -77,10 +77,15 @@ if __name__ in ["__main__", "__mp_main__"]:
             if match:
                 try:
                     emulator_number = int(match.group(1))
+                    print(emulator_path)
+                    print(emulator_file_name)
+                    print(f"找到多开的模拟器编号：{emulator_number}")
                     close_emulator(emulator_path,emulator_file_name,emulator_number)
                 except Exception:
                     pass
             else:
+                print(emulator_path)
+                print(emulator_file_name)
                 close_emulator(emulator_path,emulator_file_name)
             
             # 判断config里是否有next_config文件

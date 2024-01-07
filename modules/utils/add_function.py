@@ -21,23 +21,29 @@ def close_emulator(path,file_name,mumu_num=None)->None:
     path=str(path)
     file_name=str(file_name)
     os.chdir(path)
+    callable('ls')
     if file_name=='MuMuPlayer.exe':
         if mumu_num !=None:
             cmd3 = f"MuMuManager.exe api -v {mumu_num}  shutdown_player "
             CallCMD(cmd3)
+            print(cmd3)
             time.sleep(5)
             os.chdir(current_dir)
+            callable('ls')
             return
         else:
             cmd3 = "MuMuManager.exe api -v 0 shutdown_player "
             CallCMD(cmd3)
+            print(cmd3)
             time.sleep(5)
             os.chdir(current_dir)
+            callable('ls')
             return
     # cmdStr = "cd /d "+ path + f" & {file_name} quitall"
     # # cmdStr = "cd /d "+"LeiDianDir"+" & dnconsole.exe quitall"
     # # print("cmdstr",cmdStr)
     # os.system(cmdStr)
+        
     os.chdir(current_dir)
 
 
