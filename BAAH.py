@@ -13,6 +13,7 @@ from modules.AllTask.myAllTask import my_AllTask
 
 def BAAH_main():
     # 启动模拟器
+
     if hasattr(config, "TARGET_EMULATOR_PATH") and config.TARGET_EMULATOR_PATH != "":
         logging.info("启动模拟器")
         try:
@@ -29,6 +30,7 @@ def BAAH_main():
     # 检查adb连接
     disconnect_this_device()
     max_try = 7
+    time.sleep(15)
     for i in range(max_try):
         logging.info(f"检查连接{i+1}/{max_try}...")
         if check_connect():

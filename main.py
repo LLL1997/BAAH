@@ -41,7 +41,48 @@ if __name__ in ["__main__", "__mp_main__"]:
         config_history = [configname]
         while True:
             logging.debug("config历史列表: "+ ",".join(config_history))
+
+            #开始前发送钉钉 
+            from modules.utils.msg import push_msg_fast
+            push_msg_fast(f"游戏，BAAH运行")
+
+
             BAAH_main()
+
+            # 添加退出模拟器
+            from modules.utils.add_function import close_emulator
+            import re
+            configname = "config.json"
+            from modules.utils.MyConfig import config
+            # 从config里得到路径
+            emulator_path=config.configdict['TARGET_EMULATOR_PATH']
+            print('print(emulator_path)',emulator_path)
+            emulator_path=str(emulator_path)
+            print('print(emulator_path)1',emulator_path)
+            # 文件名
+            emulator_file_name = re.search(r'/([^/]+\.exe)', emulator_path)
+            print(emulator_file_name)
+            emulator_file_name = emulator_file_name.group(1)
+            print(emulator_file_name)
+            # 地址
+            # emulator_path = re.search(r'/(.+)\.exe', emulator_path)
+            emulator_path = re.search(r'^(.*?/)MuMuPlayer\.exe', emulator_path)
+            print(emulator_path)
+            emulator_path=emulator_path.group(1)
+            print(emulator_path)
+            # 尝试提取多开的模拟器编号 
+            # 使用正则表达式匹配 -v 后的数字
+            match = re.search(r'-v\s+(\d+)', emulator_path)
+
+            if match:
+                try:
+                    emulator_number = int(match.group(1))
+                    close_emulator(emulator_path,emulator_file_name,emulator_number)
+                except Exception:
+                    pass
+            else:
+                close_emulator(emulator_path,emulator_file_name)
+            
             # 判断config里是否有next_config文件
             if hasattr(config, 'NEXT_CONFIG') and len(config.NEXT_CONFIG) > 0:
                 # 有的话，更新配置项目
@@ -54,7 +95,6 @@ if __name__ in ["__main__", "__mp_main__"]:
                 config.parse_config(config.NEXT_CONFIG)
                 # 清空my_AllTask实例，通过新的config构造新的my_AllTask
                 my_AllTask.parse_task()
-
             else:
                 break
     except Exception as e:
@@ -68,4 +108,8 @@ if __name__ in ["__main__", "__mp_main__"]:
         pass
     print("程序运行结束，如有问题请加群(441069156)反馈，在Github上检查下是否有版本更新")
     print("https://github.com/sanmusen214/BAAH")
-    input("按回车键退出BAAH:")
+
+
+    from modules.utils.msg import push_msg_fast
+    push_msg_fast(f"游戏，BAAH运行结束,")
+    # input("按回车键退出BAAH:")
