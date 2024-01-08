@@ -44,7 +44,7 @@ if __name__ in ["__main__", "__mp_main__"]:
 
             #开始前发送钉钉 
             from modules.utils.msg import push_msg_fast
-            push_msg_fast(f"游戏，BAAH运行")
+            push_msg_fast(f"游戏，{config.configdict['ACTIVITY_PATH']},BAAH运行")
 
 
             BAAH_main()
@@ -59,6 +59,7 @@ if __name__ in ["__main__", "__mp_main__"]:
             print('print(emulator_path)',emulator_path)
             emulator_path=str(emulator_path)
             print('print(emulator_path)1',emulator_path)
+
             # 文件名
             emulator_file_name = re.search(r'/([^/]+\.exe)', emulator_path)
             print(emulator_file_name)
@@ -70,9 +71,13 @@ if __name__ in ["__main__", "__mp_main__"]:
             print(emulator_path)
             emulator_path=emulator_path.group(1)
             print(emulator_path)
+
             # 尝试提取多开的模拟器编号 
             # 使用正则表达式匹配 -v 后的数字
-            match = re.search(r'-v\s+(\d+)', emulator_path)
+            # 从config里得到路径 后面再优化
+            full_value=config.configdict['TARGET_EMULATOR_PATH']
+            print('print(emulator_path)',full_value)
+            match = re.search(r'-v\s+(\d+)', full_value)
 
             if match:
                 try:
@@ -87,7 +92,7 @@ if __name__ in ["__main__", "__mp_main__"]:
                 print(emulator_path)
                 print(emulator_file_name)
                 close_emulator(emulator_path,emulator_file_name)
-            push_msg_fast(f"游戏，BAAH运行结束,")
+            push_msg_fast(f"游戏，{config.configdict['ACTIVITY_PATH']},BAAH运行结束,")
             # 判断config里是否有next_config文件
             if hasattr(config, 'NEXT_CONFIG') and len(config.NEXT_CONFIG) > 0:
                 # 有的话，更新配置项目
@@ -105,6 +110,8 @@ if __name__ in ["__main__", "__mp_main__"]:
     except Exception as e:
         # 打印完整的错误信息
         traceback.print_exc()
+        from modules.utils.msg import push_msg_fast
+        push_msg_fast(f"游戏，{config.configdict['ACTIVITY_PATH']}，baah意外退出,")
     try:
         # 如果截图文件存在，删除截图文件
         if os.path.exists(f"./{config.SCREENSHOT_NAME}"):

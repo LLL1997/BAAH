@@ -30,7 +30,11 @@ class Loginin(Task):
         else:
             # 活动弹窗
             click((1250, 40))
-    
+
+    def open_app_error(self,i):
+        print("打开app失败，尝试重新运行")
+        if i >=500:
+            pass
      
     def on_run(self) -> None:
         # 因为涉及到签到页面什么的，所以这里点多次魔法点
@@ -39,6 +43,7 @@ class Loginin(Task):
                       lambda: match(popup_pic(PopupName.POPUP_LOGIN_FORM)) or Page.is_page(PageName.PAGE_HOME), 
                       times = 999,
                       sleeptime = 1.5)
+        # error_handling = open_app_error
 
      
     def post_condition(self) -> bool:

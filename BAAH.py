@@ -21,16 +21,17 @@ def BAAH_main():
             subprocess_run(config.TARGET_EMULATOR_PATH.split(" "), isasync=True)
             for i in range(3):
                 logging.info("等待{}...".format(i+1))
-                sleep(3)
+                sleep(8)
         except Exception as e:
             logging.error("启动模拟器失败, 可能是没有以管理员模式运行 或 配置的模拟器路径有误")
             logging.warn("检查是否能够建立与模拟器的连接...")
     else:
         logging.info("未配置模拟器路径")
     # 检查adb连接
-    disconnect_this_device()
+    disconnect_this_device() 
     max_try = 7
-    time.sleep(15)
+    print('等待30s等模拟器打开')
+    time.sleep(30) # 等待模拟器启动
     for i in range(max_try):
         logging.info(f"检查连接{i+1}/{max_try}...")
         if check_connect():
@@ -41,7 +42,7 @@ def BAAH_main():
                 # 打开游戏
                 open_app(config.ACTIVITY_PATH)
                 logging.info("打开游戏...")
-                sleep(3)
+                sleep(20)
                 if not check_app_running(config.ACTIVITY_PATH):
                     if i>=2:
                         yorn = input("连接后多次打开失败，是否重启adb服务或跳过？(y/n/k):")
@@ -78,11 +79,12 @@ def BAAH_main():
                     except:
                         logging.error("端口号输入错误")
             if i == max_try-2:
-                yorn = input("多次连接失败，是否重启adb服务？(y/n):")
-                if yorn == "y" or yorn == "Y":
-                    logging.warn("重启adb服务")
-                    kill_adb_server()
-                    continue
+                # yorn = input("多次连接失败，是否重启adb服务？(y/n):")
+                # if yorn == "y" or yorn == "Y":
+                logging.warn("重启adb服务")
+                kill_adb_server()
+                time.sleep(10)
+                # continue
             if i == max_try-1:
                 logging.error("达到最大尝试次数，连接失败")
                 break

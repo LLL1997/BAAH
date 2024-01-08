@@ -113,7 +113,7 @@ class Task:
             sleep(sleeptime)
     
     @staticmethod
-    def run_until(func1, func2, times=6, sleeptime = 1.5) -> bool:
+    def run_until(func1, func2, times=6, sleeptime = 1.5,error_handling=None) -> bool:
         """
         重复执行func1，至多times次或直到func2成立
         
@@ -129,9 +129,13 @@ class Task:
                 return True
             func1()
             sleep(sleeptime)
+            # 加点错误处理，用来解决MUMU国际服闪退的问题
+            if error_handling and error_handling(i):
+                pass
         screenshot()
         if(func2()):
             return True
+
         logging.warning("run_until exceeded max times")
         return False
 
