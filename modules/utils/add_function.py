@@ -1,4 +1,6 @@
 import os,datetime,subprocess,time
+from typing import Any
+from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area
 
 def close_emulator(path,file_name,mumu_num=None)->None:
     ''' 关闭模拟器'''
@@ -22,6 +24,7 @@ def close_emulator(path,file_name,mumu_num=None)->None:
     file_name=str(file_name)
     os.chdir(path)
     callable('ls')
+    print(mumu_num,'mumu_num')
     if file_name=='MuMuPlayer.exe':
         if mumu_num !=None:
             cmd3 = f"MuMuManager.exe api -v {mumu_num}  shutdown_player "
@@ -108,24 +111,15 @@ def log_error(message):
         file.write("{}: {}\n".format(datetime.now(), message))
 class _:
     pass
+class ocr_store:
+    ''' ocr资源数量'''
+    def __init__(self) -> None:
+        pass
+    
+        res = ocr_area((901, 88), (989, 123))
+        print("Tab栏识别结果: ", res)
 
 if __name__ == '__main__':
     pass
     # os._exit(0)
     close_emulator('D:/Program Files/Netease/MuMuPlayer-12.0/shell/','MuMuPlayer.exe' , 3)
-    import schedule,time
-    daily,Touch_Head=''
-
-    schedule.every().day.at("02:00").do(daily)
-    schedule.every().day.at("04:00").do(Touch_Head)
-    schedule.every().day.at("07:00").do(daily)
-    schedule.every().day.at("11:00").do(Touch_Head)
-    schedule.every().day.at("14:00").do(Touch_Head)
-    schedule.every().day.at("16:00").do(Touch_Head)
-    schedule.every().day.at("19:00").do(daily)
-    schedule.every().day.at("23:00").do(Touch_Head)
-
-
-    while True:
-        schedule.run_pending()
-        time.sleep(100)

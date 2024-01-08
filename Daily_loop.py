@@ -27,9 +27,9 @@ if __name__ == '__main__':
     # close_emulator('D:/Program Files/Netease/MuMuPlayer-12.0/shell/','MuMuPlayer.exe' , 3)
 
     # daily,Touch_Head=''
-
+    daily_loop()
     _daily()
-
+    
 
     while True:
         schedule.run_pending()

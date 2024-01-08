@@ -87,7 +87,7 @@ if __name__ in ["__main__", "__mp_main__"]:
                 print(emulator_path)
                 print(emulator_file_name)
                 close_emulator(emulator_path,emulator_file_name)
-            
+            push_msg_fast(f"游戏，BAAH运行结束,")
             # 判断config里是否有next_config文件
             if hasattr(config, 'NEXT_CONFIG') and len(config.NEXT_CONFIG) > 0:
                 # 有的话，更新配置项目
@@ -116,5 +116,5 @@ if __name__ in ["__main__", "__mp_main__"]:
 
 
     from modules.utils.msg import push_msg_fast
-    push_msg_fast(f"游戏，BAAH运行结束,")
+    push_msg_fast(f"所有游戏，BAAH运行结束,")
     # input("按回车键退出BAAH:")
