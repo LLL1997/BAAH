@@ -13,8 +13,7 @@ if __name__ in ["__main__", "__mp_main__"]:
         # 从命令行参数获取要运行的config文件名，并将config实例parse为那个config文件
         
         configname = "config.json"
-        from modules.utils.MyConfig import config,MyConfigger
-        config=MyConfigger('config.json')
+        from modules.utils.MyConfig import config
         logging.info("读取默认config文件: "+configname)
         if len(sys.argv) > 1:
             configname = sys.argv[1]

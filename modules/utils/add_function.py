@@ -1,8 +1,20 @@
 import os,datetime,subprocess,time
-
+'''
+todo
+1.ocr_store
+    1.总力战开启
+    2.资源
+2.close_emulator
+3.判断维护结束当前任务实现
+4.网页版每日报告
+5.希望今年做完（
+6.优化()下adb链接逻辑，实现自动重启adb和模拟器，解决闪退问题
+'''
 def close_emulator(path,file_name,mumu_num=None)->None:
     ''' 关闭模拟器'''
     # 烦死了 只用mumu算了
+    # 后期用win32做吧， 2024年1月10日
+    
     current_dir = os.getcwd()
     def CallCMD(cmd_command):
         try:
@@ -59,6 +71,7 @@ class _:
     pass
 class ocr_store:
     ''' ocr资源数量'''
+    #用来做每日报告（
     def __init__(self) -> None:
         pass
     
