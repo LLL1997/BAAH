@@ -1,6 +1,6 @@
 import subprocess
 import schedule,time
-def _daily():
+def daily():
     print("每日")
     # with open("main.py", "r",encoding="utf-8") as file:
     #     script_code = file.read()
@@ -14,17 +14,17 @@ def _daily():
     process.wait()
 def daily_loop():
 
-    schedule.every().day.at("02:00").do(_daily)
+    schedule.every().day.at("02:00").do(daily)
     # schedule.every().day.at("04:00").do(Touch_Head)
-    schedule.every().day.at("07:00").do(_daily)
+    schedule.every().day.at("07:00").do(daily)
     # schedule.every().day.at("11:00").do(Touch_Head)
     # schedule.every().day.at("14:00").do(Touch_Head)
     # schedule.every().day.at("16:00").do(Touch_Head)
-    schedule.every().day.at("19:00").do(_daily)
-    schedule.every().day.at("22:00").do(_daily)
+    schedule.every().day.at("19:00").do(daily)
+    schedule.every().day.at("22:00").do(daily)
     # schedule.every().day.at("23:00").do(Touch_Head)
 if __name__ == '__main__':
-    _daily()
+    daily()
     daily_loop()
 
     while True:
