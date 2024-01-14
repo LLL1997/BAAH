@@ -36,6 +36,11 @@ def BAAH_check_adb_connect():
         if check_connect():
             logging.info("adb连接成功")
             return True
+        elif i == 8: # 重启模拟器，后期再加个cmd命令结束掉占用端口的程序
+            BAAH_kill_emulator()
+            time.sleep(10)
+            BAAH_start_emulator()
+            time.sleep(45)
         else:
             logging.info("未检测到设备连接, 重试...")
     raise Exception("adb连接失败, 请检查配置里的adb端口")
@@ -72,9 +77,10 @@ def BAAH_kill_emulator():
     
 
 def BAAH_main():
-    push_msg_fast(f'碧蓝档案游戏，开始运行{config.userconfigdict["ACTIVITY_PATH"]}')
+    push_msg_fast(f'碧蓝档案游戏，开始运行{config.userconfigdict["SERVER_TYPE"]}')
     try:
         BAAH_start_emulator()
+        time.sleep(30)
         BAAH_check_adb_connect()
         BAAH_open_target_app()
         # 运行任务
@@ -85,9 +91,9 @@ def BAAH_main():
 
     except Exception as e:
         logging.error(f"碧蓝档案运行出错，错误信息：{e}")
-        push_msg_fast(f'碧蓝档案游戏，运行出错{config.userconfigdict["ACTIVITY_PATH"]}')
+        push_msg_fast(f'碧蓝档案游戏，运行出错{config.userconfigdict["SERVER_TYPE"]}')
     else:
-        push_msg_fast(f'碧蓝档案游戏，运行完成{config.userconfigdict["ACTIVITY_PATH"]}')
+        push_msg_fast(f'碧蓝档案游戏，运行完成{config.userconfigdict["SERVER_TYPE"]}')
     finally:
         BAAH_kill_emulator()
 

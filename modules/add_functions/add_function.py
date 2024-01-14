@@ -11,7 +11,7 @@ todo
 6.优化()下adb链接逻辑，实现自动重启adb和模拟器，解决闪退问题
 '''
 def close_emulator(path,file_name,mumu_num=None)->None:
-    ''' 关闭模拟器'''
+    ''' 关闭模拟器,弃用'''
     # 烦死了 只用mumu算了
     # 后期用win32做吧， 2024年1月10日
     
@@ -51,7 +51,8 @@ def close_emulator(path,file_name,mumu_num=None)->None:
 
 
 
-def Daily_loop_control():
+def Daily_loop_control(max_num,config_list):
+    '''异步运行任务'''
     pass
 # 用携程来运行代码，通过时间来判断是否出错，超时触发TimeoutError异常
 
