@@ -30,6 +30,14 @@ class Loginin(Task):
         else:
             # 活动弹窗
             click((1250, 40))
+            
+        import logging
+        from modules.utils.adb_utils import open_app,check_app_running
+        from modules.configs.MyConfig import config
+        if not check_app_running(config.ACTIVITY_PATH):
+            open_app(config.ACTIVITY_PATH)
+            logging.info("可能app闪退了，正常不应该出现这条，尝试重新打开游戏...")
+            sleep(20)
     
      
     def on_run(self) -> None:

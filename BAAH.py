@@ -1,6 +1,8 @@
 import sys
 import os
 
+from modules.add_functions.add_function import *
+from modules.add_functions.msg import push_msg_fast
 # 将当前脚本所在目录添加到模块搜索路径
 current_dir = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(current_dir)
@@ -70,14 +72,26 @@ def BAAH_kill_emulator():
     
 
 def BAAH_main():
-    BAAH_start_emulator()
-    BAAH_check_adb_connect()
-    BAAH_open_target_app()
-    # 运行任务
-    logging.info("运行任务")
-    my_AllTask.run()
-    logging.info("所有任务结束")
-    BAAH_kill_emulator()
+    push_msg_fast(f'碧蓝档案游戏，开始运行{config.userconfigdict["ACTIVITY_PATH"]}')
+    try:
+        BAAH_start_emulator()
+        BAAH_check_adb_connect()
+        BAAH_open_target_app()
+        # 运行任务
+        logging.info("运行任务")
+        my_AllTask.run()
+        logging.info("所有任务结束")
+        # BAAH_kill_emulator()
+
+    except Exception as e:
+        logging.error(f"碧蓝档案运行出错，错误信息：{e}")
+        push_msg_fast(f'碧蓝档案游戏，运行出错{config.userconfigdict["ACTIVITY_PATH"]}')
+    else:
+        push_msg_fast(f'碧蓝档案游戏，运行完成{config.userconfigdict["ACTIVITY_PATH"]}')
+    finally:
+        BAAH_kill_emulator()
+
+
             
 
 
