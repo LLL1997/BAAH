@@ -29,7 +29,7 @@ def daily_loop():
     # schedule.every().day.at("11:00").do(Touch_Head)
     # schedule.every().day.at("14:00").do(Touch_Head)
     # schedule.every().day.at("16:00").do(Touch_Head)
-    schedule.every().day.at("19:00").do(daily)
+    # schedule.every().day.at("19:00").do(daily)
     schedule.every().day.at("22:00").do(daily)
     # schedule.every().day.at("23:00").do(Touch_Head)
 if __name__ == '__main__':
