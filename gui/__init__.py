@@ -47,25 +47,40 @@ def show_GUI(load_jsonname, config):
 
     # =============================================
 
+# 定义一个函数，用于渲染设置页面，参数为ui
     with ui.row().style('min-width: 800px; display: flex; flex-direction: row;flex-wrap: nowrap;'):
         with ui.column().style('min-width: 200px; overflow: auto;flex-grow: 1;position: sticky; top: 0px;'):
             with ui.card():
+                # 添加一个链接，链接到BAAH页面
                 ui.link("BAAH", '#BAAH')
+                # 添加一个链接，链接到设置页面
                 ui.link(config.get_text("setting_emulator"), '#EMULATOR')
+                # 添加一个链接，链接到设置页面
                 ui.link(config.get_text("setting_server"), '#SERVER')
+                # 添加一个链接，链接到设置页面
                 ui.link(config.get_text("setting_task_order"), '#TASK_ORDER')
+                # 添加一个链接，链接到设置页面
                 ui.link(config.get_text("setting_next_config"), '#NEXT_CONFIG')
+                # 添加一个链接，链接到任务页面
                 ui.link(config.get_text("task_cafe"), '#CAFE')
+                # 添加一个链接，链接到任务页面
                 ui.link(config.get_text("task_timetable"), '#TIME_TABLE')
+                # 添加一个链接，链接到任务页面
                 ui.link(config.get_text("task_shop"), '#SHOP_NORMAL')
+                # 添加一个链接，链接到任务页面
                 ui.link(config.get_text("task_wanted"), '#WANTED')
+                # 添加一个链接，链接到任务页面
                 ui.link(config.get_text("task_special"), '#SPECIAL_TASK')
+                # 添加一个链接，链接到任务页面
                 ui.link(config.get_text("task_exchange"), '#EXCHANGE')
+                # 添加一个链接，链接到任务页面
                 ui.link(config.get_text("task_event"), '#ACTIVITY')
+                # 添加一个链接，链接到任务页面
                 ui.link(config.get_text("task_hard"), '#HARD')
+                # 添加一个链接，链接到任务页面
                 ui.link(config.get_text("task_normal"), '#NORMAL')
+                # 添加一个链接，链接到工具页面
                 ui.link(config.get_text("setting_other"), '#TOOL_PATH')
-
 
         with ui.column().style('flex-grow: 4;'):
             

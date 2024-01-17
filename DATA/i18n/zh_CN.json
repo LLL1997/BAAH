@@ -43,6 +43,7 @@
 
     "config_cafe_attention":"国服目前咖啡馆的视角无法继承，请取消勾选以下这项;国际服/日服咖啡馆请将视角拉到最高，保持勾选以下这项",
     "config_camera_full":"进入咖啡馆时视角为最高",
+    "config_cafe_exhaustivity_touch_head":"咖啡馆地毯式摸头(与进入咖啡馆时视角为最高冲突,国服别勾选，别的服务器可以勾选,只勾选一个)",
     "config_emulator_port":"模拟器端口",
     "config_emulator_path":"模拟器路径",
     "config_close_emulator_and_baah": "运行结束后关闭模拟器和BAAH",
