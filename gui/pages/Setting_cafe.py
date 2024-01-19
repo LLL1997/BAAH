@@ -9,3 +9,4 @@ def set_cafe(config):
     
     with ui.row():
         ui.checkbox(config.get_text("config_camera_full")).bind_value(config.userconfigdict, "CAFE_CAMERA_FULL")
+        ui.checkbox(config.get_text("config_cafe_exhaustivity_touch_head")).bind_value(config.userconfigdict, "CAFE_EXHAUSTIVITY_TOUCH_HEAD")

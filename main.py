@@ -71,7 +71,7 @@ if __name__ in ["__main__", "__mp_main__"]:
         import traceback
         traceback.print_exc()
         print_BAAH_finish()
-        input("按回车键继续:")
+        #input("按回车键继续:")
     
     # 运行结束后，删除截图文件
     try:
