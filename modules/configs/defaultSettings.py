@@ -80,7 +80,9 @@ defaultUserDict = {
     "SHOP_NORMAL_REFRESH_TIME":{"d": 0},
     "SHOP_CONTEST_REFRESH_TIME":{"d": 0},
     "LOCK_SERVER_TO_RESPOND_Y":{"d": True},
-    "CAFE_CAMERA_FULL":{"d":True}
+    "CAFE_CAMERA_FULL":{"d":True},
+    "CAFE_EXHAUSTIVITY_TOUCH_HEAD":{"d":False}
+
 }
 
 # 软件的config里的默认值
