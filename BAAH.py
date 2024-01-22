@@ -104,7 +104,7 @@ def BAAH_open_target_app():
     if check_app_running(config.userconfigdict['ACTIVITY_PATH']):
         logging.info("检测到游戏已经在运行")
         return True
-    for i in range(10):
+    for i in range(15):
         logging.info("打开游戏")
         open_app(config.userconfigdict['ACTIVITY_PATH'])
         sleep(3)
@@ -137,17 +137,18 @@ def BAAH_kill_emulator():
     
 
 def BAAH_main():
-    BAAH_release_adb_port()
-    BAAH_start_emulator()
-    BAAH_check_adb_connect()
-    BAAH_open_target_app()
-    # 运行任务
-    logging.info("运行任务")
-    my_AllTask.run()
-    logging.info("所有任务结束")
-    BAAH_kill_emulator()
-            
-
+    try:
+        BAAH_release_adb_port()
+        BAAH_start_emulator()
+        BAAH_check_adb_connect()
+        BAAH_open_target_app()
+        # 运行任务
+        logging.info("运行任务")
+        my_AllTask.run()
+    finally:
+        time.sleep(3)
+        BAAH_kill_emulator()
+        logging.info("所有任务结束")
 
 if __name__ in ["__main__", "__mp_main__"]:
     # 不带GUI运行

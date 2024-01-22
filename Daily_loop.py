@@ -32,7 +32,7 @@ def Touch_Head(json_config_file_path):
         print(f"命令执行错误，退出码：{e.returncode}")
         print(f"命令输出：{e.output}")
 
-def Touch_Head1(xx=['bilibili_只摸头.json','日服_只摸头.json','国际服_只摸头.json']):
+def Touch_Head1(xx=['bilibili_只摸头.json','日服_只摸头.json','国际服_只摸头.json'],wait_time=30):
     '''多线程'''
     push_msg_fast('碧蓝档案，摸头开始')
     threads = []
@@ -40,7 +40,7 @@ def Touch_Head1(xx=['bilibili_只摸头.json','日服_只摸头.json','国际服
         thread = threading.Thread(target=Touch_Head, args=(xx[x],))
         threads.append(thread)
         thread.start()
-        time.sleep(30)  # 控制线程之间的间隔
+        time.sleep(wait_time)  # 控制线程之间的间隔
 
     # 等待所有线程完成
     for thread in threads:
@@ -59,7 +59,7 @@ def daily_loop():
     schedule.every().day.at("02:30").do(Touch_Head1) # 刷新前摸一次头
 
 if __name__ == '__main__':
-    
+
     Touch_Head1()
     # daily() # 日常清体力用，使用默认的config
     daily_loop()
