@@ -142,13 +142,14 @@
         true
     ],
     "TARGET_IP_PATH": "127.0.0.1",
-    "RESPOND_Y": 40,
-    "LOCK_SERVER_TO_RESPOND_Y": true,
+    "RESPOND_Y": 60,
+    "LOCK_SERVER_TO_RESPOND_Y": false,
     "CAFE_CAMERA_FULL": false,
     "SHOP_NORMAL_REFRESH_TIME": 0,
     "SHOP_CONTEST_REFRESH_TIME": 0,
     "SERVER_TYPE": "CN_BILI",
     "CLOSE_EMULATOR_BAAH": true,
     "FANHEXIE": true,
-    "CAFE_EXHAUSTIVITY_TOUCH_HEAD": false
+    "KILL_PORT_IF_EXIST": true,
+    "CAFE_EXHAUSTIVITY_TOUCH_HEAD": true
 }

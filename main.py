@@ -71,7 +71,9 @@ if __name__ in ["__main__", "__mp_main__"]:
         import traceback
         traceback.print_exc()
         print_BAAH_finish()
-        #input("按回车键继续:")
+        from modules.add_functions.msg import push_msg_fast
+        push_msg_fast("碧蓝档案,BAAH运行出错")
+        # input("按回车键继续:")
     
     # 运行结束后，删除截图文件
     try:
@@ -84,7 +86,8 @@ if __name__ in ["__main__", "__mp_main__"]:
     print_BAAH_finish()
     # 结束运行，如果用户没有勾选关闭模拟器，等待用户按回车键
     if not config.userconfigdict["CLOSE_EMULATOR_BAAH"]:
-        input()
+        pass
+        # input()
     else:
         print("10秒后自动关闭")
         sleep(10)

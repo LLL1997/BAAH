@@ -118,7 +118,7 @@
         "战术大赛"
     ],
     "TARGET_EMULATOR_PATH": "D:/Program Files/Netease/MuMuPlayer-12.0/shell/MuMuPlayer.exe -v 2",
-    "PIC_PATH": "./assets_jp",
+    "PIC_PATH": "./DATA/assets_jp",
     "ADB_PATH": "./tools/adb/adb.exe",
     "SCREENSHOT_NAME": "c7c19314.png",
     "TARGET_PORT": 16448,
@@ -182,7 +182,12 @@
     "TARGET_IP_PATH": "127.0.0.1",
     "RESPOND_Y": 40,
     "LOCK_SERVER_TO_RESPOND_Y": true,
-    "CAFE_CAMERA_FULL": true,
+    "CAFE_CAMERA_FULL": false,
     "SHOP_NORMAL_REFRESH_TIME": 0,
-    "SHOP_CONTEST_REFRESH_TIME": 0
+    "SHOP_CONTEST_REFRESH_TIME": 0,
+    "SERVER_TYPE": "JP",
+    "CLOSE_EMULATOR_BAAH": true,
+    "FANHEXIE": false,
+    "KILL_PORT_IF_EXIST": true,
+    "CAFE_EXHAUSTIVITY_TOUCH_HEAD": true
 }

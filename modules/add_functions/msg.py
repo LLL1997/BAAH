@@ -43,7 +43,7 @@ async def push_msg(url, content, phone_number=''):
     json_data = {
         'msgtype': 'text',
         'text': {
-            'content': f'时间：{datetime.now()}\n' + content,
+            'content': f'时间：{datetime.now().strftime("%Y年%m月%d日%H时%M分%S秒")}\n' + content,
         },
         "at": {
             "atMobiles": [

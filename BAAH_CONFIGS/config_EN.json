@@ -119,9 +119,9 @@
         "每日任务"
     ],
     "TARGET_EMULATOR_PATH": "D:/Program Files/Netease/MuMuPlayer-12.0/shell/MuMuPlayer.exe -v 1",
-    "PIC_PATH": "./assets",
+    "PIC_PATH": "./DATA/assets",
     "ADB_PATH": "./tools/adb/adb.exe",
-    "SCREENSHOT_NAME": "c8356ffd.png",
+    "SCREENSHOT_NAME": "e6c3adda.png",
     "TARGET_PORT": 16416,
     "TIME_AFTER_CLICK": 1,
     "NEXT_CONFIG": "",
@@ -184,7 +184,12 @@
     "TARGET_IP_PATH": "127.0.0.1",
     "RESPOND_Y": 40,
     "LOCK_SERVER_TO_RESPOND_Y": true,
-    "CAFE_CAMERA_FULL": true,
+    "CAFE_CAMERA_FULL": false,
     "SHOP_NORMAL_REFRESH_TIME": 0,
-    "SHOP_CONTEST_REFRESH_TIME": 0
+    "SHOP_CONTEST_REFRESH_TIME": 0,
+    "SERVER_TYPE": "GLOBAL",
+    "CLOSE_EMULATOR_BAAH": true,
+    "FANHEXIE": false,
+    "KILL_PORT_IF_EXIST": true,
+    "CAFE_EXHAUSTIVITY_TOUCH_HEAD": true
 }
