@@ -149,5 +149,6 @@
     "SHOP_CONTEST_REFRESH_TIME": 0,
     "SERVER_TYPE": "CN_BILI",
     "CLOSE_EMULATOR_BAAH": true,
-    "FANHEXIE": true
+    "FANHEXIE": true,
+    "CAFE_EXHAUSTIVITY_TOUCH_HEAD": false
 }
