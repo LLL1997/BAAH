@@ -5,9 +5,10 @@ if __name__ in {"__main__", "__mp_main__"}:
         import sys
         from modules.configs.MyConfig import MyConfigger, config
         # 是否以网页形式运行
-        isweb=False
+        isweb=True
         if len(sys.argv) > 1:
-            isweb = sys.argv[1] == "web"
+            if sys.argv[1] == "window":
+                isweb=False
         # 获取到user config文件夹下以json为后缀的文件
         def get_json_list():
             return [i for i in os.listdir(MyConfigger.USER_CONFIG_FOLDER) if i.endswith(".json")]
@@ -36,12 +37,7 @@ if __name__ in {"__main__", "__mp_main__"}:
         
         # 运行GUI
         if not isweb:
-            try:
-                ui.run(native=True, window_size=(1280,720), title=f"Blue Archive Aris Helper{MyConfigger.NOWVERSION}", favicon="./DATA/assets/aris.ico", language="zh-cn", reload=False, port=native.find_open_port())
-            except:
-                # 如果GUI出错，自动使用网页端
-                print("窗口端GUI出错，自动使用网页端/Window GUI error, automatically use web GUI")
-                ui.run(title=f"Blue Archive Aris Helper{MyConfigger.NOWVERSION}", favicon="./DATA/assets/aris.ico", language="zh-cn", reload=False, port=native.find_open_port())
+            ui.run(native=True, window_size=(1280,720), title=f"Blue Archive Aris Helper{MyConfigger.NOWVERSION}", favicon="./DATA/assets/aris.ico", language="zh-cn", reload=False, port=native.find_open_port())
         else:
             ui.run(title=f"Blue Archive Aris Helper{MyConfigger.NOWVERSION}", favicon="./DATA/assets/aris.ico", language="zh-cn", reload=False, port=native.find_open_port())
 
