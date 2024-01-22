@@ -14,7 +14,7 @@ class TouchHead(Task):
     # 安全的可点击边界，排除了下方按钮区域
     SAFE_X_LEFT = 1
     SAFE_X_RIGHT = 1279
-    SAFE_Y_TOP = 74
+    SAFE_Y_TOP = 138
     SAFE_Y_BOTTOM = 598
     def __init__(self, name="TouchHead") -> None:
         super().__init__(name)
@@ -65,30 +65,17 @@ class TouchHead(Task):
     
     def swipeUp(self):
         swipe((431, 129), (751, 420), 0.3)
-    def exhaustion_touch_head(self): #待实现
-        # TODO 地毯式摸头
+    def exhaustion_touch_head(self): 
         '''地毯式摸头'''
-        async def async_swipe(x1,y1,x2,y2,time=5):
-            swipe((x1, y1), (x2, y2), time)
-        def scaling():
-            # from modules.utils.adb_utils import send_adb_keyevent
-            # send_adb_keyevent()
-            [swipe((167, 540), (1132, 172), 0.2) for x in range(3)]
-            return
-            # 无效果 后续看怎么实现
-            asyncio.run(async_swipe(320,180,1180,530)
-                                   )
-            asyncio.run(async_swipe(1180,530,320,180)
-                                   )
         def Touch_head():
             click((75,650))
             sleep(1)
             click((1145,95)) # 重新排序
-            for x in range(0,1280,40):
-                for y in range(138,600,30):
+            for x in range(self.SAFE_X_LEFT,self.SAFE_X_RIGHT,40):
+                for y in range(self.SAFE_Y_TOP,self.SAFE_Y_BOTTOM,30):
                     click((x,y),sleeptime=0.01)
-            for y in range(138,600,30):
-                for x in range(0,1280,40):
+            for y in range(self.SAFE_Y_TOP,self.SAFE_Y_BOTTOM,30):
+                for x in range(self.SAFE_X_LEFT,self.SAFE_X_RIGHT,40):
                     click((x,y),sleeptime=0.01)
 
         # 清除可能的好感度弹窗
@@ -97,8 +84,6 @@ class TouchHead(Task):
             lambda: click(Page.MAGICPOINT),
             lambda: Page.is_page(PageName.PAGE_CAFE) and match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE),
         )
-        # 先缩放再居中再地毯式摸头
-        scaling()# 缩放 
         Touch_head() # 地毯摸头
         self.run_until(
             lambda: click(Page.MAGICPOINT),
@@ -124,11 +109,9 @@ class TouchHead(Task):
                 )
                 logging.info(f"第{i+1}/{totalruns}轮摸头结束")
                 sleep(3)
-        elif config.userconfigdict["CAFE_EXHAUSTIVITY_TOUCH_HEAD"] :
-            #click(Page.MAGICPOINT) CAFE_EXHAUSTIVITY_TOUCH_HEAD
+        elif config.userconfigdict["CAFE_EXHAUSTIVITY_TOUCH_HEAD"]:
             self.exhaustion_touch_head()
             logging.info(f"地毯式摸头结束")
-            sleep(3)
         else:
             # 左右拖动换视角摸头
             TO_POS_LEFT = [self.swipeLeft, self.swipeLeft, self.swipeLeft]

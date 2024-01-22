@@ -1,42 +1,40 @@
 import subprocess
 import schedule,time
+json_config_file_path=''
 def daily():
     print("每日")
-    # with open("main.py", "r",encoding="utf-8") as file:
-    #     script_code = file.read()
-    #     exec(script_code)
-
     # 指定要运行的 Python 脚本
-    script_path = "main.py"
-    
-    # for x in args:
-    #     print(x)
-    process=subprocess.Popen(["python", script_path])
-    # config1="config.ini"
-    # 使用 subprocess 运行脚本
-    # process=subprocess.Popen(["python", script_path,config1])
-    #process=subprocess.Popen(["python", script_path])
-    process.wait()
-def Touch_Head():
-    print("摸头")
-    script_path = "main.py "
-    process=subprocess.Popen(["python", script_path, 'BAAH_CONFIGS/config_only_touch_head.json'],shell=True)
-    process.wait()
-def daily_loop():
-    schedule.every().day.at("02:00").do(daily)
-    # schedule.every().day.at("04:00").do(Touch_Head)
-    schedule.every().day.at("07:00").do(daily)
-    # schedule.every().day.at("11:00").do(Touch_Head)
-    # schedule.every().day.at("14:00").do(Touch_Head)
-    # schedule.every().day.at("16:00").do(Touch_Head)
-    # schedule.every().day.at("19:00").do(daily)
-    schedule.every().day.at("22:00").do(daily)
-    # schedule.every().day.at("23:00").do(Touch_Head)
-if __name__ == '__main__':
-    # Touch_Head()
-    daily()
-    daily_loop()
+    try:
+        script_path = "main.py"
+        process=subprocess.Popen(["python", script_path])
+        process.wait()
+    except subprocess.CalledProcessError as e:
+        print(f"命令执行错误，退出码：{e.returncode}")
+        print(f"命令输出：{e.output}")
+def Touch_Head(json_config_file_path):
+    try:
+        print("摸头")
+        baah_path = "main.py "
+        command = f"python {baah_path} {json_config_file_path}"
+        subprocess.run(command)
+    except subprocess.CalledProcessError as e:
+        print(f"命令执行错误，退出码：{e.returncode}")
+        print(f"命令输出：{e.output}")
 
+def daily_loop():
+    schedule.every().day.at("04:00").do(Touch_Head1) # 4点全部刷新
+    schedule.every().day.at("07:00").do(daily) 
+    schedule.every().day.at("11:00").do(Touch_Head1)
+    schedule.every().day.at("14:30").do(Touch_Head1)
+    schedule.every().day.at("16:00").do(Touch_Head1)
+    schedule.every().day.at("19:30").do(daily) # 领取体力进行日常
+    schedule.every().day.at("23:00").do(Touch_Head1)
+    schedule.every().day.at("02:30").do(Touch_Head1) # 刷新前摸一次头
+if __name__ == '__main__':
+    Touch_Head1=Touch_Head(json_config_file_path)
+    json_config_file_path = 'config_only_touch_head.json'# 专门用来摸头，参数填写只摸头的json配置文件名
+    daily() # 日常清体力用，使用默认的config
+    daily_loop()
 
     while True:
         schedule.run_pending()
