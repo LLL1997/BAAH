@@ -122,7 +122,7 @@
     "ADB_PATH": "./tools/adb/adb.exe",
     "SCREENSHOT_NAME": "c7c19314.png",
     "TARGET_PORT": 16448,
-    "TIME_AFTER_CLICK": 1,
+    "TIME_AFTER_CLICK": 0.3,
     "NEXT_CONFIG": "config_GJ.json",
     "SHOP_NORMAL": [
         [

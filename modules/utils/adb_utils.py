@@ -92,19 +92,12 @@ def check_app_running(activity_path:str) -> bool:
         return True
     else:
         return False
-# 发送adb按键
-def send_adb_keyevent(keyevent:str='KEYCODE_V'):
-    """
-    发送adb按键,默认发送V键缩小视角
-    """
-    subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(), 'shell', 'input', 'keyevent', keyevent], isasync=True)
-    time.sleep(1)
-
+    
 def open_app(activity_path:str):
     """
     使用adb打开app
     """
     subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(), 'shell', 'am', 'start', activity_path], isasync=True)
-    time.sleep(2)
+    time.sleep(5)
     appname = activity_path.split("/")[0]
     subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(), 'shell', 'monkey', '-p', appname, '1'], isasync=True)

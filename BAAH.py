@@ -78,7 +78,7 @@ def BAAH_check_adb_connect():
     """
     # 检查adb连接
     time.sleep(10)# 考虑渣机，稍微等下
-    disconnect_this_device()
+    # disconnect_this_device()
     for i in range(1, 10):
         sleep(i)
         if check_connect():
@@ -101,6 +101,8 @@ def BAAH_open_target_app():
     """
     打开游戏
     """
+    open_app(config.userconfigdict['ACTIVITY_PATH'])
+    time.sleep(10)
     if check_app_running(config.userconfigdict['ACTIVITY_PATH']):
         logging.info("检测到游戏已经在运行")
         return True

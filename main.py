@@ -72,7 +72,7 @@ if __name__ in ["__main__", "__mp_main__"]:
         traceback.print_exc()
         print_BAAH_finish()
         from modules.add_functions.msg import push_msg_fast
-        push_msg_fast("碧蓝档案,BAAH运行出错"+config.userconfigdict['SERVER_TYPE']+e)
+        push_msg_fast("碧蓝档案,BAAH运行出错"+config.userconfigdict['SERVER_TYPE'])
         # input("按回车键继续:")
     
     # 运行结束后，删除截图文件

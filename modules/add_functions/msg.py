@@ -54,8 +54,12 @@ async def push_msg(url, content, phone_number=''):
     try:
         response = requests.post(url, json=json_data, headers=headers, timeout=10)
         html_str = response.text
-        print(html_str)
-        return html_str
+        if 'ok' in html_str:
+            print('钉钉BOT消息发送成功')
+            return True
+        else:
+            print('钉钉BOT消息发送失败')
+            return False
     except requests.exceptions.HTTPError as e:
         print(f"HTTP Error: {e}")
     except requests.exceptions.ConnectionError as e:

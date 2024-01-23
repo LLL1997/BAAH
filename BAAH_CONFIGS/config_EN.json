@@ -123,7 +123,7 @@
     "ADB_PATH": "./tools/adb/adb.exe",
     "SCREENSHOT_NAME": "e6c3adda.png",
     "TARGET_PORT": 16416,
-    "TIME_AFTER_CLICK": 1,
+    "TIME_AFTER_CLICK": 0.3,
     "NEXT_CONFIG": "",
     "SHOP_NORMAL": [
         [
