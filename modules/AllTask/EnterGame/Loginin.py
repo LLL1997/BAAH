@@ -46,8 +46,8 @@ class Loginin(Task):
         # 因为涉及到活动页面什么的，所以这里还要尝试识别左下角的不再显示
         if self.run_until(self.try_jump_useless_pages, 
                       lambda: match(popup_pic(PopupName.POPUP_LOGIN_FORM)) or Page.is_page(PageName.PAGE_HOME), 
-                      times = 300,
-                      sleeptime = 2)==False:
+                      times = 200,
+                      sleeptime = 1.5)==False:
             from modules.add_functions.msg import push_msg_fast
             push_msg_fast(f'碧蓝档案游戏，游戏登录，无法进入主页可能要更新app或服务器维护，程序退出{format(self.name)}')
             raise Exception("游戏登录，无法进入主页可能要更新app或服务器维护，程序退出".format(self.name))

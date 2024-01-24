@@ -147,6 +147,9 @@ def BAAH_main():
         # 运行任务
         logging.info("运行任务")
         my_AllTask.run()
+    except Exception as e:
+        from modules.add_functions.msg import push_msg_fast
+        push_msg_fast("碧蓝档案,BAAH运行出错"+config.userconfigdict['SERVER_TYPE'])
     finally:
         time.sleep(3)
         BAAH_kill_emulator()

@@ -69,52 +69,10 @@ async def push_msg(url, content, phone_number=''):
     except Exception as e:
         print(f"An unexpected error occurred: {e}")
 
-
-# async def push_msg(url, content, phone_number=''):
-#     '''发送钉钉bot消息
-#     asyncio.run(push_msg())
-#     https://open.dingtalk.com/document/robots/custom-robot-access
-#     '''
-#     import datetime,json,requests,urllib
-#     from urllib.error import URLError, HTTPError
-
-#     no_proxy_handler = urllib.request.ProxyHandler({})
-#     opener = urllib.request.build_opener(no_proxy_handler)
-#     headers = {
-#     'Content-Type': 'application/json',
-# }
-    
-#     try:
-#         now = datetime.datetime.now()
-#         json_data = {
-#             'msgtype': 'text',
-#             'text': {
-#                 'content': f'时间：{now}\n' + content,
-#             },
-#             "at": {
-#                 "atMobiles": [
-#                     phone_number
-#                 ],
-#             },
-#         }
-#         data = json.dumps(json_data).encode('utf-8')
-#         req = urllib.request.Request(url, data=data, headers=headers)
-#         response = opener.open(req, timeout=10)
-#         html_str = response.read().decode('utf-8')
-#         print(html_str)
-#         return html_str
-#     except HTTPError as e:
-#         print(f"HTTP Error: {e.code}")
-#     except URLError as e:
-#         print(f"URL Error: {e.reason}")
-#     except TimeoutError:
-#         print("The request timed out.")
-#         push_msg(url, content, phone_number)
-#     except Exception as e:
-#         print(f"An unexpected error occurred: {e}")
+    return False
 def push_msg_fast(text):
     import asyncio
-    ini_file_path = "msg.ini"
+    ini_file_path = "BAAH_CONFIGS\msg.ini"
     config = read_ini_file(ini_file_path)
 
     # 从配置文件中获取消息
