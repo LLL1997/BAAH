@@ -177,6 +177,7 @@ cython_debug/
 *.lnk
 *.txt
 BAAH_CONFIGS/config_CN_xiaohao.json
+<<<<<<< Updated upstream
 BAAH_CONFIGS/config_CN_xiaohao.json
 BAAH_CONFIGS/config_EN.json
 BAAH_CONFIGS/config.json
@@ -188,3 +189,11 @@ BAAH_CONFIGS/config.json
 BAAH_CONFIGS/msg.ini
 *.json
 BAAH_CONFIGS/config_CN_xiaohao.json
+=======
+BAAH_CONFIGS/config_EN.json
+BAAH_CONFIGS/config.json
+BAAH_CONFIGS/config.json
+BAAH_CONFIGS/
+*.json
+log/
+>>>>>>> Stashed changes
