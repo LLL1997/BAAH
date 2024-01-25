@@ -128,7 +128,14 @@
         [],
         [],
         [],
-        []
+        [
+            4
+        ],
+        [
+            1,
+            2,
+            3
+        ]
     ],
     "SHOP_CONTEST": [],
     "TASK_ACTIVATE": [
@@ -158,8 +165,8 @@
     "SHOP_NORMAL_REFRESH_TIME": 0,
     "SHOP_CONTEST_REFRESH_TIME": 0,
     "SERVER_TYPE": "CN_BILI",
-    "CLOSE_EMULATOR_BAAH": true,
+    "CLOSE_EMULATOR_BAAH": false,
     "FANHEXIE": true,
-    "KILL_PORT_IF_EXIST": true,
+    "KILL_PORT_IF_EXIST": false,
     "CAFE_EXHAUSTIVITY_TOUCH_HEAD": true
 }

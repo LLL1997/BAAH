@@ -110,8 +110,9 @@ def BAAH_open_target_app():
         logging.info("打开游戏")
         open_app(config.userconfigdict['ACTIVITY_PATH'])
         sleep(3)
-        if not check_app_running(config.userconfigdict['ACTIVITY_PATH']):
+        if check_app_running(config.userconfigdict['ACTIVITY_PATH']) == False:
             open_app(config.userconfigdict['ACTIVITY_PATH'])
+            time.sleep(10)
         else:
             return True
     raise Exception("未检测到游戏打开，请检查区服设置 以及 如果使用的是MuMu模拟器，请关闭后台保活")
