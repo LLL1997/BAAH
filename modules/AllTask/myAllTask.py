@@ -4,9 +4,9 @@ from modules.AllPage.Page import Page
 
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, screenshot
 import logging
-from modules.utils.MyConfig import config
+from modules.configs.MyConfig import config
 
-    
+# 用户config里的 任务名称 和 任务类 的对应关系
 task_dict= {
     "登录游戏":[EnterGame,{}],
     "清momotalk":[InMomotalk,{}],
@@ -40,14 +40,14 @@ class AllTask:
         # 用于保存最后一次战术大赛的任务实例
         last_contest = None
         # GUI之前会运行到这里，所以这里需要判断一下
-        if "TASK_ORDER" in config.__dict__ and "TASK_ACTIVATE" in config.__dict__:
+        if config.userconfigdict["TASK_ORDER"] and config.userconfigdict["TASK_ACTIVATE"]:
             # 把config的任务列表转换成任务实例列表
-            for i in range(len(config.TASK_ORDER)):
-                task_name = config.TASK_ORDER[i]
+            for i in range(len(config.userconfigdict['TASK_ORDER'])):
+                task_name = config.userconfigdict['TASK_ORDER'][i]
                 if task_name not in task_dict:
                     raise Exception(f"任务名:<{task_name}>不存在, 请检查config.py中的TASK_ORDER是否正确, 正确的任务名有: {list(task_dict.keys())}")
                 # 如果任务对应的TASK_ACTIVATE为False，则不添加任务
-                if config.TASK_ACTIVATE[i] == False:
+                if config.userconfigdict['TASK_ACTIVATE'][i] == False:
                     continue
                 self.add_task(task_dict[task_name][0](**task_dict[task_name][1]))
                 if task_name == "战术大赛":

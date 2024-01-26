@@ -1,8 +1,8 @@
  
 
-from assets.PageName import PageName
-from assets.ButtonName import ButtonName
-from assets.PopupName import PopupName
+from DATA.assets.PageName import PageName
+from DATA.assets.ButtonName import ButtonName
+from DATA.assets.PopupName import PopupName
 
 from modules.AllPage.Page import Page
 from modules.AllTask.Task import Task
@@ -23,7 +23,7 @@ class InClub(Task):
         self.run_until(
             lambda: click((563, 665)),
             lambda: Page.is_page(PageName.PAGE_CLUB),
-            sleeptime=4
+            sleeptime=2
         )
         self.run_until(
             lambda: self.back_to_home(),

@@ -5,7 +5,16 @@ from .subprocess_helper import *
 
 import logging
 import time
-from modules.utils.MyConfig import config
+from modules.configs.MyConfig import config
+
+def get_config_time_after_click():
+    return config.userconfigdict['TIME_AFTER_CLICK']
+
+def get_config_screenshot_name():
+    return config.userconfigdict['SCREENSHOT_NAME']
+
+def get_config_pic_path():
+    return config.userconfigdict['PIC_PATH']
 
 def click(item:Union[str, Tuple[float, float]], sleeptime = -1, threshold=0.9) -> bool:
     """
@@ -18,7 +27,7 @@ def click(item:Union[str, Tuple[float, float]], sleeptime = -1, threshold=0.9) -
         matchRes = match(item, returnpos=True, threshold=threshold)
         if matchRes[0]:
             click_on_screen(matchRes[1][0], matchRes[1][1])
-            time.sleep(config.TIME_AFTER_CLICK)
+            time.sleep(get_config_time_after_click())
             return True
         else:
             logging.warning("Cannot find the target pattern {} when try to click".format(item))
@@ -28,7 +37,7 @@ def click(item:Union[str, Tuple[float, float]], sleeptime = -1, threshold=0.9) -
         if(sleeptime!=-1):
             time.sleep(sleeptime)
         else:
-            time.sleep(config.TIME_AFTER_CLICK)
+            time.sleep(get_config_time_after_click())
         return True
 
 def swipe(item:Union[str, Tuple[float, float]], toitem: Union[str, Tuple[float, float]], durationtime = 0.3, sleeptime = -1) -> bool:
@@ -55,7 +64,7 @@ def swipe(item:Union[str, Tuple[float, float]], toitem: Union[str, Tuple[float, 
     if(frompos and topos):
         swipe_on_screen(frompos[0], frompos[1], topos[0], topos[1], durationtime*1000)
         if sleeptime == -1:
-            sleep(config.TIME_AFTER_CLICK)
+            sleep(get_config_time_after_click())
         else:
             sleep(sleeptime)
         return True
@@ -78,9 +87,9 @@ def match(imgurl:str, threshold:float = 0.9, returnpos = False, rotate_trans=Fal
     """
     # check if the item is a str
     if returnpos:
-        return match_pattern(f"./{config.SCREENSHOT_NAME}",imgurl, threshold=threshold, auto_rotate_if_trans=rotate_trans)
+        return match_pattern(f"./{get_config_screenshot_name()}",imgurl, threshold=threshold, auto_rotate_if_trans=rotate_trans)
     else:
-        return match_pattern(f"./{config.SCREENSHOT_NAME}",imgurl, threshold=threshold, auto_rotate_if_trans=rotate_trans)[0]
+        return match_pattern(f"./{get_config_screenshot_name()}",imgurl, threshold=threshold, auto_rotate_if_trans=rotate_trans)[0]
 
 def ocr_area(frompixel, topixel) -> Tuple[str, float]:
     """
@@ -93,14 +102,14 @@ def ocr_area(frompixel, topixel) -> Tuple[str, float]:
     """
     lowerpixel = (min(frompixel[0], topixel[0]), min(frompixel[1], topixel[1]))
     highterpixel = (max(frompixel[0], topixel[0]), max(frompixel[1], topixel[1]))
-    ocr_result = ocr_pic_area(f"./{config.SCREENSHOT_NAME}", lowerpixel[0], lowerpixel[1], highterpixel[0], highterpixel[1])
+    ocr_result = ocr_pic_area(f"./{get_config_screenshot_name()}", lowerpixel[0], lowerpixel[1], highterpixel[0], highterpixel[1])
     word = ocr_result[0].strip()
     threshold = ocr_result[1]
     return (word, threshold)
 
 def ocr_area_0(frompixel, topixel) -> bool:
     """
-    OCR the number in the given rectangle area of screenshot whether it contains 0 and has no number in front of it
+    OCR the number in the given rectangle area whether it is 0, return False if length>1
     
     frompixel: (x, y)
     topixel: (x, y)
@@ -109,20 +118,21 @@ def ocr_area_0(frompixel, topixel) -> bool:
     """
     lowerpixel = (min(frompixel[0], topixel[0]), min(frompixel[1], topixel[1]))
     highterpixel = (max(frompixel[0], topixel[0]), max(frompixel[1], topixel[1]))
-    res_str = ocr_pic_area(f"./{config.SCREENSHOT_NAME}", lowerpixel[0], lowerpixel[1], highterpixel[0], highterpixel[1])[0]
+    res_str = ocr_pic_area(f"./{get_config_screenshot_name()}", lowerpixel[0], lowerpixel[1], highterpixel[0], highterpixel[1])[0]
     res_str = res_str.strip()
     allpossibles = ["0", "O", "o", "Q", "０"]
     # 如果长度为1，就判断它是不是0
     if len(res_str) == 1:
         if res_str[0] in allpossibles:
             return True
-    # 一长串判断是否有0，必须得是第一个字符或者前面没有数字
-    if len(res_str) >= 2:
-        if res_str[0] in allpossibles:
-            return True
-        for i in range(1, len(res_str)):
-            if res_str[i] in allpossibles and not res_str[i-1].isdigit():
-                return True
+    # # 一长串判断是否有0，必须得是第一个字符或者前面没有数字
+    # if len(res_str) >= 2:
+    #     if res_str[0] in allpossibles:
+    #         return True
+    #     for i in range(1, len(res_str)):
+    #         if res_str[i] in allpossibles and not res_str[i-1].isdigit():
+    #             return True
+    # 长度大于1直接返回False
     return False
 
 def match_pixel(xy, color):
@@ -132,26 +142,31 @@ def match_pixel(xy, color):
         color: Page.COLOR_*
         axis is in image form
     """
-    # TODO
-    return match_pixel_color(f"./{config.SCREENSHOT_NAME}", xy[0], xy[1], color[0], color[1])
+    return match_pixel_color_range(f"./{get_config_screenshot_name()}", xy[0], xy[1], color[0], color[1])
 
 def page_pic(picname):
     """
     给定页面的图片名称，得到图片的路径
     """
-    return config.PIC_PATH + "/PAGE" + f"/{picname}.png"
+    return get_config_pic_path() + "/PAGE" + f"/{picname}.png"
 
 def button_pic(buttonname):
     """
     给定按钮的图片名称，得到图片的路径
     """
-    return config.PIC_PATH + "/BUTTON" + f"/{buttonname}.png"
+    # 如果是反和谐，就把按钮名称改成反和谐的
+    if config.userconfigdict["FANHEXIE"] and buttonname == "BUTTON_CFIGHT_START":
+        buttonname = "BUTTON_CFIGHT_START_FANHEXIE"
+    return get_config_pic_path() + "/BUTTON" + f"/{buttonname}.png"
 
 def popup_pic(popupname):
     """
     给定弹窗的图片名称，得到图片的路径
     """
-    return config.PIC_PATH + "/POPUP" + f"/{popupname}.png"
+    # 如果是反和谐，就把名称改成反和谐的
+    if config.userconfigdict["FANHEXIE"] and popupname == "POPUP_MOMOTALK":
+        popupname = "POPUP_MOMOTALK_FANHEXIE"
+    return get_config_pic_path() + "/POPUP" + f"/{popupname}.png"
 
 def sleep(seconds:float):
     """
@@ -171,20 +186,20 @@ def screenshot():
     
 def check_connect():
     # 检查当前python目录下是否有screenshot.png文件，如果有就删除
-    if os.path.exists(f"./{config.SCREENSHOT_NAME}"):
-        logging.info(f"删除{config.SCREENSHOT_NAME}")
-        os.remove(f"./{config.SCREENSHOT_NAME}")
+    if os.path.exists(f"./{get_config_screenshot_name()}"):
+        logging.info(f"删除{get_config_screenshot_name()}")
+        os.remove(f"./{get_config_screenshot_name()}")
     connect_to_device()
     # 尝试截图
     screenshot()
     time.sleep(2)
-    if os.path.exists(f"./{config.SCREENSHOT_NAME}"):
-        print("截图文件大小为", os.path.getsize(f"./{config.SCREENSHOT_NAME}")/1024, "KB")
+    if os.path.exists(f"./{get_config_screenshot_name()}"):
+        print("截图文件大小为", os.path.getsize(f"./{get_config_screenshot_name()}")/1024, "KB")
         # 检查文件大小
-        if os.path.getsize(f"./{config.SCREENSHOT_NAME}") !=0: # 不为0
+        if os.path.getsize(f"./{get_config_screenshot_name()}") !=0: # 不为0
             logging.info("adb与模拟器连接正常")
             # 检查图片长和宽
-            img = cv2.imread(f"./{config.SCREENSHOT_NAME}")
+            img = cv2.imread(f"./{get_config_screenshot_name()}")
             # 第一维度是高，第二维度是宽
             if img.shape[0] == 720 and img.shape[1] == 1280:
                 logging.info("图片分辨率为1280*720")

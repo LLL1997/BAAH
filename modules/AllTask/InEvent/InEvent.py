@@ -3,11 +3,12 @@ import logging
 import random
 import time
 import requests
-from modules.utils.MyConfig import config
+from modules.AllTask.SubTask.SkipStory import SkipStory
+from modules.configs.MyConfig import config
 
-from assets.PageName import PageName
-from assets.ButtonName import ButtonName
-from assets.PopupName import PopupName
+from DATA.assets.PageName import PageName
+from DATA.assets.ButtonName import ButtonName
+from DATA.assets.PopupName import PopupName
 
 from modules.AllPage.Page import Page
 from modules.AllTask.InEvent.EventQuest import EventQuest
@@ -72,57 +73,66 @@ class InEvent(Task):
         """
         判断页面是否是一个有效的活动页面
         """
+        if not Page.is_page(PageName.PAGE_EVENT):
+            # 可能首次进入活动，有活动剧情
+            SkipStory(pre_times=5).run()
         # 判断左上角标题
         if not Page.is_page(PageName.PAGE_EVENT):
             return False
-        # 判断这个活动是否有Quest
-        res = ocr_area((901, 88), (989, 123))
-        logging.info(f"Tab栏识别结果: {res}, {'Quest' in res[0] or '任' in res[0]}")
         # 图片匹配深色的QUEST标签
-        matchres = self.run_until(
+        matchpic = self.run_until(
             lambda: click((965, 98)),
             lambda: match(button_pic(ButtonName.BUTTON_EVENT_QUEST_SELLECTED)),
             times=2
         )
+        # 判断这个活动是否有Quest字样
+        ocrres_str = ocr_area((901, 88), (989, 123))[0]
+        matchres = "quest" in ocrres_str.lower() or "任" in ocrres_str or "务" in ocrres_str or matchpic
         logging.info(f"QUEST按钮匹配结果: {matchres}")
-        if res[0] != "Quest" and "任" not in res[0] and not matchres:
+        if not matchres:
             logging.warn("此页面不存在活动Quest")
             return False
-        # 判断左下角时间
-        time_res = ocr_area((175, 566), (552, 593))
-        if len(time_res[0])==0:
-            return False
-        # '2023-12-2603:00~2024-01-0902:59'
-        logging.info(f"识别活动时间: {time_res}")
-        # 分割出结束时间
-        if "~" in time_res[0]:
-            time_split = time_res[0].split("~")
-        else:
-            # 如果没有识别出~分隔符，就直接取最后15个字符
-            if len(time_res[0]) < 15:
-                logging.error("活动时间字符串长度不足15")
-                return False
-            time_split = [time_res[0][-15:]]
+        # TODO: 通过QUEST页面下有无 按钮 判断活动是否已结束
+        # # 判断左下角时间
+        # time_res = ocr_area((175, 566), (552, 593))
+        # if len(time_res[0])==0:
+        #     return False
+        # # '2023-12-2603:00~2024-01-0902:59'
+        # logging.info(f"识别活动时间: {time_res}")
+        # # 分割出结束时间
+        # # 取最后15个字符
+        # if len(time_res[0]) < 15:
+        #     logging.error("活动时间字符串长度不足15")
+        #     return False
+        # end_time = time_res[0][-15:]
 
-        # 判断活动是否已结束
-        end_time = time_split[-1]
-        if len(end_time) != 15:
-            logging.error("活动时间字符串长度不足15")
-            return False
-        # 将这个时间转成时间对象
-        try:
-            end_time_struct = time.strptime(end_time, "%Y-%m-%d%H:%M")
-        except ValueError:
-            end_time_struct = time.strptime(end_time, "%Y.%m.%d%H:%M")
-        logging.info(f'结束时间: {time.strftime("%Y-%m-%d %H:%M:%S", end_time_struct)}')
-        # 获取本地时间
-        local_time_struct = time.localtime()
-        # 输出字符串
-        logging.info(f'本地时间: {time.strftime("%Y-%m-%d %H:%M:%S", local_time_struct)}')
-        # 检测local_time_struct是否在end_time_struct之前
-        if local_time_struct > end_time_struct:
-            logging.info("此活动已结束")
-            return False
+        # # 判断活动是否已结束
+        # if len(end_time) != 15:
+        #     logging.error("活动时间字符串长度不足15")
+        #     return False
+        # # 将这个时间转成时间对象
+        # all_possible_format = ["%Y-%m-%d%H:%M", "%Y.%m.%d%H:%M", "%m/%d/%Y%H:%M"]
+        # end_time_struct = None
+        # for format in all_possible_format:
+        #     try:
+        #         end_time_struct = time.strptime(end_time, format)
+        #         break
+        #     except ValueError:
+        #         print(f"时间解析失败: {end_time} {format}")
+        #         continue
+        # if not end_time_struct:
+        #     # 时间解析失败直接认为它失败
+        #     logging.error("时间解析失败，默认判断此活动已结束")
+        #     return False
+        # logging.info(f'结束时间: {time.strftime("%Y-%m-%d %H:%M:%S", end_time_struct)}')
+        # # 获取本地时间
+        # local_time_struct = time.localtime()
+        # # 输出字符串
+        # logging.info(f'本地时间: {time.strftime("%Y-%m-%d %H:%M:%S", local_time_struct)}')
+        # # 检测local_time_struct是否在end_time_struct之前
+        # if local_time_struct > end_time_struct:
+        #     logging.info("此活动已结束")
+        #     return False
         return True
 
     
@@ -154,12 +164,12 @@ class InEvent(Task):
         click((965, 98))
         click((965, 98))
         
-        if hasattr(config, "EVENT_QUEST_LEVEL") and len(config.EVENT_QUEST_LEVEL) != 0:
+        if config.userconfigdict["EVENT_QUEST_LEVEL"] and len(config.userconfigdict["EVENT_QUEST_LEVEL"]) != 0:
             # 可选任务队列不为空时
-            quest_loc = today%len(config.EVENT_QUEST_LEVEL)
+            quest_loc = today%len(config.userconfigdict['EVENT_QUEST_LEVEL'])
             # 得到要执行的QUEST LIST
             # [[10, -1],[11, -1]]
-            quest_list = config.EVENT_QUEST_LEVEL[quest_loc]
+            quest_list = config.userconfigdict['EVENT_QUEST_LEVEL'][quest_loc]
             # 序号转下标
             quest_list_2 = [[x[0]-1,x[1]] for x in quest_list]
             # do Event QUEST

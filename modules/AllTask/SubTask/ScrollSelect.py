@@ -1,9 +1,9 @@
  
 import logging
 
-from assets.PageName import PageName
-from assets.ButtonName import ButtonName
-from assets.PopupName import PopupName
+from DATA.assets.PageName import PageName
+from DATA.assets.ButtonName import ButtonName
+from DATA.assets.PopupName import PopupName
 
 from modules.AllPage.Page import Page
 from modules.AllTask.Task import Task
@@ -46,8 +46,8 @@ class ScrollSelect(Task):
         self.clickx = clickx
         self.hasexpectimage = hasexpectimage
         self.swipeoffsetx = swipeoffsetx
-        if hasattr(config, "RESPOND_Y"):
-            self.responsey = config.RESPOND_Y
+        if config.userconfigdict["RESPOND_Y"]:
+            self.responsey = config.userconfigdict['RESPOND_Y']
         else:
             logging.warn("未设置滑动触发距离RESPOND_Y，使用默认值40")
             self.responsey = 40
@@ -91,10 +91,11 @@ class ScrollSelect(Task):
         if self.targetind < itemcount:
             # 目标元素高度中心点
             target_center_y = start_center_y + self.itemheight * self.targetind
-            self.run_until(
-                lambda: click((self.clickx, target_center_y)),
-                lambda: self.hasexpectimage(),
-            )
+            if self.finalclick:
+                self.run_until(
+                    lambda: click((self.clickx, target_center_y)),
+                    lambda: self.hasexpectimage(),
+                )
         else:
             # 从关卡中间的空隙开始滑
             scroll_start_from_y = self.window_endy - self.itemheight // 2

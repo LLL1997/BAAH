@@ -1,9 +1,9 @@
  
 import logging
 
-from assets.PageName import PageName
-from assets.ButtonName import ButtonName
-from assets.PopupName import PopupName
+from DATA.assets.PageName import PageName
+from DATA.assets.ButtonName import ButtonName
+from DATA.assets.PopupName import PopupName
 
 from modules.AllPage.Page import Page
 from modules.AllTask.Task import Task
@@ -16,9 +16,9 @@ class SkipStory(Task):
     
     点击跳过那个弹窗里的蓝色按钮并识别不到蓝色确认按钮后结束
     """
-    def __init__(self, name="SkipStory") -> None:
+    def __init__(self, pre_times=10, name="SkipStory") -> None:
         # 前置判断时间弄久一点
-        super().__init__(name, pre_times=10)
+        super().__init__(name, pre_times=pre_times)
 
      
     def pre_condition(self) -> bool:

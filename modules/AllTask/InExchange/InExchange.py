@@ -1,8 +1,8 @@
  
 
-from assets.PageName import PageName
-from assets.ButtonName import ButtonName
-from assets.PopupName import PopupName
+from DATA.assets.PageName import PageName
+from DATA.assets.ButtonName import ButtonName
+from DATA.assets.PopupName import PopupName
 
 from modules.AllPage.Page import Page
 from modules.AllTask.Task import Task
@@ -12,7 +12,7 @@ import logging
 import time
 import numpy as np
 
-from modules.utils.MyConfig import config
+from modules.configs.MyConfig import config
 from .RunExchangeFight import RunExchangeFight
 
 class InExchange(Task):
@@ -22,7 +22,7 @@ class InExchange(Task):
 
      
     def pre_condition(self) -> bool:
-        if not config.EXCHANGE_HIGHEST_LEVEL or len(config.EXCHANGE_HIGHEST_LEVEL) == 0:
+        if not config.userconfigdict['EXCHANGE_HIGHEST_LEVEL'] or len(config.userconfigdict['EXCHANGE_HIGHEST_LEVEL']) == 0:
             logging.warn("没有配置学院交流会的level")
             return False
         return Page.is_page(PageName.PAGE_HOME)
@@ -32,8 +32,8 @@ class InExchange(Task):
         # 得到今天是几号
         today = time.localtime().tm_mday
         # 选择一个location的下标
-        target_loc = today%len(config.EXCHANGE_HIGHEST_LEVEL)
-        target_info = config.EXCHANGE_HIGHEST_LEVEL[target_loc]
+        target_loc = today%len(config.userconfigdict['EXCHANGE_HIGHEST_LEVEL'])
+        target_info = config.userconfigdict['EXCHANGE_HIGHEST_LEVEL'][target_loc]
         # 判断这一天是否设置有交流会关卡
         if len(target_info) == 0:
             logging.warn("今天轮次中无学院交流会关卡，跳过")
@@ -61,7 +61,7 @@ class InExchange(Task):
                 if match(page_pic(PageName.PAGE_EXCHANGE), returnpos=True)[1][1]>133:
                     # 如果右侧Title较低，说明是老版本的国服
                     logging.info("点击较低的三个定位点")
-                    points = np.linspace(271, 557, 3)
+                    points = np.linspace(265, 544, 3)
                 else:
                     # 可点击的一列点
                     points = np.linspace(206, 422, 3)

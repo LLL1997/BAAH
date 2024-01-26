@@ -1,9 +1,9 @@
  
 import logging
 
-from assets.PageName import PageName
-from assets.ButtonName import ButtonName
-from assets.PopupName import PopupName
+from DATA.assets.PageName import PageName
+from DATA.assets.ButtonName import ButtonName
+from DATA.assets.PopupName import PopupName
 
 from modules.AllPage.Page import Page
 from modules.AllTask.InShop.BuyItems import BuyItems
@@ -17,13 +17,13 @@ class ContestItems(Task):
 
      
     def pre_condition(self) -> bool:
-        return Page.is_page(PageName.PAGE_SHOP) and hasattr(config, "SHOP_CONTEST") and len(config.configdict["SHOP_CONTEST"]) > 0
+        return Page.is_page(PageName.PAGE_SHOP) and config.userconfigdict["SHOP_CONTEST"] and len(config.userconfigdict["SHOP_CONTEST"]) > 0
     
     
     def on_run(self) -> None:
         logging.info("开始竞技场商店购买")
-        BuyItems(config.SHOP_CONTEST).run()
-        for i in range(config.configdict["SHOP_CONTEST_REFRESH_TIME"]):
+        BuyItems(config.userconfigdict['SHOP_CONTEST']).run()
+        for i in range(config.userconfigdict["SHOP_CONTEST_REFRESH_TIME"]):
             logging.info("刷新")
             # 点击刷新按钮
             showconfirm = self.run_until(
@@ -44,7 +44,7 @@ class ContestItems(Task):
                 # 成功刷新
                 if clickconfirm:
                     logging.info("刷新成功")
-                    BuyItems(config.SHOP_CONTEST).run()
+                    BuyItems(config.userconfigdict['SHOP_CONTEST']).run()
                 else:
                     logging.error("刷新失败")
                     click(Page.MAGICPOINT)

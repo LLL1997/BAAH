@@ -1,9 +1,9 @@
  
 import logging
 
-from assets.PageName import PageName
-from assets.ButtonName import ButtonName
-from assets.PopupName import PopupName
+from DATA.assets.PageName import PageName
+from DATA.assets.ButtonName import ButtonName
+from DATA.assets.PopupName import PopupName
 
 from modules.AllPage.Page import Page
 from modules.AllTask.Task import Task
@@ -48,7 +48,7 @@ class RaidQuest(Task):
     
     def on_run(self) -> None:
         # 全局变量存储当前这次任务是否可继续扫荡的信息
-        # 但不应当在开始就判断是否不合法，因为可能config.TASK_ORDER里有多次同名任务
+        # 但不应当在开始就判断是否不合法，因为可能config.userconfigdict['TASK_ORDER']里有多次同名任务
         # 判断是否提前中止的操作应当交给外部循环层考虑
         repeat_times = self.raidtimes
         # 弹出任务咨询页面后选择次数

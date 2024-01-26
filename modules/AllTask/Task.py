@@ -1,7 +1,7 @@
 from modules.AllPage.Page import Page
-from assets.PageName import PageName
-from assets.PopupName import PopupName
-from assets.ButtonName import ButtonName
+from DATA.assets.PageName import PageName
+from DATA.assets.PopupName import PopupName
+from DATA.assets.ButtonName import ButtonName
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, screenshot
 import logging
 
@@ -17,7 +17,7 @@ class Task:
         
     def pre_condition(self) -> bool:
         """
-        执行任务前的判断，只判断现有情况，不要进行有效操作(截图或点击)
+        执行任务前的判断，判断现有情况，如果进行有效操作(截图或点击)，记得重新截图
 
         确认页面，是否需要做此任务，任务是否已经完成，这同时会试图点击魔法点重置页面状态到Page级别
         
@@ -72,12 +72,15 @@ class Task:
         logging.info("尝试返回主页")
         click(Page.MAGICPOINT)
         click(Page.MAGICPOINT)
-        if Task.run_until(lambda: click(button_pic(ButtonName.BUTTON_HOME_ICON)), lambda: Page.is_page(PageName.PAGE_HOME), times=times, sleeptime=3):
+        if Task.run_until(
+            lambda: click(button_pic(ButtonName.BUTTON_HOME_ICON)), 
+            lambda: Page.is_page(PageName.PAGE_HOME), times=times, sleeptime=3):
             logging.info("返回主页成功")
             return True
         else:
             logging.error("返回主页失败")
             return False
+        
     
     @staticmethod
     def close_any_select_popup(yn: bool = False) -> bool:

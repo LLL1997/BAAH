@@ -1,9 +1,9 @@
  
 import logging
 
-from assets.PageName import PageName
-from assets.ButtonName import ButtonName
-from assets.PopupName import PopupName
+from DATA.assets.PageName import PageName
+from DATA.assets.ButtonName import ButtonName
+from DATA.assets.PopupName import PopupName
 
 from modules.AllPage.Page import Page
 from modules.AllTask.Task import Task
@@ -23,8 +23,8 @@ class BuyItems(Task):
     
     
     def on_run(self) -> None:
-        if hasattr(config, "RESPOND_Y"):
-            responsey = config.RESPOND_Y
+        if config.userconfigdict["RESPOND_Y"]:
+            responsey = config.userconfigdict['RESPOND_Y']
         else:
             responsey = 40
         # 横着的四个物品的中心点

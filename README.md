@@ -1,7 +1,6 @@
-# Blue_Archive_ArisHelper碧蓝档案爱丽丝助手(BAAH)
+# 碧蓝档案爱丽丝助手(BAAH)
 
-<div style="display:flex;justify-content:space-around"><img src="./assets/aris.png" style="width:48%"/><img src="./assets/kei.png" style="width:48%"/></div>
-
+<div style="display:flex;justify-content:space-around"><img src="./DATA/assets/aris.png" style="width:48%"/><img src="./DATA/assets/kei.png" style="width:48%"/></div>
 
 ---
 
@@ -9,19 +8,10 @@ BAAH 可以帮助各位sensei在安卓模拟器内完成碧蓝档案（国际服
 
 BAAH can help sensei complete daily tasks of Blue Archive (Global ver./Janpan ver.) in Android Emulator.
 
-[English Document is on the way, but it is a complex work to turn displayed text and suit language in BA to English. For those sensei who use English as their main language may need to wait Christmas holiday]
 
-灵感来自以下项目:
+[[English Document]](./docs/README_en.md) | [中文文档]
 
-1. [BAAuto](https://github.com/RedDeadDepresso/BAAuto): 碧蓝档案国际服自动脚本
-2. [MBA](https://github.com/MaaAssistantArknights/MBA): MAA架构的碧蓝档案助手
-3. [BAAS](https://github.com/pur1fying/blue_archive_auto_script): 蔚蓝档案简中服脚本
-
-本项目使用了以下库: 
-
-1. [opencv-python](https://github.com/opencv/opencv): 用于模板匹配
-2. [pponnxcr](https://github.com/hgjazhgj/pponnxcr): 用于OCR数字
-3. [nicegui](https://github.com/zauberzeug/nicegui): 用于GUI功能
+---
 
 ## 交流群
 
@@ -36,6 +26,12 @@ QQ: 441069156
 感谢群友 [@LLL1997](https://github.com/LLL1997) 整理的日服界面元素的截图
 
 感谢群友 [@子墨](https://space.bilibili.com/11179370)整理的国服界面元素的截图
+
+本项目使用了以下库: 
+
+1. [opencv-python](https://github.com/opencv/opencv): 用于模板匹配
+2. [pponnxcr](https://github.com/hgjazhgj/pponnxcr): 用于OCR数字
+3. [nicegui](https://github.com/zauberzeug/nicegui): 用于GUI功能
 
 ## 打算开发/已开发完成的自动化任务:
 
@@ -101,7 +97,7 @@ Bilibili：[首页最新教程](https://space.bilibili.com/7331920?spm_id_from=3
 
 ### 通过exe运行
 
-1. 解压压缩包
+1. 下载后解压压缩包
 2. 双击GUI.exe运行
 
 ### 通过本地的python环境运行
@@ -113,43 +109,6 @@ Bilibili：[首页最新教程](https://space.bilibili.com/7331920?spm_id_from=3
 5. 执行`pip install -r requirements.txt` 安装所需依赖
 6. 执行`python jsoneditor.py` 运行GUI
 7. 执行`python main.py config.json`按照config.json配置开始执行BAAH
-
-# 每日任务配置项目
-
-[首页最新教程](https://space.bilibili.com/7331920?spm_id_from=333.1007.0.0)
-
-# 服务器（国际服/日服/国服官服/国服B服）配置
-
-打开GUI后选择区服即可。
-如果选择区服后报错，则修改config.json的下方内容
-
-## 日服
-
-```
-"PIC_PATH" : "./assets_jp",
-"ACTIVITY_PATH" : "com.YostarJP.BlueArchive/com.yostarjp.bluearchive.MxUnityPlayerActivity",
-```
-
-## 国际服（繁中）
-
-```
-"PIC_PATH" : "./assets",
-"ACTIVITY_PATH" : "com.nexon.bluearchive/.MxUnityPlayerActivity",
-```
-
-## 国服官服
-
-```
-"PIC_PATH" : "./assets_cn",
-"ACTIVITY_PATH" : "com.RoamingStar.BlueArchive/com.yostar.sdk.bridge.YoStarUnityPlayerActivity",
-```
-
-## 国服B服
-
-```
-"PIC_PATH" : "./assets_cn",
-"ACTIVITY_PATH" : "com.RoamingStar.BlueArchive.bilibili/com.yostar.sdk.bridge.YoStarUnityPlayerActivity",
-```
 
 # 打包
 
@@ -164,6 +123,11 @@ Bilibili：[首页最新教程](https://space.bilibili.com/7331920?spm_id_from=3
 
 项目中使用的与 Blue Archive (碧蓝档案) 相关的任何游戏资产和资源均属于相应作者的财产和版权。
 
+# 类似项目:
+
+1. [BAAuto](https://github.com/RedDeadDepresso/BAAuto): 碧蓝档案国际服自动脚本
+2. [MBA](https://github.com/MaaAssistantArknights/MBA): MAA架构的碧蓝档案助手
+3. [BAAS](https://github.com/pur1fying/blue_archive_auto_script): 蔚蓝档案简中服脚本
 
 # 碎碎念
 

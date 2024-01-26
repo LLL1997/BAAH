@@ -3,12 +3,12 @@ import logging
 import time
 from modules.AllTask.SubTask.RaidQuest import RaidQuest
 from modules.AllTask.SubTask.ScrollSelect import ScrollSelect
-from modules.utils.MyConfig import config
+from modules.configs.MyConfig import config
 import numpy as np
 
-from assets.PageName import PageName
-from assets.ButtonName import ButtonName
-from assets.PopupName import PopupName
+from DATA.assets.PageName import PageName
+from DATA.assets.ButtonName import ButtonName
+from DATA.assets.PopupName import PopupName
 
 from modules.AllPage.Page import Page
 from modules.AllTask.Task import Task
