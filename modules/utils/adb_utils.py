@@ -86,7 +86,8 @@ def check_app_running(activity_path:str) -> bool:
             output = sentence
             logging.info("当前运行的app为：{}".format(output))
             if "null" in output:
-                logging.warn("MUMU模拟器需要设置里关闭保活！")
+                #logging.warn("MUMU模拟器需要设置里关闭保活！")
+                return False
             break
     if app_name in output:
         return True
