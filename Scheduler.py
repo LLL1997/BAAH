@@ -52,8 +52,8 @@ def daily_loop():
 
 if __name__ == '__main__':
 
-    process_touch_Head()
-    # daily() # 日常清体力用，使用默认的config
+    # process_touch_Head()
+    daily() # 日常清体力用，使用默认的config
     daily_loop()
 
     while True:
