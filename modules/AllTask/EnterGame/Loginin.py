@@ -23,7 +23,7 @@ class Loginin(Task):
     
 
     @staticmethod
-    def try_jump_useless_pages():
+    def try_jump_useless_pages(i=None,times=1):
         # 点掉确认按钮
         if match(button_pic(ButtonName.BUTTON_CONFIRMB)):
             click(button_pic(ButtonName.BUTTON_CONFIRMB))
@@ -34,13 +34,18 @@ class Loginin(Task):
             # 活动弹窗
             click((1250, 40))
         import logging
-        from modules.utils.adb_utils import open_app,check_app_running
+        from modules.utils.adb_utils import open_app,check_app_running,close_app
         from modules.configs.MyConfig import config
         if not check_app_running(config.userconfigdict['ACTIVITY_PATH']):
             open_app(config.userconfigdict['ACTIVITY_PATH'])
             logging.info("可能app闪退了，正常不应该出现这条，尝试重新打开游戏...")
             sleep(20)
-     
+        # 超过一半的运行时间,尝试重启app一次来解决卡登录问题
+        if i == int(times*0.5): 
+            # 关闭app,
+            close_app(config.userconfigdict['ACTIVITY_PATH'])
+            sleep(10)
+            open_app(config.userconfigdict['ACTIVITY_PATH'])
     def on_run(self) -> None:
         # 因为涉及到签到页面什么的，所以这里点多次魔法点
         # 因为涉及到活动页面什么的，所以这里还要尝试识别左下角的不再显示
@@ -49,8 +54,8 @@ class Loginin(Task):
                       times = 300,
                       sleeptime = 1.5)==False:
             from modules.add_functions.msg import push_msg_fast
-            push_msg_fast(f'碧蓝档案游戏，游戏登录，无法进入主页可能要更新app或服务器维护，程序退出{format(self.name)}')
-            raise Exception("游戏登录，无法进入主页可能要更新app或服务器维护，程序退出".format(self.name))
+            push_msg_fast(f"碧蓝档案游戏，游戏登录，无法进入主页可能要更新app或服务器维护，程序退出{self.name}")
+            raise Exception("游戏登录，无法进入主页可能要更新app或服务器维护，程序退出原因{}".format(self.name))
 
      
     def post_condition(self) -> bool:

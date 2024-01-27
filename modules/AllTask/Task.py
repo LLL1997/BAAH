@@ -4,7 +4,7 @@ from DATA.assets.PopupName import PopupName
 from DATA.assets.ButtonName import ButtonName
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, screenshot
 import logging
-
+import inspect
 
 class Task:
     # 父类
@@ -130,7 +130,10 @@ class Task:
             screenshot()
             if(func2()):
                 return True
-            func1()
+            if len(inspect.signature(func1).parameters) > 1:# 用来判断是否能接受参数，这个代码是用来解决卡登录的
+                func1(i,times)   # （日服和国际服会卡在登录不会进入签到或者公告，可能是网络问题）
+            else:
+                func1()
             sleep(sleeptime)
         screenshot()
         if(func2()):
