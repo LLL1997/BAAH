@@ -42,11 +42,13 @@ def process_touch_Head(xx=['bilibili_只摸头.json','日服_只摸头.json','�
 
 def daily_loop():
     schedule.every().day.at("04:00").do(process_touch_Head) # 4点全部刷新
-    schedule.every().day.at("07:00").do(daily) 
+    schedule.every().day.at("04:30").do(daily) 
+    schedule.every().day.at("07:30").do(process_touch_Head) 
     schedule.every().day.at("11:00").do(process_touch_Head)
     schedule.every().day.at("14:30").do(process_touch_Head)
     schedule.every().day.at("16:00").do(process_touch_Head)
-    schedule.every().day.at("19:30").do(daily) # 领取体力进行日常
+    schedule.every().day.at("19:30").do(process_touch_Head)
+    schedule.every().day.at("20:30").do(daily) # 领取体力进行日常
     schedule.every().day.at("23:00").do(process_touch_Head)
     schedule.every().day.at("02:30").do(process_touch_Head) # 刷新前摸一次头
 
