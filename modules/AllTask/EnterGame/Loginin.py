@@ -25,8 +25,6 @@ class Loginin(Task):
     @staticmethod
     def try_jump_useless_pages(i=None,times=1):
         # 点掉确认按钮
-        print(i,times)
-
         if match(button_pic(ButtonName.BUTTON_CONFIRMB)):
             click(button_pic(ButtonName.BUTTON_CONFIRMB))
         elif match(button_pic(ButtonName.BUTTON_CONFIRMB)):# TODO 增加识别维护
@@ -53,7 +51,7 @@ class Loginin(Task):
             sleep(10)
             open_app(config.userconfigdict['ACTIVITY_PATH'])
 
-            
+
     def on_run(self) -> None:
         # 因为涉及到签到页面什么的，所以这里点多次魔法点
         # 因为涉及到活动页面什么的，所以这里还要尝试识别左下角的不再显示
