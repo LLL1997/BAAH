@@ -106,6 +106,13 @@ def close_app(activity_path:str):
     """
     使用adb关闭app
     """
+    subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(), 'shell', 'am', 'start', '-S',activity_path])
+    time.sleep(2)
     subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(), 'shell', 'am', 'force-stop', activity_path], isasync=True)
-    # appname = activity_path.split("/")[0]
-    # subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(), 'shell', 'monkey', '-p', appname, '1'], isasync=True)
+    time.sleep(2)
+    appname = activity_path.split("/")[0]
+    subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(), 'shell', 'force-stop', appname])
+    time.sleep(2)
+    subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(), 'shell', 'am', 'kill', appname])
+    time.sleep(2)
+    subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(), 'shell', 'am', 'kill-all'])
