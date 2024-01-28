@@ -1,45 +1,92 @@
 import configparser
 import os
+import requests
+from datetime import datetime
 
-def read_ini_file(file_path):
-    config = configparser.ConfigParser()
+class IniFile:
 
-    # 检查配置文件是否存在，如果不存在则创建
-    if not os.path.exists(file_path):
-        print(f"{file_path} not found. Creating a new one.")
-        create_ini_file(file_path)
+    def __init__(self, file_path):
+        self.file_path = file_path
+        self.config = configparser.ConfigParser()
+        if not os.path.exists(file_path):
+            self.create_ini_file()
+        else:
+            with open(file_path, 'r', encoding='utf-8') as config_file:
+                self.config.read_file(config_file)
+        #self.config.read(file_path)
 
-    # 读取配置文件
-    config.read(file_path)
-    return config
-
-def create_ini_file(file_path):
-    config = configparser.ConfigParser()
-    
+    def create_ini_file(self):
+        config = configparser.ConfigParser()
     # 获取用户输入
-    url = input("输入bot链接: ")
-    if url == "":
         url = input("输入bot链接: ")
+        if url == "":
+            url = input("输入bot链接: ")
 
-    at_phone_number = input("@手机号（包含才发送,可回车跳过")
-    # 设置配置项
-    config['Message'] = {'url': url,
-                         '@手机号': at_phone_number
-                         }
-    # 写入配置文件
-    with open(file_path, 'w') as config_file:
-        config.write(config_file)
-        print(f"Configuration file {file_path} created.")
+        at_phone_number = input("@手机号（包含才发送,可回车跳过")
+        # 设置配置项
+        config['Message'] = {'url': url,
+                            '@手机号': at_phone_number
+                            }
+        # 写入配置文件
+        with open(self.file_path, 'w') as config_file:
+            config.write(config_file)
+            print(f"Configuration file {self.file_path} created.")
 
-async def push_msg(url, content, phone_number=''):
-    '''发送钉钉bot消息
-        asyncio.run(push_msg())
-        https://open.dingtalk.com/document/robots/custom-robot-access'''
-    import requests
-    from datetime import datetime
+    def get_value(self, section, option):
+        '''
+        获取配置文件中指定节和选项的值
+        :param section: 节
+        :param option: 选项
+        :return: 值
+        '''
+        return self.config.get(section, option,fallback=None)
+
+    # 设置数据
+    def set_value(self, section, option, value, save_to_file=True):
+        # 设置指定节、指定选项的值
+        self.config.set(section, option, value)
+        # 如果save_to_file为True，则保存到文件
+        if save_to_file:
+            with open(self.file_path, 'w',encoding='utf-8') as file:
+                self.config.write(file)
+
+    def add_section(self, section):
+        '''
+        添加新的section
+        :param section: section名称
+        :return:
+        '''
+        self.config.add_section(section)
+        with open(self.file_path, 'w',encoding='utf-8') as file:
+            self.config.write(file)
+
+    def remove_section(self, section):
+        # 移除指定section
+        self.config.remove_section(section)
+        # 打开文件
+        with open(self.file_path, 'w',encoding='utf-8') as file:
+            # 将配置写入文件
+            self.config.write(file)
+
+    def remove_option(self, section, option):
+        # 移除指定节和选项的配置
+        self.config.remove_option(section, option)
+        # 打开文件，写入配置
+        with open(self.file_path, 'w',encoding='utf-8') as file:
+            self.config.write(file)
+
+
+async def push_msg(url, content, title=None,phone_number=''):
+    '''
+    :param url：要推送的网站
+    :param content：要推送的消息内容
+    :param phone_number：要推送的电话号码，默认为空,钉钉才有
+    :param title:微信息知用
+    '''
     headers = {
         'Content-Type': 'application/json',
     }
+   
     json_data = {
         'msgtype': 'text',
         'text': {
@@ -51,15 +98,16 @@ async def push_msg(url, content, phone_number=''):
             ],
         },
     }
+    if title is not None:
+        json_data =  {
+         'title': title,
+        'content': content
+    }
     try:
         response = requests.post(url, json=json_data, headers=headers, timeout=10)
         html_str = response.text
-        if 'ok' in html_str:
-            print('钉钉BOT消息发送成功')
-            return True
-        else:
-            print('钉钉BOT消息发送失败')
-            return False
+        return html_str
+    
     except requests.exceptions.HTTPError as e:
         print(f"HTTP Error: {e}")
     except requests.exceptions.ConnectionError as e:
@@ -68,18 +116,39 @@ async def push_msg(url, content, phone_number=''):
         print("The request timed out.")
     except Exception as e:
         print(f"An unexpected error occurred: {e}")
-
     return False
-def push_msg_fast(text):
+
+def push_msg_fast_Dingtalk(text):
+    '''钉钉消息'''
     import asyncio
-    ini_file_path = "BAAH_CONFIGS\msg.ini"
-    config = read_ini_file(ini_file_path)
-
     # 从配置文件中获取消息
-    url = config.get('Message', 'url', fallback=None)
-    at_phone_number = config.get('Message', '@手机号', fallback=None)
+    try:
+        Myini=IniFile('BAAH_CONFIGS\config.ini')
+        url = Myini.get_value('Message', 'url')
+        at_phone_number = Myini.get_value('Message', '@手机号',)
+        asyncio.run(push_msg(url,text,phone_number=at_phone_number))
+        return True
+    except Exception as e:
+        print(e)
+        return False
 
-    asyncio.run(push_msg(url,text,at_phone_number))
+def push_msg_fast_xizhi(text):
+    '''微信息知'''
+    import asyncio
+    # 从配置文件中获取消息
+    try:
+        Myini=IniFile('BAAH_CONFIGS\config.ini')
+        url = Myini.get_value('Message', 'xizhi_url')
+        asyncio.run(push_msg(url,text,title=text))
+        return True
+    except Exception as e:
+        print(e)
+        return False
+def push_msg_fast(text):
+    return push_msg_fast_Dingtalk(text) and push_msg_fast_xizhi(text)
+    
 if __name__ == "__main__":
-    push_msg_fast("游戏，grewgw")
-
+    push_msg_fast_Dingtalk("狗修金SAMA🥵，B🥰A🥰A🥰H🥰，已经在运行了喵😊")
+    push_msg_fast_xizhi("狗修金SAMA🥵，BAAH🥰，已经在运行了喵😊")
+    push_msg_fast("游戏 2222")
+    # https://xizhi.qqoq.net/XZ1b5ac315ebea4c12aa80ac391edf143b
