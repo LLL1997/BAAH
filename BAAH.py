@@ -141,9 +141,12 @@ def BAAH_kill_emulator():
 
 def BAAH_main():
     try:
-        BAAH_release_adb_port()
-        BAAH_start_emulator()
-        BAAH_check_adb_connect()
+        if check_connect():
+            logging.info("检测到设备已连接，跳过连接设备")
+        else:
+            BAAH_release_adb_port()
+            BAAH_start_emulator()
+            BAAH_check_adb_connect()
         BAAH_open_target_app()
         # 运行任务
         logging.info("运行任务")
