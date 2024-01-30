@@ -38,14 +38,17 @@ class InShop(Task):
                 lambda: Page.is_page(PageName.PAGE_SHOP),
             )
         NormalItems().run()
-        switchres = self.run_until(
-            lambda: click(button_pic(ButtonName.BUTTON_SHOP_CONTEST_W)),
-            lambda: match(button_pic(ButtonName.BUTTON_SHOP_CONTEST_B)),
-        )
-        if not switchres:
-            logging.error("切换到竞技场商店失败，中止任务")
-            return
-        ContestItems().run()
+        if not config.userconfigdict["SHOP_CONTEST_SWITCH"]: # 判断config里的开关是否开启
+            logging.info("设置中未开启战术商店购买")
+        else:    
+            switchres = self.run_until(
+                lambda: click(button_pic(ButtonName.BUTTON_SHOP_CONTEST_W)),
+                lambda: match(button_pic(ButtonName.BUTTON_SHOP_CONTEST_B)),
+            )
+            if not switchres:
+                logging.error("切换到竞技场商店失败，中止任务")
+                return
+            ContestItems().run()
         
         # 返回主页
         self.back_to_home()

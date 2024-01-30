@@ -77,15 +77,17 @@ def BAAH_check_adb_connect():
     检查adb连接
     """
     # 检查adb连接
-    time.sleep(10)# 考虑渣机，稍微等下
-    # disconnect_this_device()
+    
+    disconnect_this_device()
     for i in range(1, 10):
         sleep(i)
         if check_connect():
             logging.info("adb连接成功")
             return True
-        elif i == 8: # 重启模拟器，后期再加个cmd命令结束掉占用端口的程序
+        elif i == 8:
             BAAH_kill_emulator()
+            time.sleep(10)
+            BAAH_release_adb_port()
             time.sleep(10)
             BAAH_start_emulator()
             time.sleep(45)
@@ -125,6 +127,8 @@ def BAAH_kill_emulator():
         try:
             if not config.sessiondict["EMULATOR_PROCESS_PID"]:
                 logging.error("未能获取到模拟器进程，跳过关闭模拟器")
+                from modules.add_functions.msg import push_msg_fast
+                push_msg_fast("碧蓝档案,BAAH未能获取到模拟器进程"+config.userconfigdict['SERVER_TYPE'])
                 return
             # 提取出模拟器的exe名字
             full_path = config.userconfigdict['TARGET_EMULATOR_PATH']
@@ -135,17 +139,20 @@ def BAAH_kill_emulator():
         except Exception as e:
             logging.error("关闭模拟器失败, 可能是没有以管理员模式运行 或 配置的模拟器路径有误")
             logging.error(e)
+            from modules.add_functions.msg import push_msg_fast
+            push_msg_fast("碧蓝档案,BAAH关闭模拟器失败"+config.userconfigdict['SERVER_TYPE'])
     else:
         logging.info("跳过关闭模拟器")
     
 
 def BAAH_main():
     try:
-        if check_connect():
+        if check_connect(): 
             logging.info("检测到设备已连接，跳过连接设备")
         else:
             BAAH_release_adb_port()
             BAAH_start_emulator()
+            time.sleep(30)# 考虑渣机，稍微等下          
             BAAH_check_adb_connect()
         BAAH_open_target_app()
         # 运行任务
@@ -157,6 +164,7 @@ def BAAH_main():
         import traceback
         traceback.print_exc()
         print(e)
+        raise traceback.print_exc()
     finally:
         time.sleep(3)
         BAAH_kill_emulator()

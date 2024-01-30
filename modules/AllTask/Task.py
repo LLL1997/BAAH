@@ -78,6 +78,7 @@ class Task:
             logging.info("返回主页成功")
             return True
         else:
+            # TODO 检查模拟器和app是否在运行
             logging.error("返回主页失败")
             return False
         

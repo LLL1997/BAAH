@@ -21,6 +21,9 @@ class ContestItems(Task):
     
     
     def on_run(self) -> None:
+        if not config.userconfigdict["SHOP_CONTEST_SWITCH"]: # 判断config里的开关是否开启
+            logging.info("设置中未开启战术商店购买")
+            return
         logging.info("开始竞技场商店购买")
         BuyItems(config.userconfigdict['SHOP_CONTEST']).run()
         for i in range(config.userconfigdict["SHOP_CONTEST_REFRESH_TIME"]):

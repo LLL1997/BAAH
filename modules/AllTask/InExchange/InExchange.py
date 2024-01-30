@@ -52,6 +52,7 @@ class InExchange(Task):
             lambda: click((712, 592)),
             lambda: Page.is_page(PageName.PAGE_EXCHANGE),
         )
+        # TODO 后期加个判断是否双倍或者三倍，实现可能为判断是否为三倍双倍横幅位置是否为空白的（没有横幅），
         for each_target in target_info:
             # check whether there is a ticket
             if ocr_area_0((72, 85), (322, 114)):
