@@ -198,3 +198,4 @@ BAAH_CONFIGS/
 log/
 >>>>>>> Stashed changes
 BAAH_CONFIGS/config.json
+*.json
