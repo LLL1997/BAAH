@@ -1,5 +1,5 @@
 from nicegui import ui
-
+from datetime import datetime
 def set_cafe(config):
     # 创建一个行
     with ui.row():
@@ -15,3 +15,7 @@ def set_cafe(config):
     with ui.row():
         ui.checkbox(config.get_text("config_camera_full")).bind_value(config.userconfigdict, "CAFE_CAMERA_FULL")
         ui.checkbox(config.get_text("config_cafe_exhaustivity_touch_head")).bind_value(config.userconfigdict, "CAFE_EXHAUSTIVITY_TOUCH_HEAD")
+        
+        Invite_time_switch = ui.switch('是否只在限定时间执行邀请')
+        ui.time(value='12:00').bind_visibility_from(Invite_time_switch,'value')
+       

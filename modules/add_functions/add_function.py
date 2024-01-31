@@ -1,6 +1,6 @@
 import os,datetime,subprocess,time
 '''
-todo
+todo 
 1.ocr_store
     1.总力战开启
     2.资源

@@ -1,7 +1,29 @@
 import os,datetime,subprocess,time
+import functools
+from datetime import datetime
+import logging
 
+# 用来检查是否在限定时间，否则不执行
+def time_restriction(start_hour:int, start_minute:int, end_hour:int, end_minute:int):
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            now = datetime.now()
+            # 获取当前的小时和分钟
+            current_hour = now.hour
+            current_minute = now.minute
+            # 检查当前时间是否在限定时间内
+            if start_hour <= current_hour < end_hour or (start_hour == current_hour and current_minute >= start_minute) or (current_hour == end_hour and current_minute <= end_minute):
+                logging.info(f"Function {func.__name__} 在限定时间内{start_hour}:{start_minute} 到 {end_hour}:{end_minute}，执行")
+                return func(*args, **kwargs)  # 在限定时间内，执行函数
+            else:
+                logging.info(f"Function {func.__name__} 设置为只在{start_hour}:{start_minute} 到 {end_hour}:{end_minute}执行")
+                return None
+        return wrapper
+    return decorator
+@time_restriction(12, 0, 15, 36)
 def Daily_loop_control():
-    pass
+    print("asdasf")
 # 用携程来运行代码，通过时间来判断是否出错，超时触发TimeoutError异常
 
 # 错误日志
@@ -39,5 +61,6 @@ class ocr_store:
 
 if __name__ == '__main__':
     pass
+    Daily_loop_control()
     # os._exit(0)
     #close_emulator('D:/Program Files/Netease/MuMuPlayer-12.0/shell/','MuMuPlayer.exe' , 3)

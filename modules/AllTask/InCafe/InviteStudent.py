@@ -21,8 +21,9 @@ class InviteStudent(Task):
      
     def pre_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_CAFE) and match(button_pic(ButtonName.BUTTON_CAFE_CANINVITE))
-    
-     
+    # TODO 增加限定时间到gui
+    from modules.utils.add_function import time_restriction
+    @time_restriction(16, 0, 18, 0) 
     def on_run(self) -> None:
         # 打开邀请界面
         self.run_until(
