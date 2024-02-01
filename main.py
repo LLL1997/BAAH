@@ -72,7 +72,7 @@ if __name__ in ["__main__", "__mp_main__"]:
         traceback.print_exc()
         print_BAAH_finish()
         # input("按回车键继续:")
-    
+        raise Exception("运行出错")
     # 运行结束后，删除截图文件
     try:
         # 运行结束后如果截图文件存在，删除截图文件

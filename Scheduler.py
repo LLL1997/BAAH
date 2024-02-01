@@ -3,7 +3,7 @@ import schedule,time
 from datetime import datetime
 from modules.add_functions.msg import push_msg_fast
 import concurrent.futures
-
+import os
 def daily(): # 顺序执行
     print("每日")
     push_msg_fast('碧蓝档案，每日日常开始')
@@ -26,10 +26,22 @@ def touch_Head(json_config_file_path):
         command = f"python {baah_path} {json_config_file_path}" 
         log_file = f"./log/{datetime.now().strftime('%Y年%m月%d日%H时%M分%S秒')}-{str(json_config_file_path)}.txt"
         # 执行命令并将输出重定向到日志文件
-        subprocess.run(command, shell=True, stdout=open(log_file, "w"), stderr=subprocess.STDOUT)
+        result =subprocess.run(command, shell=True, stdout=open(log_file, "w"), stderr=subprocess.STDOUT)
+        if result.returncode != 0:
+            raise Exception(f"Python脚本执行出错，返回码：{result.returncode}")
     except subprocess.CalledProcessError as e:
         print(f"命令执行错误，退出码：{e.returncode}")
         print(f"命令输出：{e.output}")
+    except Exception as e:
+        # 捕捉到异常后的处理逻辑
+        print(f"发生异常：{e}")
+    else: # 未报错用os命令删除掉log文件
+        try:
+            os.remove(log_file)
+            print(f"运行未报错，删除文件 {log_file} 。")
+        except OSError as e:
+            print(f"删除文件时发生错误：{e}")
+
 
 def process_touch_Head(xx=['bilibili_只摸头.json','日服_只摸头.json','国际服_只摸头.json'],max_threads=2):
     '''多线程'''
@@ -54,8 +66,8 @@ def daily_loop():
 
 if __name__ == '__main__':
 
-    # process_touch_Head()
-    daily() # 日常清体力用，使用默认的config
+    process_touch_Head() # 摸头
+    # daily() # 日常清体力用，使用默认的config
     daily_loop()
 
     while True:

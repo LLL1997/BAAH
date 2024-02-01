@@ -9,6 +9,7 @@ from modules.AllTask.Task import Task
 
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep
 
+import logging
 # =====
 
 class Loginin(Task):
@@ -25,16 +26,17 @@ class Loginin(Task):
     @staticmethod
     def try_jump_useless_pages(i=None,times=1):
         # 点掉确认按钮
-        if match(button_pic(ButtonName.BUTTON_CONFIRMB)):
-            click(button_pic(ButtonName.BUTTON_CONFIRMB))
-        elif match(button_pic(ButtonName.BUTTON_CONFIRMB)):# TODO 增加识别维护
-            pass
-            # raise
+            
+        if match(popup_pic(PopupName.POPUP_MAINTENACE_NOTICE)) and match(popup_pic(PopupName.POPUP_NOTICE)):# TODO 增加识别维护
+            logging.info("服务器维护")
+            raise Exception("找到维护弹窗，退出")
+        elif match(button_pic(ButtonName.BUTTON_CONFIRMB)):
+            click(button_pic(ButtonName.BUTTON_CONFIRMB))   
         else:
             # 活动弹窗
             click((1250, 40))
 
-        import logging
+
         from modules.utils.adb_utils import open_app,check_app_running,close_app
         from modules.configs.MyConfig import config
         if i != None and i%10==0 and not check_app_running(config.userconfigdict['ACTIVITY_PATH']) :

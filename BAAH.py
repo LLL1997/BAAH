@@ -21,7 +21,7 @@ def BAAH_release_adb_port(justDoIt=False):
             # 确保端口未被占用
             res=subprocess_run(["netstat", "-ano"], encoding="gbk").stdout
             for line in res.split("\n"):
-                if ":"+str(config.userconfigdict["TARGET_PORT"]) in line and "LISTENING" in line:
+                if ":"+str(config.userconfigdict["TARGET_PORT"]) in line : # 有假占用，去除掉试试 and "LISTENING" in line
                     logging.info(line)
                     logging.info("端口被占用，正在释放")
                     pid=line.split()[-1]
@@ -160,15 +160,18 @@ def BAAH_main():
         my_AllTask.run()
     except Exception as e:
         from modules.add_functions.msg import push_msg_fast
-        push_msg_fast("碧蓝档案,BAAH运行出错"+config.userconfigdict['SERVER_TYPE'])
-        import traceback
-        traceback.print_exc()
-        print(e)
-        raise traceback.print_exc()
+        if e.args[0] == "找到维护弹窗，退出":
+            push_msg_fast("碧蓝档案,"+config.userconfigdict['SERVER_TYPE']+'服务器维护')
+            # raise Exception("找到维护弹窗，退出")
+        else:
+            push_msg_fast("碧蓝档案,BAAH运行出错"+config.userconfigdict['SERVER_TYPE'])
+            print(e)
+            raise Exception("运行出错")
+            
     finally:
         time.sleep(3)
         BAAH_kill_emulator()
-        logging.info("所有任务结束")
+        logging.info(f"{config.userconfigdict['SERVER_TYPE']}任务结束")
 
 if __name__ in ["__main__", "__mp_main__"]:
     # 不带GUI运行

@@ -24,6 +24,7 @@ class InviteStudent(Task):
     # TODO 增加限定时间到gui
     from modules.utils.add_function import time_restriction
     @time_restriction(16, 0, 18, 0) 
+    @time_restriction(16, 0, 18, 0) 
     def on_run(self) -> None:
         # 打开邀请界面
         self.run_until(
