@@ -1,8 +1,7 @@
 import sys
 import os
 
-from modules.add_functions.add_function import *
-from modules.add_functions.msg import push_msg_fast
+
 # 将当前脚本所在目录添加到模块搜索路径
 current_dir = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(current_dir)
@@ -11,7 +10,9 @@ import logging
 from modules.configs.MyConfig import config
 from modules.utils import *
 from modules.AllTask.myAllTask import my_AllTask
-
+from modules.utils.move_window import move_windows
+from modules.add_functions.add_function import *
+from modules.add_functions.msg import push_msg_fast
 def BAAH_release_adb_port(justDoIt=False):
     """
     释放adb端口，通常被一个后台进程占用
@@ -149,11 +150,13 @@ def BAAH_main():
     try:
         if check_connect(): 
             logging.info("检测到设备已连接，跳过连接设备")
+            move_windows()
         else:
             BAAH_release_adb_port()
             BAAH_start_emulator()
             time.sleep(30)# 考虑渣机，稍微等下          
             BAAH_check_adb_connect()
+            move_windows()
         BAAH_open_target_app()
         # 运行任务
         logging.info("运行任务")
