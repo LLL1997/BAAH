@@ -79,18 +79,13 @@ def BAAH_check_adb_connect():
     # 检查adb连接
     
     disconnect_this_device()
-    for i in range(1, 10):
+    for i in range(1, 20):
         sleep(i)
         if check_connect():
             logging.info("adb连接成功")
             return True
-        elif i == 8:
-            BAAH_kill_emulator()
-            time.sleep(10)
-            BAAH_release_adb_port()
-            time.sleep(10)
-            BAAH_start_emulator()
-            time.sleep(45)
+        elif i == 8 or i == 16:
+            BAAH_restart_emulator()
         else:
             logging.info("未检测到设备连接, 重试...")
     if config.sessiondict["PORT_IS_USED"]:
@@ -104,19 +99,23 @@ def BAAH_open_target_app():
     打开游戏
     """
     open_app(config.userconfigdict['ACTIVITY_PATH'])
-    time.sleep(10)
+    time.sleep(30)
     if check_app_running(config.userconfigdict['ACTIVITY_PATH']):
         logging.info("检测到游戏已经在运行")
         return True
-    for i in range(15):
+    for i in range(10,87):
         logging.info("打开游戏")
         open_app(config.userconfigdict['ACTIVITY_PATH'])
-        sleep(3)
+        sleep(i)
         if check_app_running(config.userconfigdict['ACTIVITY_PATH']) == False:
             open_app(config.userconfigdict['ACTIVITY_PATH'])
-            time.sleep(10)
+            time.sleep(i)
         else:
             return True
+        # 处理打开闪退的问题，尝试重启模拟器
+        if i%22==0:
+            BAAH_restart_emulator()
+            BAAH_check_adb_connect()
     raise Exception("未检测到游戏打开，请检查区服设置 以及 如果使用的是MuMu模拟器，请关闭后台保活")
 
 def BAAH_kill_emulator():
@@ -143,7 +142,17 @@ def BAAH_kill_emulator():
             push_msg_fast("碧蓝档案,BAAH关闭模拟器失败"+config.userconfigdict['SERVER_TYPE'])
     else:
         logging.info("跳过关闭模拟器")
-    
+
+def BAAH_restart_emulator():
+    '''
+    重启模拟器
+    '''
+    BAAH_kill_emulator()
+    sleep(5)
+    BAAH_release_adb_port()
+    sleep(5)
+    BAAH_start_emulator()
+    sleep(30)
 
 def BAAH_main():
     try:

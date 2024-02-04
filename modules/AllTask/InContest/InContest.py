@@ -23,7 +23,7 @@ class InContest(Task):
         return Page.is_page(PageName.PAGE_HOME)
     # TODO 增加限定时间到gui
     from modules.utils.add_function import time_restriction
-    @time_restriction(14, 0, 23, 0)
+    @time_restriction((14, 0, 23, 59),(00, 00, 3, 00))
     def on_run(self) -> None:
         self.run_until(
             lambda: click((1196, 567)),

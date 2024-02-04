@@ -4,24 +4,39 @@ from datetime import datetime
 import logging
 
 # 用来检查是否在限定时间，否则不执行
-def time_restriction(start_hour:int, start_minute:int, end_hour:int, end_minute:int):
+def time_restriction(*args:tuple[int,int,int,int]):
+    '''参考调用@time_restriction((12, 00, 00, 50),(12, 00, 16, 50))'''
+    times = args
+    if len(args)==0:
+        return False    
     def decorator(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
             now = datetime.now()
             # 获取当前的小时和分钟
-            current_hour = now.hour
-            current_minute = now.minute
+            current_hour , current_minute = now.hour , now.minute
             # 检查当前时间是否在限定时间内
-            if start_hour <= current_hour < end_hour or (start_hour == current_hour and current_minute >= start_minute) or (current_hour == end_hour and current_minute <= end_minute):
-                logging.info(f"Function {func.__name__} 在限定时间内{start_hour}:{start_minute} 到 {end_hour}:{end_minute}，执行")
+            def _check_time():
+                for x in times:
+                    start_hour, start_minute, end_hour, end_minute = int(x[0]), int(x[1]), int(x[2]), int(x[3])
+                    if 0 <= start_hour < 24 and 0 < end_hour < 24 and 0 <= start_minute < 60 and 0 <= end_minute < 60: # 检测时间格式
+                        pass
+                    else:
+                        logging.info("时间参数不正确")
+                        return False
+                    if start_hour <= current_hour < end_hour or (start_hour == current_hour and current_minute >= start_minute) or (current_hour == end_hour and current_minute <= end_minute):
+                        logging.info(f"Function {func.__name__} 在限定时间内{start_hour}:{start_minute} 到 {end_hour}:{end_minute}，执行")
+                        return True
+                    else:
+                        logging.info(f"Function {func.__name__} 不在限定时间内{start_hour}:{start_minute} 到 {end_hour}:{end_minute}，不执行")
+                return False
+            if _check_time():
                 return func(*args, **kwargs)  # 在限定时间内，执行函数
             else:
-                logging.info(f"Function {func.__name__} 设置为只在{start_hour}:{start_minute} 到 {end_hour}:{end_minute}执行")
                 return None
         return wrapper
     return decorator
-@time_restriction(12, 0, 15, 36)
+@time_restriction((12, 00, 23, 50),(12, 00, 19, 50))
 def Daily_loop_control():
     print("asdasf")
 # 用携程来运行代码，通过时间来判断是否出错，超时触发TimeoutError异常

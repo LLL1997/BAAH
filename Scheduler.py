@@ -7,7 +7,7 @@ import concurrent.futures
 from datetime import datetime
 
 from modules.add_functions.msg import push_msg_fast
-from modules.utils.move_window import move_windows
+from modules.utils.move_window import move_windows, window_in_virtual_desktop_and_move_to
 
 
 def daily_task(): 
@@ -52,11 +52,13 @@ def start_script_and_load_json(json_config_file_path,task_name):
         except OSError as e:
             print(f"修改日志名时发生错误：{e}")
     else: # 未报错用os命令删除掉log文件
-        try:
-            os.remove(log_file)
-            print(f"{json_config_file_path}运行完成")
-        except OSError as e:
-            print(f"删除文件时发生错误：{e}")
+        remove_file(log_file)
+def remove_file(file_path):
+    try:
+        os.remove(file_path)
+        print(f"{file_path}运行完成")
+    except OSError as e:
+        print(f"删除文件时发生错误：{e}")
 
 def multi_threaded_task(config_list:list=["config.json",],max_threads:int=2,task_name:str=None):
     '''多线程运行config ,错误日志保存到/log 同模拟器设置链式防止错误(在config里设置下一个运行的json配置文件)'''
@@ -87,6 +89,9 @@ def check_emulator_VD():
         move_windows()
         move_windows('MAA')
         move_windows('py.exe')
+        # window_in_virtual_desktop_and_move_to('MAA')
+        # window_in_virtual_desktop_and_move_to('py.exe')
+        # window_in_virtual_desktop_and_move_to('模拟器')
         time.sleep(20)
 if __name__ == '__main__':
     # 定义一个子线程，用来检测模拟器所在的桌面，发现不在桌面3就移动到桌面3
