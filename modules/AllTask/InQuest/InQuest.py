@@ -49,9 +49,16 @@ class InQuest(Task):
                 # [[13,2,3],[19,2,3]]
                 hard_list = config.userconfigdict['HARD'][hard_loc]
                 # 序号转下标
-                hard_list_2 = [[x[0]-1,x[1]-1,x[2]] for x in hard_list]
+                def _generator(hard_list):
+                    for  x in hard_list:
+                        if len(x)==4:
+                            yield  [x[0]-1,x[1]-1,x[2],x[3]]
+                        else: # 兼容老版3个参数的config
+                            yield  [x[0]-1,x[1]-1,x[2]]
+                HardQuest(_generator(hard_list)).run()
+                #hard_list_2 = [[x[0]-1,x[1]-1,x[2]] for x in hard_list]
                 # do HARD QUEST
-                HardQuest(hard_list_2).run()
+                # HardQuest(hard_list_2).run()
         if "normal" in self.types:
             # 选择一个NORMAL QUEST List的下标
             if len(config.userconfigdict['NORMAL']) != 0:
@@ -62,10 +69,16 @@ class InQuest(Task):
                 normal_list = config.userconfigdict['NORMAL'][normal_loc]
                 # do NORMAL QUEST
                 # 序号转下标
-                normal_list_2 = [[x[0]-1,x[1]-1,x[2]] for x in normal_list]
-                NormalQuest(normal_list_2).run()
+                def _generator(normal_list):
+                    for  x in normal_list:
+                        if len(x)==4:
+                            yield  [x[0]-1,x[1]-1,x[2],x[3]]
+                        else:
+                            yield  [x[0]-1,x[1]-1,x[2]]
+                NormalQuest(_generator(normal_list)).run()
+                # normal_list_2 = [[x[0]-1,x[1]-1,x[2]] for x in normal_list ]
+                # NormalQuest(normal_list_2).run()
         self.back_to_home()
 
-     
     def post_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_HOME)

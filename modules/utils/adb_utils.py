@@ -26,6 +26,7 @@ def disconnect_this_device():
 def kill_adb_server():
     """Kill the adb server."""
     subprocess_run([get_config_adb_path(), "kill-server"])
+    subprocess_run([get_config_adb_path(), "start-server"])
 
 def connect_to_device():
     """Connect to a device with the given device port."""

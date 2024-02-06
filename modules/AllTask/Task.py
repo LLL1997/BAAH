@@ -73,13 +73,28 @@ class Task:
         click(Page.MAGICPOINT)
         click(Page.MAGICPOINT)
         if Task.run_until(
-            lambda: click(button_pic(ButtonName.BUTTON_HOME_ICON) or click((1240, 35))), 
+            lambda: click(button_pic(ButtonName.BUTTON_HOME_ICON)) or click((1245, 30)), 
             lambda: Page.is_page(PageName.PAGE_HOME), times=times, sleeptime=3):
             logging.info("返回主页成功")
             return True
         else:
-            # TODO 检查模拟器和app是否在运行
-            logging.error("返回主页失败")
+            logging.info("返回主页失败,尝试解决")
+            from BAAH import  BAAH_restart_emulator, check_connect, check_app_running, open_app, BAAH_open_target_app
+            from modules.configs.MyConfig import config
+            from modules.AllTask.EnterGame.EnterGame import EnterGame
+            if not  check_connect(): 
+                logging.info("adb断开,重启模拟器")
+                BAAH_restart_emulator()
+            if not check_app_running(config.userconfigdict['ACTIVITY_PATH']) :
+                logging.info("app不在运行,重启游戏")
+                BAAH_open_target_app()
+                EnterGame()
+            if Task.run_until(
+                lambda: click(button_pic(ButtonName.BUTTON_HOME_ICON)) or click((1245, 30)), 
+                lambda: Page.is_page(PageName.PAGE_HOME), times=times, sleeptime=3):
+                logging.info("返回主页成功")
+                return True
+            logging.info("返回主页失败")
             return False
         
     

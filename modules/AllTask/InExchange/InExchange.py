@@ -55,6 +55,9 @@ class InExchange(Task):
         # TODO 后期加个判断是否双倍或者三倍，实现可能为判断是否为三倍双倍横幅位置是否为空白的（没有横幅），
         for each_target in target_info:
             # check whether there is a ticket
+            if each_target[-1] == 'false' or each_target[-1] == False or each_target[-1] == 0 : # 开关关闭
+                logging.info(f"{each_target[0]}-{each_target[1]}设置为关, 忽略这关扫荡")
+                continue
             if ocr_area_0((72, 85), (322, 114)):
                 logging.warn("没有学院交流会券")
             else:

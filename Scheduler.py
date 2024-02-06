@@ -3,6 +3,7 @@ import schedule
 import threading
 import subprocess 
 import concurrent.futures
+import glob
 
 from datetime import datetime
 
@@ -69,6 +70,14 @@ def multi_threaded_task(config_list:list=["config.json",],max_threads:int=2,task
     push_msg_fast(f'碧蓝档案，{task_name}完成')
     print(f'碧蓝档案，{task_name}完成')
 
+    files_to_delete = glob.glob(os.path.join('/log', '*"运行中"*'))
+    # 遍历文件列表并删除每个文件包含运行中字段的文件
+    for file_path in files_to_delete:
+        try:
+            os.remove(file_path)
+            print(f"Deleted file: {file_path}")
+        except OSError as e:
+            print(f"Error: {file_path} - {e.strerror}")
 def multi_daily_task(config_tuple:tuple):
     '''清体力和其他'''
     push_msg_fast('碧蓝档案，每日日常开始')
@@ -93,6 +102,7 @@ def check_emulator_VD():
         # window_in_virtual_desktop_and_move_to('py.exe')
         # window_in_virtual_desktop_and_move_to('模拟器')
         time.sleep(20)
+
 if __name__ == '__main__':
     # 定义一个子线程，用来检测模拟器所在的桌面，发现不在桌面3就移动到桌面3
     t0 = threading.Thread(target=check_emulator_VD)
@@ -110,5 +120,6 @@ if __name__ == '__main__':
                       )
 
     while True:
+        # if not t0.is_alive():t0.start()
         schedule.run_pending()
         time.sleep(60)

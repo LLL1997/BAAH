@@ -85,6 +85,8 @@ def BAAH_check_adb_connect():
             logging.info("adb连接成功")
             return True
         elif i == 8 or i == 16:
+            if i==16:
+                kill_adb_server()
             BAAH_restart_emulator()
         else:
             logging.info("未检测到设备连接, 重试...")
@@ -181,6 +183,7 @@ def BAAH_main():
         time.sleep(3)
         BAAH_kill_emulator()
         logging.info(f"{config.userconfigdict['SERVER_TYPE']}任务结束")
+        # input('Press any key to continue...')
 
 if __name__ in ["__main__", "__mp_main__"]:
     # 不带GUI运行
