@@ -12,6 +12,7 @@ from DATA.assets.PopupName import PopupName
 
 from modules.AllPage.Page import Page
 from modules.AllTask.InEvent.EventQuest import EventQuest
+from modules.AllTask.InEvent.EventStory import EventStory
 from modules.AllTask.Task import Task
 
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, screenshot
@@ -19,8 +20,10 @@ from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, 
 class InEvent(Task):
     def __init__(self, name="InEvent") -> None:
         super().__init__(name)
-        self.try_enter_times = 5
+        self.try_enter_times = 3
         self.next_sleep_time = 0.1
+        # 是否有活动但是已经结束
+        self.has_event_but_closed = False
 
      
     def pre_condition(self) -> bool:
@@ -85,14 +88,19 @@ class InEvent(Task):
             lambda: match(button_pic(ButtonName.BUTTON_EVENT_QUEST_SELLECTED)),
             times=2
         )
-        # 判断这个活动是否有Quest字样
-        ocrres_str = ocr_area((901, 88), (989, 123))[0]
-        matchres = "quest" in ocrres_str.lower() or "任" in ocrres_str or "务" in ocrres_str or matchpic
-        logging.info(f"QUEST按钮匹配结果: {matchres}")
-        if not matchres:
+        logging.info(f"QUEST按钮匹配结果: {matchpic}")
+        if not matchpic:
             logging.warn("此页面不存在活动Quest")
             return False
-        # TODO: 通过QUEST页面下有无 按钮 判断活动是否已结束
+        # 通过数字识别关卡数字，判断活动是否已结束
+        screenshot()
+        reslist = ocr_area((695, 416), (752, 699), multi_lines=True)
+        for res in reslist:
+            try:
+                res_num = int(res[0])
+                return True
+            except:
+                continue
         # # 判断左下角时间
         # time_res = ocr_area((175, 566), (552, 593))
         # if len(time_res[0])==0:
@@ -133,7 +141,9 @@ class InEvent(Task):
         # if local_time_struct > end_time_struct:
         #     logging.info("此活动已结束")
         #     return False
-        return True
+        logging.error("未能识别有效活动关卡，判断此活动已结束")
+        self.has_event_but_closed = True
+        return False
 
     
     def on_run(self) -> None:
@@ -150,20 +160,21 @@ class InEvent(Task):
         # 尝试进入Event
         enter_event = self.run_until(
             lambda: self.try_goto_event(),
-            lambda: self.judge_whether_available_event(),
+            lambda: self.judge_whether_available_event() or self.has_event_but_closed,
             times=self.try_enter_times
         )
-        
+        if self.has_event_but_closed:
+            logging.warn("存在活动但是已经结束")
+            return
         if not enter_event:
             logging.warn("未能成功进入活动Event页面")
             return
-        else:
-            logging.info("成功进入Event页面")
+        logging.info("成功进入Event页面")
         today = time.localtime().tm_mday
-        # 跳到Quest标签
-        click((965, 98))
-        click((965, 98))
         
+        # 检测并跳过剧情
+        if config.userconfigdict["AUTO_EVENT_STORY_PUSH"]:
+            EventStory().run()
         if config.userconfigdict["EVENT_QUEST_LEVEL"] and len(config.userconfigdict["EVENT_QUEST_LEVEL"]) != 0:
             # 可选任务队列不为空时
             quest_loc = today%len(config.userconfigdict['EVENT_QUEST_LEVEL'])

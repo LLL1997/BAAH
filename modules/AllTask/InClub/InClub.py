@@ -31,6 +31,10 @@ class InClub(Task):
                 lambda: Page.is_page(PageName.PAGE_CLUB),
                 sleeptime=2
             )
+        self.run_until(
+            lambda: self.back_to_home(),
+            lambda: Page.is_page(PageName.PAGE_HOME),
+        )
         
 
      

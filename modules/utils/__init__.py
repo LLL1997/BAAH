@@ -1,7 +1,9 @@
+import json
 from typing import Tuple, Union
 from .adb_utils import *
 from .image_processing import *
 from .subprocess_helper import *
+from .grid_analyze import *
 
 import logging
 import time
@@ -15,6 +17,18 @@ def get_config_screenshot_name():
 
 def get_config_pic_path():
     return config.userconfigdict['PIC_PATH']
+
+def get_pic_data(image_url):
+    """
+    通过url获取图像的内容
+    """
+    return cv2.imread(image_url)
+
+def get_screenshot_cv_data():
+    """
+    获取截图的内容数据
+    """
+    return get_pic_data(get_config_screenshot_name())
 
 def click(item:Union[str, Tuple[float, float]], sleeptime = -1, threshold=0.9) -> bool:
     """
@@ -91,7 +105,7 @@ def match(imgurl:str, threshold:float = 0.9, returnpos = False, rotate_trans=Fal
     else:
         return match_pattern(f"./{get_config_screenshot_name()}",imgurl, threshold=threshold, auto_rotate_if_trans=rotate_trans)[0]
 
-def ocr_area(frompixel, topixel) -> Tuple[str, float]:
+def ocr_area(frompixel, topixel, multi_lines = False) -> Tuple[str, float]:
     """
     OCR the area in the given rectangle area of screenshot
     
@@ -102,10 +116,8 @@ def ocr_area(frompixel, topixel) -> Tuple[str, float]:
     """
     lowerpixel = (min(frompixel[0], topixel[0]), min(frompixel[1], topixel[1]))
     highterpixel = (max(frompixel[0], topixel[0]), max(frompixel[1], topixel[1]))
-    ocr_result = ocr_pic_area(f"./{get_config_screenshot_name()}", lowerpixel[0], lowerpixel[1], highterpixel[0], highterpixel[1])
-    word = ocr_result[0].strip()
-    threshold = ocr_result[1]
-    return (word, threshold)
+    ocr_result = ocr_pic_area(f"./{get_config_screenshot_name()}", lowerpixel[0], lowerpixel[1], highterpixel[0], highterpixel[1], multi_lines=multi_lines)
+    return ocr_result
 
 def ocr_area_0(frompixel, topixel) -> bool:
     """
@@ -167,6 +179,14 @@ def popup_pic(popupname):
     if config.userconfigdict["FANHEXIE"] and popupname == "POPUP_MOMOTALK":
         popupname = "POPUP_MOMOTALK_FANHEXIE"
     return get_config_pic_path() + "/POPUP" + f"/{popupname}.png"
+
+def get_grid_solution_json(location, level, ishard=False):
+    # 读取DATA/grid_config/quest/里的文件
+    ishardstr = "h" if ishard else ""
+    filename = f"./DATA/grid_solution/quest/{ishardstr}{location}-{level}.json"
+    # 读取并解析json返回
+    with open(filename, encoding="utf-8") as f:
+        return json.load(f)
 
 def sleep(seconds:float):
     """

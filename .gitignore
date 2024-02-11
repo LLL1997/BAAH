@@ -1,18 +1,10 @@
 tools/
-screenshot.png
-config.png
-config2.png
-selected_region.png
 test.spec
 jsoneditor.spec
-config2.json
-compact_log.txt
 BAAH.spec
-e63ac7fe.png
-c5fd3201.png
-131f7752.png
-e2419474.png
-*.zip
+compact_log.txt
+/*.png
+/DATA/grid_solution/quest
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

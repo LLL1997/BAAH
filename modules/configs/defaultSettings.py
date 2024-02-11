@@ -23,6 +23,10 @@ defaultUserDict = {
     "TASK_ORDER": {"d":["登录游戏"]},
     "SHOP_NORMAL": {"d":[]},
     "SHOP_CONTEST": {"d":[]},
+    "PUSH_NORMAL_QUEST": {"d":0},
+    "PUSH_NORMAL_QUEST_LEVEL": {"d":1},
+    "PUSH_HARD_QUEST": {"d":0},
+    "PUSH_HARD_QUEST_LEVEL": {"d":1},
     "TASK_ACTIVATE": {"d":[True]},
     # new config in 1.2.x
     "SERVER_TYPE":{
@@ -47,6 +51,9 @@ defaultUserDict = {
             "from" : "SERVER_TYPE",
              "map" : lambda x: server2pic[x] if x in server2pic else "./DATA/assets"
         }
+    },
+    "GRID_SOL_PATH":{
+      "d":"./DATA/grid_solution"  
     },
     "FANHEXIE":{"d":False},
     "ACTIVITY_PATH":{
@@ -83,7 +90,8 @@ defaultUserDict = {
     "LOCK_SERVER_TO_RESPOND_Y":{"d": True},
     "CAFE_CAMERA_FULL":{"d":True},
     "CAFE_EXHAUSTIVITY_TOUCH_HEAD":{"d":False},
-    'SHOP_CONTEST_SWITCH':{"d":False}
+    'SHOP_CONTEST_SWITCH':{"d":False},
+    "AUTO_EVENT_STORY_PUSH":{"d":False}
 }
 
 # 软件的config里的默认值
@@ -96,4 +104,6 @@ defaultSoftwareDict = {
 defaultSessionDict = {
     "PORT_IS_USED":{"d":False},
     "EMULATOR_PROCESS_PID":{"d":None},
+    "GUI_OPEN_IN_WEB":{"d":True},
+    "LAST_TEAM_SET":{"d":[]}
 }

@@ -12,7 +12,7 @@ class MyConfigger:
     """
     维护config字典，包含软件config，用户任务config，语言包
     """
-    NOWVERSION="1.2.4"
+    NOWVERSION="1.2.6"
     USER_CONFIG_FOLDER="./BAAH_CONFIGS"
     SOFTWARE_CONFIG_FOLDER="./DATA/CONFIGS"
     LANGUAGE_PACKAGE_FOLDER="./DATA/i18n"
@@ -161,7 +161,7 @@ class MyConfigger:
         for shouldKey in defaultSessionDict:
             # 如果没有这个值
             if shouldKey not in self.sessiondict:
-                self.sessiondict[shouldKey] = self._fill_by_map_or_default(defaultSessionDict, self.sessiondict, shouldKey)
+                self._fill_by_map_or_default(defaultSessionDict, self.sessiondict, shouldKey)
 
     def get_text(self, text_id):
         """
