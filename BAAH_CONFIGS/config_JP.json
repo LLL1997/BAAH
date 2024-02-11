@@ -11,18 +11,31 @@
             7,
             8
         ],
+        [],
+        [],
         [
+            8,
+            7,
             6,
             5
         ],
+        [
+            5,
+            6
+        ],
+        [
+            5,
+            6
+        ],
+        [],
         []
     ],
     "WANTED_HIGHEST_LEVEL": [
         [
             [
-                1,
+                2,
                 9,
-                6
+                -1
             ]
         ]
     ],
@@ -31,16 +44,41 @@
             [
                 2,
                 13,
-                33
+                -1
+            ],
+            [
+                1,
+                13,
+                1,
+                true
+            ],
+            [
+                2,
+                13,
+                1,
+                false
             ]
         ]
     ],
     "EXCHANGE_HIGHEST_LEVEL": [
         [
             [
+                1,
+                4,
                 3,
+                true
+            ],
+            [
+                4,
+                4,
+                2,
+                false
+            ],
+            [
                 3,
-                6
+                4,
+                3,
+                true
             ]
         ]
     ],
@@ -57,32 +95,32 @@
             [
                 20,
                 3,
-                3
+                -1
             ],
             [
                 19,
                 3,
-                3
+                -1
             ],
             [
                 18,
                 3,
-                3
+                -1
             ],
             [
                 14,
                 3,
-                3
+                -1
             ],
             [
                 12,
                 3,
-                3
+                -1
             ],
             [
                 8,
                 3,
-                3
+                -1
             ]
         ]
     ],
@@ -114,16 +152,17 @@
         "活动关卡",
         "每日任务",
         "战术大赛",
+        "特殊任务",
         "普通关卡",
         "战术大赛"
     ],
-    "TARGET_EMULATOR_PATH": "D:/Program Files/Netease/MuMuPlayer-12.0/shell/MuMuPlayer.exe -v 2",
+    "TARGET_EMULATOR_PATH": "D:/Program Files/Netease/MuMuPlayer-12.0/shell/MuMuPlayer.exe -v 4",
     "PIC_PATH": "./DATA/assets_jp",
     "ADB_PATH": "./tools/adb/adb.exe",
     "SCREENSHOT_NAME": "c7c19314.png",
-    "TARGET_PORT": 16448,
+    "TARGET_PORT": 16512,
     "TIME_AFTER_CLICK": 0.3,
-    "NEXT_CONFIG": "config_GJ.json",
+    "NEXT_CONFIG": "",
     "SHOP_NORMAL": [
         [
             1,
@@ -156,7 +195,13 @@
             4
         ]
     ],
-    "SHOP_CONTEST": [],
+    "SHOP_CONTEST": [
+        [],
+        [
+            2,
+            3
+        ]
+    ],
     "TASK_ACTIVATE": [
         true,
         true,
@@ -171,12 +216,13 @@
         true,
         true,
         true,
+        true,
+        true,
+        true,
+        true,
+        true,
         false,
-        true,
-        true,
-        true,
-        true,
-        true,
+        false,
         true
     ],
     "TARGET_IP_PATH": "127.0.0.1",
@@ -184,10 +230,12 @@
     "LOCK_SERVER_TO_RESPOND_Y": true,
     "CAFE_CAMERA_FULL": false,
     "SHOP_NORMAL_REFRESH_TIME": 0,
-    "SHOP_CONTEST_REFRESH_TIME": 0,
+    "SHOP_CONTEST_REFRESH_TIME": 3,
     "SERVER_TYPE": "JP",
     "CLOSE_EMULATOR_BAAH": true,
     "FANHEXIE": false,
     "KILL_PORT_IF_EXIST": true,
-    "CAFE_EXHAUSTIVITY_TOUCH_HEAD": true
+    "CAFE_EXHAUSTIVITY_TOUCH_HEAD": true,
+    "SHOP_CONTEST_switch": false,
+    "SHOP_CONTEST_SWITCH": true
 }
