@@ -24,9 +24,11 @@ def set_normal(config):
                 config.get_text("config_level"),
                 config.get_text("config_times"),
                 "switch"
-            ],""
-        ], '''        t1 1图 t2-4 t3-7图 t4-10图 t5-13图 t6-16图 t7-19图 t8-22图 H图不是按这个,只是有装备
-                装备能开始刷的对应关系 帽子第一章一图 发卡二章二图 手表二章四图'''
+            ],config.get_text("config_desc_list_edit")+""
+        ], config.get_text("config_desc_list_edit")+'''        
+        t1 1图 t2-4 t3-7图 t4-10图 t5-13图 t6-16图 t7-19图 t8-22图
+        装备能开始刷的对应关系 帽子第一章一图 发卡二章二图 手表二章四图
+        '''
         #config.get_text("config_desc_list_edit")
     )
     

@@ -100,6 +100,9 @@ def BAAH_open_target_app():
     """
     打开游戏
     """
+    if check_app_running(config.userconfigdict['ACTIVITY_PATH']):
+        logging.info("检测到游戏已经在运行")
+        return True
     open_app(config.userconfigdict['ACTIVITY_PATH'])
     time.sleep(30)
     if check_app_running(config.userconfigdict['ACTIVITY_PATH']):
@@ -183,7 +186,7 @@ def BAAH_main():
         time.sleep(3)
         BAAH_kill_emulator()
         logging.info(f"{config.userconfigdict['SERVER_TYPE']}任务结束")
-        # input('Press any key to continue...')
+
 
 if __name__ in ["__main__", "__mp_main__"]:
     # 不带GUI运行

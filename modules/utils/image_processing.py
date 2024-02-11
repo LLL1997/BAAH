@@ -107,7 +107,7 @@ def match_pattern(sourcepic: str, patternpic: str,threshold: float = 0.9, show_r
         from BAAH import BAAH_check_adb_connect # 尝试解决和别的脚本冲突的问题
         BAAH_check_adb_connect()
         return (False, (0, 0), 0.0)
-def ocr_pic_area(imageurl, fromx, fromy, tox, toy):
+def ocr_pic_area(imageurl, fromx, fromy, tox, toy, multi_lines = False):
     """
     get the string in the image area
     

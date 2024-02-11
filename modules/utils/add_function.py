@@ -57,6 +57,7 @@ class _:
     pass
 class ocr_store:
     ''' ocr资源数量'''
+    
     #用来做每日报告（
     def __init__(self) -> None:
         pass

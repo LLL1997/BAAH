@@ -234,5 +234,11 @@
     "KILL_PORT_IF_EXIST": true,
     "CAFE_EXHAUSTIVITY_TOUCH_HEAD": false,
     "SHOP_CONTEST_switch": false,
-    "SHOP_CONTEST_SWITCH": false
+    "SHOP_CONTEST_SWITCH": false,
+    "PUSH_NORMAL_QUEST": 0,
+    "PUSH_NORMAL_QUEST_LEVEL": 1,
+    "PUSH_HARD_QUEST": 0,
+    "PUSH_HARD_QUEST_LEVEL": 1,
+    "GRID_SOL_PATH": "./DATA/grid_solution",
+    "AUTO_EVENT_STORY_PUSH": false
 }

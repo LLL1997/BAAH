@@ -5,9 +5,9 @@ def set_special(config):
     with ui.row():
         ui.link_target("SPECIAL_TASK")
         ui.label(config.get_text("task_special")).style('font-size: x-large')
-    
+    ui.switch('是否只在活动开启期间(双倍or三倍)执行')#.bind_value(config.userconfigdict, "special_only__executed_in_event")
     ui.label(config.get_text("config_desc_times"))
-    
+   
     list_edit_area(
         config.userconfigdict["SPECIAL_HIGHTEST_LEVEL"], 
         [

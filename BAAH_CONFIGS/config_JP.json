@@ -135,6 +135,7 @@
     ],
     "TASK_ORDER": [
         "登录游戏",
+        "困难关卡",
         "战术大赛",
         "社团",
         "邮件",
@@ -221,6 +222,7 @@
         true,
         true,
         true,
+        true,
         false,
         false,
         true
@@ -237,5 +239,11 @@
     "KILL_PORT_IF_EXIST": true,
     "CAFE_EXHAUSTIVITY_TOUCH_HEAD": true,
     "SHOP_CONTEST_switch": false,
-    "SHOP_CONTEST_SWITCH": true
+    "SHOP_CONTEST_SWITCH": true,
+    "PUSH_NORMAL_QUEST": 25,
+    "PUSH_NORMAL_QUEST_LEVEL": 1,
+    "PUSH_HARD_QUEST": 0,
+    "PUSH_HARD_QUEST_LEVEL": 1,
+    "GRID_SOL_PATH": "./DATA/grid_solution",
+    "AUTO_EVENT_STORY_PUSH": false
 }
