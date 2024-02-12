@@ -180,6 +180,7 @@ def BAAH_main():
         else:
             push_msg_fast("碧蓝档案,BAAH运行出错"+config.userconfigdict['SERVER_TYPE'])
             print(e)
+            input("运行出错，按回车退出")
             raise Exception("运行出错")
             
     finally:

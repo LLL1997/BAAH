@@ -300,8 +300,8 @@
     "SHOP_CONTEST_SWITCH": false,
     "PUSH_NORMAL_QUEST": 0,
     "PUSH_NORMAL_QUEST_LEVEL": 1,
-    "PUSH_HARD_QUEST": 17,
-    "PUSH_HARD_QUEST_LEVEL": 3,
+    "PUSH_HARD_QUEST": 0,
+    "PUSH_HARD_QUEST_LEVEL": 1.0,
     "GRID_SOL_PATH": "./DATA/grid_solution",
     "AUTO_EVENT_STORY_PUSH": false
 }

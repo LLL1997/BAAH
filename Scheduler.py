@@ -8,7 +8,7 @@ import glob
 from datetime import datetime
 
 from modules.add_functions.msg import push_msg_fast
-from modules.utils.move_window import move_windows, window_in_virtual_desktop_and_move_to
+#from modules.utils.move_window import move_windows, window_in_virtual_desktop_and_move_to
 
 
 def daily_task(): 
@@ -92,22 +92,23 @@ def multi_threaded_touch_head_task(config_tuple):
 
 def setup_daily_tasks(fun,time:tuple,config:tuple | list):
     [schedule.every().day.at(x).do(fun,tuple(config)) for x in time]
-def check_emulator_VD():
-    '''检查模拟器所在的桌面，不在桌面3就移动到桌面3'''
-    while True:
-        move_windows()
-        move_windows('MAA')
-        move_windows('py.exe')
-        # window_in_virtual_desktop_and_move_to('MAA')
-        # window_in_virtual_desktop_and_move_to('py.exe')
-        # window_in_virtual_desktop_and_move_to('模拟器')
-        time.sleep(20)
+# def check_emulator_VD():
+#     '''检查模拟器所在的桌面，不在桌面3就移动到桌面3'''
+#     while True:
+#         move_windows()
+#         move_windows('MAA')
+#         move_windows('py.exe')
+#         # window_in_virtual_desktop_and_move_to('MAA')
+#         # window_in_virtual_desktop_and_move_to('py.exe')
+#         # window_in_virtual_desktop_and_move_to('模拟器')
+#         time.sleep(20)
 
 if __name__ == '__main__':
+
     # 定义一个子线程，用来检测模拟器所在的桌面，发现不在桌面3就移动到桌面3
-    t0 = threading.Thread(target=check_emulator_VD)
-    t0.start()
-    # multi_daily_task()    
+    # t0 = threading.Thread(target=check_emulator_VD)
+    # t0.start()
+    multi_daily_task(['config.json','config_JP.json','config_EN.json'])    
     setup_daily_tasks(fun=multi_daily_task,
                       time=['04:30','20:30'],
                       config=['config.json','config_JP.json','config_EN.json'],
