@@ -165,18 +165,11 @@ class GridQuest(Task):
             lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE),
         )
         # 识别左下角切换队伍的按钮文字
-        # 国服往右偏移45
-        offsetx = 0
-        if (
-            config.userconfigdict["SERVER_TYPE"] == "CN"
-            or config.userconfigdict["SERVER_TYPE"] == "CN_BILI"
-            or config.userconfigdict["SERVER_TYPE"] == "JP"
-            or config.userconfigdict["SERVER_TYPE"] == "GLOBAL_EN"
-        ):
-            offsetx = 45
-        now_team_str, loss = ocr_area(
-            (72 + offsetx, 544), (91 + offsetx, 575), multi_lines=False
-        )
+        # 国际服繁中不偏移，其他服往右偏移45
+        offsetx = 45
+        if config.userconfigdict["SERVER_TYPE"] == "GLOBAL":
+            offsetx = 0
+        now_team_str, loss = ocr_area((72+offsetx, 544), (91+offsetx, 569), multi_lines=False)
         logging.info(f"ocr结果{now_team_str}")
         try:
             nowteam_ind = int(now_team_str) - 1
@@ -215,6 +208,9 @@ class GridQuest(Task):
                 # 让用户去配队！
                 need_user_set_teams = True
                 break
+        # 如果开启了彩虹队配置，则不用配队
+        if config.userconfigdict["EXPLORE_RAINBOW_TEAMS"]:
+            need_user_set_teams = False
         if need_user_set_teams:
             # 需要用户配队
             logging.info("未保存适合的配置，请按照以下队伍要求配队")
@@ -334,15 +330,13 @@ class GridQuest(Task):
                 # 先提取，后knn
                 try:
                     mode = "head"
-                    knn_positions, _, _ = self.grider.multikmeans(
-                        self.grider.get_mask(
-                            get_screenshot_cv_data(),
-                            self.grider.PIXEL_HEAD_YELLOW,
-                            shrink_kernels=[(2, 4), (2, 2)],
-                        ),
-                        1,
-                    )
-                    if knn_positions[0][0] < 0 or knn_positions[0][1] < 0:
+                    # 需要蒙版的颜色
+                    need_to_mask_color = self.grider.PIXEL_HEAD_YELLOW
+                    # 国服的话头顶颜色会深一些
+                    if config.userconfigdict["SERVER_TYPE"]=="CN" or config.userconfigdict["SERVER_TYPE"]=="CN_BILI":
+                        need_to_mask_color = self.grider.PIXEL_HEAD_YELLOW_CN_DARKER
+                    knn_positions, _, _ = self.grider.multikmeans(self.grider.get_mask(get_screenshot_cv_data(), need_to_mask_color, shrink_kernels=[(2, 4), (2,2)]), 1)
+                    if knn_positions[0][0]<0 or knn_positions[0][1]<0:
                         mode = "foot"
                         # 如果用头上三角箭头识别队伍位置失败，那么用脚底黄色标识识别
                         logging.info("三角识别失败，尝试使用砖块识别")

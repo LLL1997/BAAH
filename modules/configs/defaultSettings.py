@@ -91,7 +91,8 @@ defaultUserDict = {
     "CAFE_CAMERA_FULL":{"d":True},
     "CAFE_EXHAUSTIVITY_TOUCH_HEAD":{"d":False},
     'SHOP_CONTEST_SWITCH':{"d":False},
-    "AUTO_EVENT_STORY_PUSH":{"d":False}
+    "AUTO_EVENT_STORY_PUSH":{"d":False},
+    "EXPLORE_RAINBOW_TEAMS":{"d":False}
 }
 
 # 软件的config里的默认值
