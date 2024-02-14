@@ -42,21 +42,10 @@
     "SPECIAL_HIGHTEST_LEVEL": [
         [
             [
-                2,
-                13,
-                -1
-            ],
-            [
                 1,
                 13,
-                1,
+                -1,
                 true
-            ],
-            [
-                2,
-                13,
-                1,
-                false
             ]
         ]
     ],
@@ -127,7 +116,7 @@
     "NORMAL": [
         [
             [
-                22,
+                25,
                 1,
                 -1
             ]
@@ -224,8 +213,8 @@
         true,
         true,
         true,
-        false,
-        false,
+        true,
+        true,
         true,
         true
     ],
@@ -241,11 +230,12 @@
     "KILL_PORT_IF_EXIST": true,
     "CAFE_EXHAUSTIVITY_TOUCH_HEAD": true,
     "SHOP_CONTEST_switch": false,
-    "SHOP_CONTEST_SWITCH": true,
+    "SHOP_CONTEST_SWITCH": false,
     "PUSH_NORMAL_QUEST": 25,
     "PUSH_NORMAL_QUEST_LEVEL": 1,
     "PUSH_HARD_QUEST": 0,
     "PUSH_HARD_QUEST_LEVEL": 1,
     "GRID_SOL_PATH": "./DATA/grid_solution",
-    "AUTO_EVENT_STORY_PUSH": false
+    "AUTO_EVENT_STORY_PUSH": false,
+    "EXPLORE_RAINBOW_TEAMS": false
 }

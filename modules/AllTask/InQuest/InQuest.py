@@ -29,7 +29,7 @@ class InQuest(Task):
     def pre_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_HOME)
     
-     
+    
     def on_run(self) -> None:
         # 进入Fight Center
         self.run_until(

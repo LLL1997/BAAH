@@ -40,7 +40,6 @@ class InExchange(Task):
             return
         # 这之后target_info是一个list，内部会有多个关卡扫荡
         # 序号转下标
-        
         # target_info = [[each[0]-1, each[1]-1, each[2]] for each in target_info]
         def _generator(target_info):
             for  x in target_info:
@@ -61,6 +60,13 @@ class InExchange(Task):
             lambda: Page.is_page(PageName.PAGE_EXCHANGE),
         )
         # TODO 后期加个判断是否双倍或者三倍，实现可能为判断是否为三倍双倍横幅位置是否为空白的（没有横幅），
+        if not match(page_pic(PageName.PAGE_IN_PROGRESS),threshold=0.92):
+            logging.info(f"学院交流会设置为不在活动时间不刷取,未检测到横幅{PageName.PAGE_IN_PROGRESS}，忽略")
+            # 回到主页
+            self.back_to_home()
+            return
+        else:
+            logging.info(f"学院交流会为仅在活动中（双倍三倍）执行，且检测到横幅{PageName.PAGE_IN_PROGRESS}")
         for each_target in target_info:
             # check whether there is a ticket
             if each_target[-1] == 'false' or each_target[-1] == False or each_target[-1] == 0 : # 开关关闭

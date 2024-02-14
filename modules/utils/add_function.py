@@ -1,7 +1,9 @@
+from DATA.assets.PageName import PageName
 import os,datetime,subprocess,time
 import functools
 from datetime import datetime
 import logging
+from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep
 
 # 用来检查是否在限定时间，否则不执行
 def time_restriction(*args:tuple[int,int,int,int]):
@@ -39,6 +41,9 @@ def time_restriction(*args:tuple[int,int,int,int]):
 @time_restriction((12, 00, 23, 50),(12, 00, 19, 50))
 def Daily_loop_control():
     print("asdasf")
+
+
+
 # 用携程来运行代码，通过时间来判断是否出错，超时触发TimeoutError异常
 
 # 错误日志
@@ -55,7 +60,7 @@ def log_error(message):
         file.write("{}: {}\n".format(datetime.now(), message))
 class _:
     pass
-class ocr_store:
+class daily_report:
     ''' ocr资源数量'''
     
     #用来做每日报告（
@@ -72,8 +77,55 @@ class ocr_store:
     #     now_num = int(ocr_str)
     # except ValueError:
     #     return False
-    
+def ocr_int(upper_left_point:tuple,lower_right_point:tuple)->tuple:
+    from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area
+    ocr_str = ocr_area((122, 179), (165, 211))[0]
+    if ocr_str == "":
+        return False
+    # 如果字符串无法识别为数字，返回false
+    try:
+        now_num = int(ocr_str)
+    except ValueError:
+        return False
 
+def is_progress_Event():
+    '''演习'''
+    pass
+def is_total_assault():
+    '''总力'''
+    pass
+def is_grand_assault():
+    '''大决战'''
+    pass
+def red_point_status():
+    pass
+def daily_tasks_status():
+    '''每日任务完成情况'''
+    pass
+def cafe_status():
+    '''咖啡厅'''
+    pass
+def invite_status():
+    '''咖啡厅是否可邀请'''
+    pass
+def diamonds_num():
+    '''清辉石'''
+    pass
+def gold_coins_num():
+    '''信用点'''
+    pass
+def tactical_challenge_status():
+    '''战术演习'''
+    pass
+def ap_num():
+    '''体力'''
+    pass
+def lesson_status():
+    '''课表'''
+    pass
+def progress_status():
+    '''检查什么开启了双倍三倍活动'''
+    pass
 
 if __name__ == '__main__':
     pass

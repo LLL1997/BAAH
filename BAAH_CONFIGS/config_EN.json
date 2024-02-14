@@ -252,5 +252,6 @@
     "PUSH_HARD_QUEST": 0,
     "PUSH_HARD_QUEST_LEVEL": 1,
     "GRID_SOL_PATH": "./DATA/grid_solution",
-    "AUTO_EVENT_STORY_PUSH": false
+    "AUTO_EVENT_STORY_PUSH": false,
+    "EXPLORE_RAINBOW_TEAMS": false
 }

@@ -36,17 +36,7 @@ class InSpecial(Task):
         if len(_target_info) == 0:
             logging.warn("今天轮次中无特殊关卡，跳过")
             return
-        # 这之后target_info是一个list，内部会有多个关卡扫荡
-        # 序号转下标
-        # target_info = [[each[0]-1, each[1]-1, each[2]] for each in target_info]
-        
-        def _generator(target_info):
-            for  x in target_info:
-                if len(x)==4:
-                    yield  [x[0]-1,x[1]-1,x[2],x[3]]
-                else: # 兼容老版3个参数的config
-                    yield  [x[0]-1,x[1]-1,x[2]]
-        target_info=_generator(_target_info)
+
         # 从主页进入战斗池页面
         self.run_until(
             lambda: click((1196, 567)),
@@ -59,6 +49,24 @@ class InSpecial(Task):
             lambda: Page.is_page(PageName.PAGE_SPECIAL),
         )
         # 开始扫荡target_info中的每一个关卡
+        # from modules.utils.add_function import check_banner
+        # #@@check_banner()
+        if not match(page_pic(PageName.PAGE_IN_PROGRESS),threshold=0.95):# TODO 会检测到人物粉头发
+            logging.info(f"特殊作战设置为不在活动时间不刷取,未检测到横幅{PageName.PAGE_IN_PROGRESS}，忽略")
+            return
+        else:
+            logging.info(f"特殊作战设置为仅在活动中（双倍三倍）执行，且检测到横幅{PageName.PAGE_IN_PROGRESS}")
+                # 这之后target_info是一个list，内部会有多个关卡扫荡
+        # 序号转下标
+        # target_info = [[each[0]-1, each[1]-1, each[2]] for each in target_info]
+        
+        def _generator(target_info):
+            for  x in target_info:
+                if len(x)==4:
+                    yield  [x[0]-1,x[1]-1,x[2],x[3]]
+                else: # 兼容老版3个参数的config
+                    yield  [x[0]-1,x[1]-1,x[2]]
+        target_info=_generator(_target_info)
         for each_target in target_info:
             # 使用PageName.PAGE_SPECIAL的坐标判断是国服还是其他服
             if each_target[-1] == 'false' or each_target[-1] == False or each_target[-1] == 0 : # 开关关闭
