@@ -3,7 +3,7 @@ import os,datetime,subprocess,time
 import functools
 from datetime import datetime
 import logging
-from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep
+from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, match_pixel
 
 # 用来检查是否在限定时间，否则不执行
 def time_restriction(*args:tuple[int,int,int,int]):
@@ -98,6 +98,7 @@ def is_grand_assault():
     '''大决战'''
     pass
 def red_point_status():
+    match_pixel((137, 159), Page.COLOR_BUTTON_PINK) # match_pixel((1208, 658), Page.COLOR_BUTTON_GRAY)
     pass
 def daily_tasks_status():
     '''每日任务完成情况'''

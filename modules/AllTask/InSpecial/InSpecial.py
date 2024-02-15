@@ -1,4 +1,3 @@
- 
 import logging
 import time
 
@@ -10,7 +9,7 @@ from modules.AllPage.Page import Page
 from modules.AllTask.InSpecial.RunSpecialFight import RunSpecialFight
 from modules.AllTask.Task import Task
 
-from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, config
+from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, config, match_pixel
 
 import numpy as np
 
@@ -18,13 +17,11 @@ class InSpecial(Task):
     def __init__(self, name="InSpecial") -> None:
         super().__init__(name)
 
-
     def pre_condition(self) -> bool:
         if not config.userconfigdict['SPECIAL_HIGHTEST_LEVEL'] or len(config.userconfigdict['SPECIAL_HIGHTEST_LEVEL'])==0:
             logging.warn("未配置特殊关卡")
             return False
         return Page.is_page(PageName.PAGE_HOME)
-
 
     def on_run(self) -> None:
         # 得到今天是几号
@@ -51,12 +48,15 @@ class InSpecial(Task):
         # 开始扫荡target_info中的每一个关卡
         # from modules.utils.add_function import check_banner
         # #@@check_banner()
-        if not match(page_pic(PageName.PAGE_IN_PROGRESS),threshold=0.95):# TODO 会检测到人物粉头发
-            logging.info(f"特殊作战设置为不在活动时间不刷取,未检测到横幅{PageName.PAGE_IN_PROGRESS}，忽略")
+        logging.info(match(page_pic(PageName.PAGE_IN_PROGRESS),threshold=0.90,returnpos=True))
+        if not match(page_pic(PageName.PAGE_IN_PROGRESS), threshold=0.90): 
+            logging.info(
+                f"特殊作战设置为不在活动时间不刷取,未检测到活动图标{PageName.PAGE_IN_PROGRESS}，忽略"
+            )
             return
         else:
             logging.info(f"特殊作战设置为仅在活动中（双倍三倍）执行，且检测到横幅{PageName.PAGE_IN_PROGRESS}")
-                # 这之后target_info是一个list，内部会有多个关卡扫荡
+            # 这之后target_info是一个list，内部会有多个关卡扫荡
         # 序号转下标
         # target_info = [[each[0]-1, each[1]-1, each[2]] for each in target_info]
         
@@ -93,7 +93,6 @@ class InSpecial(Task):
             )
         # 回到主页
         self.back_to_home()
-
 
     def post_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_HOME)

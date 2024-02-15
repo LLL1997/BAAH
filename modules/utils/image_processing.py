@@ -95,7 +95,7 @@ def match_pattern(sourcepic: str, patternpic: str,threshold: float = 0.9, show_r
             cv2.imshow('Matched Screenshot', screenshot)
             cv2.waitKey(0)
             cv2.destroyAllWindows()
-        if(max_val >= threshold):
+        if(max_val >= threshold and max_val <=1 ):
             logging.debug("Pattern of {} and {} matched ({}). Center: ({}, {})".format(sourcepic, patternpic, max_val, center_x, center_y))
             return (True, (center_x, center_y), max_val)
         return (False, (0, 0), max_val)

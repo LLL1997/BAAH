@@ -1,5 +1,3 @@
- 
-
 from DATA.assets.PageName import PageName
 from DATA.assets.ButtonName import ButtonName
 from DATA.assets.PopupName import PopupName
@@ -7,7 +5,7 @@ from DATA.assets.PopupName import PopupName
 from modules.AllPage.Page import Page
 from modules.AllTask.Task import Task
 
-from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area_0
+from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area_0,match_pixel
 import logging
 import time
 import numpy as np
@@ -18,16 +16,13 @@ from .RunExchangeFight import RunExchangeFight
 class InExchange(Task):
     def __init__(self, name="InExchange") -> None:
         super().__init__(name)
-        
 
-     
     def pre_condition(self) -> bool:
         if not config.userconfigdict['EXCHANGE_HIGHEST_LEVEL'] or len(config.userconfigdict['EXCHANGE_HIGHEST_LEVEL']) == 0:
             logging.warn("没有配置学院交流会的level")
             return False
         return Page.is_page(PageName.PAGE_HOME)
-    
-     
+
     def on_run(self) -> None:
         # 得到今天是几号
         today = time.localtime().tm_mday
@@ -38,16 +33,7 @@ class InExchange(Task):
         if len(_target_info) == 0:
             logging.warn("今天轮次中无学院交流会关卡，跳过")
             return
-        # 这之后target_info是一个list，内部会有多个关卡扫荡
-        # 序号转下标
-        # target_info = [[each[0]-1, each[1]-1, each[2]] for each in target_info]
-        def _generator(target_info):
-            for  x in target_info:
-                if len(x)==4:
-                    yield  [x[0]-1,x[1]-1,x[2],x[3]]
-                else: # 兼容老版3个参数的config
-                    yield  [x[0]-1,x[1]-1,x[2]]
-        target_info=(_generator(_target_info))
+
         # 从主页进入战斗池页面
         self.run_until(
             lambda: click((1196, 567)),
@@ -59,14 +45,28 @@ class InExchange(Task):
             lambda: click((712, 592)),
             lambda: Page.is_page(PageName.PAGE_EXCHANGE),
         )
-        # TODO 后期加个判断是否双倍或者三倍，实现可能为判断是否为三倍双倍横幅位置是否为空白的（没有横幅），
-        if not match(page_pic(PageName.PAGE_IN_PROGRESS),threshold=0.92):
-            logging.info(f"学院交流会设置为不在活动时间不刷取,未检测到横幅{PageName.PAGE_IN_PROGRESS}，忽略")
+        # TODO 后期加个判断是否双倍或者三倍，实现可能为判断是否为三倍双倍横幅位置是否为空白的（没有横幅），左上角的按钮和出击页面的按钮不同，无法匹配，这里用左上角的
+        logging.info(match(page_pic(PageName.PAGE_IN_PROGRESS),threshold=0.920,returnpos=True))
+        if  match(page_pic(PageName.PAGE_IN_PROGRESS),threshold=0.90):
+            logging.info(f"学院交流会为仅在活动中（双倍三倍）执行，且检测到横幅{PageName.PAGE_IN_PROGRESS}")
+        else:
+            logging.info("学院交流会设置为不在活动时间不刷取,未检测到横幅{PageName.PAGE_IN_PROGRESS}，忽略")
             # 回到主页
             self.back_to_home()
             return
-        else:
-            logging.info(f"学院交流会为仅在活动中（双倍三倍）执行，且检测到横幅{PageName.PAGE_IN_PROGRESS}")
+        
+        # 这之后target_info是一个list，内部会有多个关卡扫荡
+        # 15-Feb-24 15:27:37 - INFO - (True, (1209, 164), inf)
+        logging.info(match(page_pic(PageName.PAGE_IN_PROGRESS),threshold=0.92,returnpos=True))
+        # 序号转下标
+        # target_info = [[each[0]-1, each[1]-1, each[2]] for each in target_info]
+        def _generator(target_info):
+            for  x in target_info:
+                if len(x)==4:
+                    yield  [x[0]-1,x[1]-1,x[2],x[3]]
+                else: # 兼容老版3个参数的config
+                    yield  [x[0]-1,x[1]-1,x[2]]
+        target_info=(_generator(_target_info))
         for each_target in target_info:
             # check whether there is a ticket
             if each_target[-1] == 'false' or each_target[-1] == False or each_target[-1] == 0 : # 开关关闭
@@ -98,6 +98,5 @@ class InExchange(Task):
                 )
         self.back_to_home()
 
-     
     def post_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_HOME)

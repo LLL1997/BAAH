@@ -1,18 +1,17 @@
 {
     "ACTIVITY_PATH": "com.RoamingStar.BlueArchive.bilibili/com.yostar.supersdk.activity.YoStarSplashActivity",
     "TIMETABLE_TASK": [
+        [],
+        [],
+        [],
         [
+            8,
             7
         ],
         [
-            7
+            6,
+            5
         ],
-        [
-            7,
-            8
-        ],
-        [],
-        [],
         [
             8,
             7,
@@ -230,8 +229,8 @@
         "战术大赛",
         "活动关卡",
         "战术大赛",
-        "普通关卡",
         "特殊任务",
+        "普通关卡",
         "每日任务"
     ],
     "TARGET_EMULATOR_PATH": "D:/Program Files/Netease/MuMuPlayer-12.0/shell/MuMuPlayer.exe -v 3",
@@ -245,7 +244,6 @@
         [],
         [],
         [],
-        [],
         [
             4
         ],
@@ -253,7 +251,7 @@
             1,
             2,
             3,
-            4
+            0
         ]
     ],
     "SHOP_CONTEST": [

@@ -30,12 +30,6 @@ class NormalQuest(Task):
             lambda: click((798, 159)),
             lambda: match(button_pic(ButtonName.BUTTON_NORMAL))
         )
-        if not match(page_pic(PageName.PAGE_IN_PROGRESS),threshold=0.95):
-            #界面复杂，需要找新方法，放在最后执行，这个不想，先占位 # TODO Normal判断是否在活动中
-            logging.info(f"NormalQuest设置为不在活动时间不刷取,未检测到横幅{PageName.PAGE_IN_PROGRESS}，忽略")
-            return
-        else:
-            logging.info(f"NormalQuest设置为仅在活动中（双倍三倍）执行，且检测到横幅{PageName.PAGE_IN_PROGRESS}")
         # after switch to normal, go to the page
         for each_quest in self.questlist:
             to_page_num = each_quest[0]+1

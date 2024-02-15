@@ -23,10 +23,16 @@ class Page:
     COLOR_WHITE = ((240, 240, 240), (255, 255, 255))
     COLOR_RED = ((24, 70, 250), (26, 72, 252))
     COLOR_BUTTON_WHITE = ((230, 230, 230), (255, 255, 255))
+    
     """
     按钮有时半透明，受到游戏内交战环境影响，阈值可以低点
     """
     COLOR_BUTTON_GRAY = ((200, 200, 200), (230, 230, 230))
+    
+    '''
+    用于检测双倍按钮的颜色,粉色 rgb 255,133,181  格式是 b r g 
+    '''
+    COLOR_BUTTON_PINK =  ((123,245,171), (143,255,191))
     # 父类
     def __init__(self, pagename) -> None:
         self.name = pagename
