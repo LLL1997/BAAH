@@ -3,8 +3,9 @@ import os,datetime,subprocess,time
 import functools
 from datetime import datetime
 import logging
-from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, match_pixel
-
+from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, match_pixel,ocr_area
+from modules.AllPage.Page import Page
+from modules.AllTask.Task import Task
 # 用来检查是否在限定时间，否则不执行
 def time_restriction(*args:tuple[int,int,int,int]):
     '''参考调用@time_restriction((12, 00, 00, 50),(12, 00, 16, 50))'''
@@ -58,36 +59,69 @@ def log_error(message):
     # 在日志文件中写入数据
     with open(log_file_path, 'a') as file:
         file.write("{}: {}\n".format(datetime.now(), message))
-class _:
-    pass
-class daily_report:
-    ''' ocr资源数量'''
-    
-    #用来做每日报告（
-    def __init__(self) -> None:
-        pass
-    
-        #res = ocr_area((901, 88), (989, 123))
-        #print("Tab栏识别结果: ", res)
-    #         ocr_str = ocr_area((122, 179), (165, 211))[0]
-    # if ocr_str == "":
-    #     return False
-    # # 如果字符串无法识别为数字，返回false
-    # try:
-    #     now_num = int(ocr_str)
-    # except ValueError:
-    #     return False
-def ocr_int(upper_left_point:tuple,lower_right_point:tuple)->tuple:
-    from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area
-    ocr_str = ocr_area((122, 179), (165, 211))[0]
-    if ocr_str == "":
-        return False
-    # 如果字符串无法识别为数字，返回false
-    try:
-        now_num = int(ocr_str)
-    except ValueError:
-        return False
 
+
+    
+
+class daily_report(Task):
+    ''' 
+    ocr资源数量
+    通过检查红点和ocr实现
+    '''
+    def __init__(self, name="daily_report") -> None:
+        # super().__init__(name)
+        self.on_run()
+    #用来做每日报告（
+    # def __init__(self) -> None:
+    #     logging.info(self.ap_num())
+    #     logging.info(self.gold_coins_num())
+    #     logging.info(self.diamonds_num())
+
+    # 用来执行其他函数，并统计返回
+    def pre_condition(self) -> bool:
+        return super().pre_condition()
+    def on_run(self):
+        # 创建一个字典，用来统计数据
+        logging.info("开始执行统计")
+        Task.back_to_home()
+        data = {"ap":self.ap_num(),
+                "gold_coins_num":self.gold_coins_num(),
+                "diamonds_num":self.diamonds_num(),
+                
+                
+                }
+        from modules.add_functions.msg import push_msg_fast
+        from modules.configs.MyConfig import config
+        push_msg_fast("碧蓝档案,BAAH"+'配置文件'+config.userconfigdict['SERVER_TYPE']+f'''
+                        剩余体力{data["ap"]}
+                        信用点{data["gold_coins_num"]}
+                        清辉石{data["diamonds_num"]}
+                        ''')
+        return data
+    def post_condition(self) -> bool:
+        return super().post_condition()
+    def ocr_int(self,upper_left_point:tuple,lower_right_point:tuple)->tuple:
+        ocr_str = ocr_area(upper_left_point, lower_right_point)[0]# str num
+        if ocr_str == "":
+            return False
+        # 如果字符串无法识别为数字，返回false
+        try:
+            num =ocr_str
+            return num
+        except Exception:
+            return 0
+    def ap_num(self):
+        '''体力'''
+        num= self.ocr_int((512,21),(604,51))
+        return num.split('/')[0] if '/' in num else num
+    
+    def gold_coins_num(self):
+        '''信用点'''
+        return self.ocr_int((702,25),(818,51)).replace(",","")
+    def diamonds_num(self):
+        '''清辉石'''
+        return self.ocr_int((871,25),(965,54)).replace(",","")
+    
 def is_progress_Event():
     '''演习'''
     pass
@@ -97,9 +131,8 @@ def is_total_assault():
 def is_grand_assault():
     '''大决战'''
     pass
-def red_point_status():
-    match_pixel((137, 159), Page.COLOR_BUTTON_PINK) # match_pixel((1208, 658), Page.COLOR_BUTTON_GRAY)
-    pass
+def red_point_status(point:tuple):
+    return match_pixel(point, Page.COLOR_RED)
 def daily_tasks_status():
     '''每日任务完成情况'''
     pass
@@ -109,24 +142,23 @@ def cafe_status():
 def invite_status():
     '''咖啡厅是否可邀请'''
     pass
-def diamonds_num():
-    '''清辉石'''
+
     pass
-def gold_coins_num():
-    '''信用点'''
+
     pass
 def tactical_challenge_status():
     '''战术演习'''
     pass
-def ap_num():
-    '''体力'''
-    pass
+
+
 def lesson_status():
     '''课表'''
     pass
 def progress_status():
     '''检查什么开启了双倍三倍活动'''
     pass
+
+
 
 if __name__ == '__main__':
     pass

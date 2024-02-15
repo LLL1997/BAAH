@@ -12,6 +12,7 @@ from modules.utils import *
 from modules.AllTask.myAllTask import my_AllTask
 from modules.add_functions.add_function import *
 from modules.add_functions.msg import push_msg_fast
+from modules.utils.add_function import daily_report
 def BAAH_release_adb_port(justDoIt=False):
     """
     释放adb端口，通常被一个后台进程占用
@@ -172,6 +173,8 @@ def BAAH_main():
         # 运行任务
         logging.info("运行任务")
         my_AllTask.run()
+        daily_report()
+        
     except Exception as e:
         from modules.add_functions.msg import push_msg_fast
         if e.args[0] == "找到维护弹窗，退出":
