@@ -29,10 +29,11 @@ class Page:
     """
     COLOR_BUTTON_GRAY = ((200, 200, 200), (230, 230, 230))
     
-    '''
-    用于检测双倍按钮的颜色,粉色 rgb 255,133,181  格式是 b r g 
-    '''
+
     COLOR_BUTTON_PINK =  ((123,245,171), (143,255,191))
+    '''
+    用于检测双倍按钮的颜色,粉色 rgb 255,133,181  格式是 b r g   黄色255,188,16
+    '''
     # 父类
     def __init__(self, pagename) -> None:
         self.name = pagename

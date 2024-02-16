@@ -6,6 +6,8 @@ import logging
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, match_pixel,ocr_area
 from modules.AllPage.Page import Page
 from modules.AllTask.Task import Task
+from modules.configs.MyConfig import config
+
 # 用来检查是否在限定时间，否则不执行
 def time_restriction(*args:tuple[int,int,int,int]):
     '''参考调用@time_restriction((12, 00, 00, 50),(12, 00, 16, 50))'''
@@ -66,8 +68,10 @@ def log_error(message):
 class daily_report(Task):
     ''' 
     ocr资源数量
-    通过检查红点和ocr实现
+    通过检查红点和黄点和ocr实现
     '''
+    YELLOW_POINT = ((8, 160, 250), (25, 200, 255))
+    RED_POINT = ((15, 60, 250), (23, 72, 255))
     def __init__(self, name="daily_report") -> None:
         # super().__init__(name)
         self.on_run()
@@ -87,69 +91,109 @@ class daily_report(Task):
         data = {"ap":self.ap_num(),
                 "gold_coins_num":self.gold_coins_num(),
                 "diamonds_num":self.diamonds_num(),
-                
+                "total_assault":self.total_assault()
                 
                 }
         from modules.add_functions.msg import push_msg_fast
         from modules.configs.MyConfig import config
         push_msg_fast("碧蓝档案,BAAH"+'配置文件'+config.userconfigdict['SERVER_TYPE']+f'''
-                        剩余体力{data["ap"]}
-                        信用点{data["gold_coins_num"]}
-                        清辉石{data["diamonds_num"]}
+剩余体力{data["ap"]}
+
+信用点{data["gold_coins_num"]}
+
+清辉石{data["diamonds_num"]}
+
+总力开启状态:{data["total_assault"][0]}
+        
+总力票数:+{data["total_assault"][1]}
+
+总力开启时间:{data["total_assault"][2]}
+
                         ''')
         return data
     def post_condition(self) -> bool:
         return super().post_condition()
-    def ocr_int(self,upper_left_point:tuple,lower_right_point:tuple)->tuple:
+    def ocr(self,upper_left_point:tuple,lower_right_point:tuple)->str:
         ocr_str = ocr_area(upper_left_point, lower_right_point)[0]# str num
-        if ocr_str == "":
-            return False
-        # 如果字符串无法识别为数字，返回false
-        try:
-            num =ocr_str
-            return num
-        except Exception:
-            return 0
+        return ocr_str
     def ap_num(self):
         '''体力'''
-        num= self.ocr_int((512,21),(604,51))
+        num= self.ocr((512,21),(604,51))
         return num.split('/')[0] if '/' in num else num
     
     def gold_coins_num(self):
         '''信用点'''
-        return self.ocr_int((702,25),(818,51)).replace(",","")
+        return self.ocr((702,25),(818,51))#.replace(",","")
     def diamonds_num(self):
         '''清辉石'''
-        return self.ocr_int((871,25),(965,54)).replace(",","")
-    
+        return self.ocr((871,25),(965,54))#.replace(",","")
+    def total_assault(self)->tuple:
+        '''总力''' # 1016 391   票 940 108 978 129 time 1140 109 1249 131
+        self.on_fight_center_page()
+        if not  match_pixel((1016,391),self.YELLOW_POINT):
+            return ('关闭',0,0)
+        else:
+            click((919,423))
+            sleep(3)
+            click(Page.MAGICPOINT)
+            num = self.ocr((940,110),(990,140))
+            #num.split('/')[0] if '/' in num else num
+            # 开启时间
+            open_time = self.ocr((1140,112),(1240,131))
+        
+        if num !="":
+            return ("开启",num,open_time)
+        else:
+            return ("开启",-1,0)
+    def on_fight_center_page(self):
+        if Page.is_page(PageName.PAGE_FIGHT_CENTER):
+            return
+        else:
+            self.back_to_home()
+            self.run_until(
+            lambda: click((1196, 567)),
+            lambda: Page.is_page(PageName.PAGE_FIGHT_CENTER),
+            sleeptime=4
+            )
+    def grand_assault_status(self):
+        '''大决战''' #  893 600time 964 665 1060 690
+        if config.userconfigdict["SERVER_TYPE"]=="CN" or config.userconfigdict["SERVER_TYPE"]=="CN_BILI":
+            return ('没有',0)
+
+        if not  match_pixel((994,518),self.YELLOW_POINT):
+            return ('关闭',0)
+        else:
+            click((893,600))
+            sleep(3)
+            click(Page.MAGICPOINT)
+            num = self.ocr((871,25),(965,54))
+            num.split('/')[0] if '/' in num else num
+        if num !="":
+            return ("开启",num)
+        else:
+            return ("开启",-1)
 def is_progress_Event():
-    '''演习'''
+    '''活力演习''' # 1197 391
     pass
-def is_total_assault():
-    '''总力'''
-    pass
-def is_grand_assault():
-    '''大决战'''
-    pass
+
 def red_point_status(point:tuple):
     return match_pixel(point, Page.COLOR_RED)
 def daily_tasks_status():
-    '''每日任务完成情况'''
+    '''每日任务完成情况'''# 红点 日服 111 255  国际服en 94 256 
     pass
 def cafe_status():
-    '''咖啡厅'''
+    '''咖啡厅''' #黄点 国服 126 676 百分比 1105 640
     pass
 def invite_status():
     '''咖啡厅是否可邀请'''
     pass
 
+def contest_status():
+    '''战术演习''' # 日服 1174 517 红点能领取钻石，黄点还有票 国服在 1197 397   国际服红点 1174  518
     pass
-
+def wanted_status():
+    '''悬赏'''
     pass
-def tactical_challenge_status():
-    '''战术演习'''
-    pass
-
 
 def lesson_status():
     '''课表'''
@@ -158,7 +202,8 @@ def progress_status():
     '''检查什么开启了双倍三倍活动'''
     pass
 
-
+def exchange_status():
+    ''' 学院交流会黄点'''
 
 if __name__ == '__main__':
     pass

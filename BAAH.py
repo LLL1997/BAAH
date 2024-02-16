@@ -190,6 +190,7 @@ def BAAH_main():
         time.sleep(3)
         BAAH_kill_emulator()
         logging.info(f"{config.userconfigdict['SERVER_TYPE']}任务结束")
+        # input("按回车退出")
 
 
 if __name__ in ["__main__", "__mp_main__"]:
