@@ -123,6 +123,8 @@ def ocr_pic_area(imageurl, fromx, fromy, tox, toy, multi_lines = False):
         return ocr_text
 
     rawImage = cv2.imread(imageurl)
+    # cv2.imshow('Matched Screenshot', rawImage[fromy:toy, fromx:tox])
+    # cv2.waitKey(0)
     if rawImage is None:
         if not multi_lines:
             return ["",0]

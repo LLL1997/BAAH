@@ -3,7 +3,7 @@ import os,datetime,subprocess,time
 import functools
 from datetime import datetime
 import logging
-from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, match_pixel,ocr_area
+from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, match_pixel,ocr_area,screenshot
 from modules.AllPage.Page import Page
 from modules.AllTask.Task import Task
 from modules.configs.MyConfig import config
@@ -91,12 +91,15 @@ class daily_report(Task):
         data = {"ap":self.ap_num(),
                 "gold_coins_num":self.gold_coins_num(),
                 "diamonds_num":self.diamonds_num(),
-                "total_assault":self.total_assault()
-                
+                "total_assault":self.total_assault(),
+                'grand_assault':self.grand_assault_status(),
+                'progress_Event':self.is_progress_Event(),
+                'contest_status':self.contest_status(),
+
                 }
         from modules.add_functions.msg import push_msg_fast
         from modules.configs.MyConfig import config
-        push_msg_fast("碧蓝档案,BAAH"+'配置文件'+config.userconfigdict['SERVER_TYPE']+f'''
+        push_msg_fast("碧蓝档案,BAAH"+'服务器'+config.userconfigdict['SERVER_TYPE']+f'''
 剩余体力{data["ap"]}
 
 信用点{data["gold_coins_num"]}
@@ -105,14 +108,23 @@ class daily_report(Task):
 
 总力开启状态:{data["total_assault"][0]}
         
-总力票数:+{data["total_assault"][1]}
+总力票数:{data["total_assault"][1]}
 
-总力开启时间:{data["total_assault"][2]}
+总力结束时间:{data["total_assault"][2]}
 
-                        ''')
+大决战开启状态 :{data["grand_assault"][0]}
+
+大决战结束时间:{data["grand_assault"][1]}
+
+火力演习状态:{data["progress_Event"]}
+
+jjc状态:{data["contest_status"]}
+''')
         return data
     def post_condition(self) -> bool:
         return super().post_condition()
+    def red_point_status(self,point:tuple):
+        return match_pixel(point, self.RED_POINT)
     def ocr(self,upper_left_point:tuple,lower_right_point:tuple)->str:
         ocr_str = ocr_area(upper_left_point, lower_right_point)[0]# str num
         return ocr_str
@@ -131,21 +143,24 @@ class daily_report(Task):
         '''总力''' # 1016 391   票 940 108 978 129 time 1140 109 1249 131
         self.on_fight_center_page()
         if not  match_pixel((1016,391),self.YELLOW_POINT):
+            if match_pixel((1016,391),self.RED_POINT):
+                return ('可领取',0,0)
+
             return ('关闭',0,0)
         else:
             click((919,423))
             sleep(3)
             click(Page.MAGICPOINT)
-            num = self.ocr((940,110),(990,140))
+            screenshot()
+            num = self.ocr((940,110),(975,132))
             #num.split('/')[0] if '/' in num else num
             # 开启时间
-            open_time = self.ocr((1140,112),(1240,131))
-        
-        if num !="":
+            open_time = self.ocr((1140,110),(1250,132))
+            click(Page.TOPLEFTBACK,1)
             return ("开启",num,open_time)
-        else:
-            return ("开启",-1,0)
+
     def on_fight_center_page(self):
+        screenshot()
         if Page.is_page(PageName.PAGE_FIGHT_CENTER):
             return
         else:
@@ -156,7 +171,8 @@ class daily_report(Task):
             sleeptime=4
             )
     def grand_assault_status(self):
-        '''大决战''' #  893 600time 964 665 1060 690
+        '''大决战''' #  893 600 time 964 665 1060 690
+        self.on_fight_center_page()
         if config.userconfigdict["SERVER_TYPE"]=="CN" or config.userconfigdict["SERVER_TYPE"]=="CN_BILI":
             return ('没有',0)
 
@@ -166,18 +182,35 @@ class daily_report(Task):
             click((893,600))
             sleep(3)
             click(Page.MAGICPOINT)
-            num = self.ocr((871,25),(965,54))
-            num.split('/')[0] if '/' in num else num
-        if num !="":
-            return ("开启",num)
-        else:
-            return ("开启",-1)
-def is_progress_Event():
-    '''活力演习''' # 1197 391
-    pass
+            screenshot()
+            # 开启时间
+            open_time = self.ocr((964,665),(1060,690))
+            click(Page.TOPLEFTBACK,1)
+            return ("开启",open_time)
+    def is_progress_Event(self):
+        '''火力演习''' # 1197 391
+        self.on_fight_center_page()
+        if config.userconfigdict["SERVER_TYPE"]=="CN" or config.userconfigdict["SERVER_TYPE"]=="CN_BILI":
+            return ('没有')
 
-def red_point_status(point:tuple):
-    return match_pixel(point, Page.COLOR_RED)
+        if not  match_pixel((1197,391),self.YELLOW_POINT):
+            return ('未刷')
+    def contest_status(self):
+        '''战术演习''' # 日服 1174 517 红点能领取钻石，黄点还有票 国服在 1197 397   国际服红点 1174  518
+        self.on_fight_center_page()
+        if config.userconfigdict["SERVER_TYPE"]=="CN" or config.userconfigdict["SERVER_TYPE"]=="CN_BILI":
+            point=(1197,397)
+        else:
+            point=(1174,517)
+        if match_pixel(point,self.RED_POINT):
+            return ('未领取工资')
+        elif match_pixel(point,self.YELLOW_POINT):
+            return ('有剩余票据')
+        else:
+            return ('完成')
+            
+
+
 def daily_tasks_status():
     '''每日任务完成情况'''# 红点 日服 111 255  国际服en 94 256 
     pass
@@ -188,9 +221,7 @@ def invite_status():
     '''咖啡厅是否可邀请'''
     pass
 
-def contest_status():
-    '''战术演习''' # 日服 1174 517 红点能领取钻石，黄点还有票 国服在 1197 397   国际服红点 1174  518
-    pass
+
 def wanted_status():
     '''悬赏'''
     pass
@@ -202,8 +233,7 @@ def progress_status():
     '''检查什么开启了双倍三倍活动'''
     pass
 
-def exchange_status():
-    ''' 学院交流会黄点'''
+
 
 if __name__ == '__main__':
     pass
