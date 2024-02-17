@@ -68,7 +68,7 @@ class GridQuest(Task):
 
         # 当前关注的队伍下标
         self.now_focus_on_team = 0
-        # 用于本策略的队伍名字，字母列表，["A","B","C"...]
+        # 用于本策略的队伍名字，字母列表，["A","B","C"...]， 其内涵的潜在关系是队伍“A"对应的下标为0，队伍编号为1
         self.team_names = []
         # 上一次action
         self.lastaction = {"team": "", "action": "", "target": ""}
@@ -98,6 +98,7 @@ class GridQuest(Task):
         """
         点击右下任务资讯，等待战斗结束可以弹出弹窗，然后点击魔法点关掉弹窗
         """
+        logging.info(f"等待阶段，是否可能会进入局内战斗：{possible_fight}")
         # 如果返回到了self.backtopic()指定的页面，那么直接返回
         if self.backtopic():
             return True
@@ -115,6 +116,7 @@ class GridQuest(Task):
                     lambda: click(Page.MAGICPOINT),
                     lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE),
                 )
+                # (250, 136), (365, 180)
                 can_open = self.run_until(
                     lambda: click(self.BUTTON_TASK_INFO_POS, 1.5),
                     lambda: not match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE),
@@ -130,12 +132,15 @@ class GridQuest(Task):
                         # 在走格子界面，铁定没进局内战斗
                         return
                 else:
+                    logging.info("没有开关弹窗效果")
                     # 没有开关弹窗效果
                     if match(page_pic(PageName.PAGE_GRID_FIGHTING)):
+                        logging.info("在走格子界面，可能进局内战斗，可能不进")
                         # 在走格子界面，可能进局内战斗，可能不进，继续判断
                         continue
                     elif not self.backtopic():
                         # 不在走格子界面，没有返回backtopic,那么就是进入了局内战斗
+                        logging.info("不在走格子界面，判断进入了局内战斗")
                         FightQuest(self.backtopic, start_from_editpage=False).run()
                         return
         # 清弹窗
@@ -143,6 +148,7 @@ class GridQuest(Task):
             lambda: click(Page.MAGICPOINT),
             lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE),
         )
+        logging.info("尝试呼出弹窗")
         # 出弹窗
         self.run_until(
             lambda: click(self.BUTTON_TASK_INFO_POS),
@@ -150,6 +156,7 @@ class GridQuest(Task):
             times=18,
             sleeptime=1.5,
         )
+        logging.info("尝试清空弹窗")
         # 清弹窗
         self.run_until(
             lambda: click(Page.MAGICPOINT),
@@ -158,7 +165,7 @@ class GridQuest(Task):
 
     def get_now_focus_on_team(self):
         """
-        得到当前注意的队伍
+        得到当前注意的队伍，左下角数字减一
         """
         self.run_until(
             lambda: click(Page.MAGICPOINT),
@@ -195,9 +202,7 @@ class GridQuest(Task):
         ]
         # ========== 配队 ============
         last_team_set_list = config.sessiondict["LAST_TEAM_SET"]
-        now_need_team_set_list = [
-            item["type"] for item in self.grider.get_initialteams(self.require_type)
-        ]
+        now_need_team_set_list = [item["type"] for item in self.grider.get_initialteams(self.require_type)]  # 内涵的潜在关系是队伍类型对应的队伍编号
         need_user_set_teams = False
         # 判断能否直接用上次的队伍
         for ind in range(len(now_need_team_set_list)):
@@ -231,7 +236,7 @@ class GridQuest(Task):
             logging.info(f"使用上次的队伍配置: {display_str}")
         screenshot()
         if match(page_pic(PageName.PAGE_EDIT_QUEST_TEAM)):
-            click(Page.TOPLEFTBACK, 1)
+            click(Page.TOPLEFTBACK, 2)
         # 选择队伍START
         # 尚未配队的队伍的相对文字化角度描述
         tobe_setted_team_poses = [
@@ -249,36 +254,28 @@ class GridQuest(Task):
                 )
                 if not res_gridpage:
                     logging.error("未识别到走格子界面")
-                    raise Exception(
-                        "未识别到走格子界面，请确保当前界面是走格子界面且未出击任何队伍"
-                    )
-                # 得到初始中心
-                center_poses, loss, global_center = self.grider.multikmeans(
-                    self.grider.get_mask(
-                        get_screenshot_cv_data(), self.grider.PIXEL_START_YELLOW
-                    ),
-                    len(self.team_names),
-                )
-                # 得到相应偏角和距离
-                angles, distances = self.grider.get_angle(center_poses, global_center)
-                # 得到初始中心对应的文字化角度描述
-                directions = self.grider.get_direction(
-                    angles, distances, tobe_setted_team_poses
-                )
-                # 接下来为这个队伍设置人员，点击相应的center_poses然后确定即可
-                # 现在要处理的队伍的文字化角度描述
-                now_team_pos = tobe_setted_team_poses[focus_team_ind]
-                # 找到这个角度描述是derections里的第几个
-                if now_team_pos is None:# 只有一队的情况 具体在h1-2这样的简单关卡
-                    now_team_pos_ind = 0
+                    raise Exception("未识别到走格子界面，请确保当前界面是走格子界面且未出击任何队伍")
+                # 如果队伍配队配置里面有click参数，那么就点击相对应的位置就行了
+                if "click" in list(self.grider.get_initialteams(self.require_type))[focus_team_ind]:
+                    target_click_team_center = list(self.grider.get_initialteams(self.require_type))[focus_team_ind]["click"]
+                    logging.info(f"使用配置文件中的click参数{target_click_team_center}")
                 else:
+                    # 如果没有click参数，那么就用knn识别初始方格
+                    # 得到初始中心
+                    center_poses, loss, global_center = self.grider.multikmeans(self.grider.get_mask(get_screenshot_cv_data(), self.grider.PIXEL_START_YELLOW), len(self.team_names))
+                    # 得到相应偏角和距离
+                    angles, distances = self.grider.get_angle(center_poses, global_center)
+                    # 得到初始中心对应的文字化角度描述
+                    directions = self.grider.get_direction(angles, distances, tobe_setted_team_poses)
+                    # 接下来为这个队伍设置人员，点击相应的center_poses然后确定即可
+                    # 现在要处理的队伍的文字化角度描述
+                    now_team_pos = tobe_setted_team_poses[focus_team_ind]
+                    # 找到这个角度描述是derections里的第几个
                     now_team_pos_ind = directions.index(now_team_pos)
-                # 点击这个中心
-                target_click_team_center = center_poses[now_team_pos_ind]
-                target_click_team_center = [
-                    int(target_click_team_center[1]),
-                    int(target_click_team_center[0]),
-                ]
+                    # 点击这个中心
+                    target_click_team_center = center_poses[now_team_pos_ind]
+                    target_click_team_center = [int(target_click_team_center[1]), int(target_click_team_center[0])]
+                # 点击队伍初始位置
                 click(target_click_team_center, 1)
                 edit_page_result = self.run_until(
                     lambda: click(Page.MAGICPOINT),
@@ -329,44 +326,38 @@ class GridQuest(Task):
                 screenshot()
                 # 先提取，后knn
                 try:
-                    mode = "head"
-                    # 需要蒙版的颜色
-                    need_to_mask_color = self.grider.PIXEL_HEAD_YELLOW
-                    # 国服的话头顶颜色会深一些
-                    if config.userconfigdict["SERVER_TYPE"]=="CN" or config.userconfigdict["SERVER_TYPE"]=="CN_BILI":
-                        need_to_mask_color = self.grider.PIXEL_HEAD_YELLOW_CN_DARKER
-                    knn_positions, _, _ = self.grider.multikmeans(self.grider.get_mask(get_screenshot_cv_data(), need_to_mask_color, shrink_kernels=[(2, 4), (2,2)]), 1)
-                    if knn_positions[0][0]<0 or knn_positions[0][1]<0:
-                        mode = "foot"
-                        # 如果用头上三角箭头识别队伍位置失败，那么用脚底黄色标识识别
-                        logging.info("三角识别失败，尝试使用砖块识别")
-                        knn_positions, _, _ = self.grider.multikmeans(
-                            self.grider.get_mask(
-                                get_screenshot_cv_data(), self.grider.PIXEL_MAIN_YELLOW
-                            ),
-                            1,
-                        )
-                        if knn_positions[0][0] < 0 or knn_positions[0][1] < 0:
-                            # 如果还是失败，那么就是失败了
-                            raise Exception("队伍位置识别失败")
-                    # 此处坐标和opencv坐标相反
-                    target_team_position = knn_positions[0]
-                    # 根据攻略说明，偏移队伍位置得到点击的位置
-                    offset_pos = self.grider.WALK_MAP[action["target"]]
-                    # 前后反，将数组下标转为图像坐标
-                    if mode == "head":
-                        # 头部识别三角箭头，需要向下偏移定位到格子
-                        offset_from_cnn_to_real = 135
+                    # 如果有click参数，那么就直接用click参数
+                    if "click" in action:
+                        logging.info(f"使用配置文件中的click参数{action['click']}")
+                        need_click_position = action["click"]
                     else:
-                        offset_from_cnn_to_real = 0
-                    need_click_position = [
-                        int(target_team_position[1] + offset_pos[1]),
-                        int(
-                            target_team_position[0]
-                            + offset_pos[0]
-                            + offset_from_cnn_to_real
-                        ),
-                    ]  # 纵轴从人物头顶三角箭头往下偏移
+                        mode = "head"
+                        # 需要蒙版的颜色
+                        need_to_mask_color = self.grider.PIXEL_HEAD_YELLOW
+                        # 国服的话头顶颜色会深一些
+                        if config.userconfigdict["SERVER_TYPE"]=="CN" or config.userconfigdict["SERVER_TYPE"]=="CN_BILI":
+                            need_to_mask_color = self.grider.PIXEL_HEAD_YELLOW_CN_DARKER
+                        knn_positions, _, _ = self.grider.multikmeans(self.grider.get_mask(get_screenshot_cv_data(), need_to_mask_color, shrink_kernels=[(2, 4)]), 1)
+                        if knn_positions[0][0]<0 or knn_positions[0][1]<0:
+                            mode = "foot"
+                            # 如果用头上三角箭头识别队伍位置失败，那么用脚底黄色标识识别
+                            logging.info("三角识别失败，尝试使用砖块识别")
+                            knn_positions, _, _ = self.grider.multikmeans(self.grider.get_mask(get_screenshot_cv_data(), self.grider.PIXEL_MAIN_YELLOW), 1)
+                            if knn_positions[0][0]<0 or knn_positions[0][1]<0:
+                                # 如果还是失败，那么就是失败了
+                                raise Exception("队伍位置识别失败")
+                        # 此处坐标和opencv坐标相反
+                        target_team_position = knn_positions[0]
+                        # 根据攻略说明，偏移队伍位置得到点击的位置
+                        offset_pos = self.grider.WALK_MAP[action["target"]]
+                        # 前后反，将数组下标转为图像坐标
+                        if mode == "head":
+                            # 头部识别三角箭头，需要向下偏移定位到格子
+                            offset_from_cnn_to_real = 135
+                        else:
+                            offset_from_cnn_to_real = 0
+                        # 此处need_click_position的轴向就和opencv相同了
+                        need_click_position = [int(target_team_position[1]+offset_pos[1]), int(target_team_position[0]+offset_pos[0]+offset_from_cnn_to_real)] # 纵轴从人物头顶三角箭头往下偏移
                 except Exception as e:
                     print(e)
                     logging.warn("队伍位置识别失败")
@@ -434,6 +425,8 @@ class GridQuest(Task):
                 self.wait_end(possible_fight=True)
             else:
                 self.wait_end()
-
+        logging.info(f"{self.grider.jsonfilename}执行完毕")
+        
+     
     def post_condition(self) -> bool:
         return self.backtopic()

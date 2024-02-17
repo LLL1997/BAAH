@@ -38,7 +38,7 @@ class FightQuest(Task):
             # 等到右上角白色UI出来
             return self.run_until(
                 lambda: click(Page.MAGICPOINT),
-                lambda: match_pixel((1250, 32), Page.COLOR_BUTTON_WHITE),
+                lambda: match_pixel((1250, 32), Page.COLOR_BUTTON_WHITE, printit=True),
                 times=15,
                 sleeptime = 2
             )
@@ -123,17 +123,21 @@ class FightQuest(Task):
                 sleeptime = 2
             )
 
+        # 如果没有黄色确认可能进入剧情
         if not hasconfirmy:
             SkipStory(pre_times=5).run()
         # 奖励界面 中下确认黄色
         # 获得奖励，右下确认黄色（左边返回大厅）
         logging.info("点击确认...")
-        self.run_until(
+        backres = self.run_until(
             lambda: click(button_pic(ButtonName.BUTTON_CONFIRMY), threshold=0.8) and click(Page.MAGICPOINT),
             self.backtopic,
-            times=7,
+            times=15,
             sleeptime=1
         )
+        if not backres:
+            # 有的关卡点击下方黄色确认后会进入剧情，然后跳过剧情完直接回到上级页面
+            SkipStory(pre_times=3).run()
      
     def post_condition(self) -> bool:
-        return self.backtopic
+        return self.backtopic()

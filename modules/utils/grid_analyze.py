@@ -18,10 +18,6 @@ class GridAnalyzer:
     
     此类返回的坐标都是以数组为基底的，即左上角为原点，向下为第一轴正方向，向右为第二轴正方向。如果用于opencv的坐标，需要转换先后。
     """
-    TEAM_NAME_LIST = ["A","B","C","D","E"]
-    """
-    队伍名字映射表
-    """
     
     PIXEL_START_YELLOW = ((125, 250, 250), (132, 255, 255))
     """
@@ -31,11 +27,10 @@ class GridAnalyzer:
     """
     过程中的聚焦队伍的格子黄色
     """
-    if config.userconfigdict["SERVER_TYPE"] == "CN" or config.userconfigdict["SERVER_TYPE"] == "CN_BILI":
-        # 国服的走格子头顶黄色箭头颜色暗一点
-        PIXEL_HEAD_YELLOW = ((4, 211, 249), (47, 231, 255))
-    else:
-        PIXEL_HEAD_YELLOW = ((17, 223, 254), (50, 235, 255))
+    # 国服的走格子头顶黄色箭头颜色暗一点,有些关卡敌人会有黄色感叹号(16, 219, 255)
+    PIXEL_HEAD_YELLOW_CN_DARKER = ((2, 222, 249), (33, 233, 255))
+    # 有些关卡敌人会有黄色感叹号，那个的第一位在40左右，hard关头顶有灯照着时，第一个数字会变暗。
+    PIXEL_HEAD_YELLOW = ((4, 223, 254), (33, 235, 255))
     """
     过程中的聚焦队伍的头顶黄色箭头
     """
@@ -51,7 +46,7 @@ class GridAnalyzer:
         '90':"up",
         '270':"down"
     }
-    # 队伍行走方向的距离方位偏差
+    # 队伍行走方向的距离方位偏，轴与数组轴保持一致
     WALK_MAP = {
         "left":(0, -115),
         "right":(0, 115),
