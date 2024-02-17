@@ -1,5 +1,8 @@
 import configparser
 import os
+import asyncio
+import smtplib
+from email.mime.text import MIMEText
 
 def read_ini_file(file_path):
     config = configparser.ConfigParser()
@@ -30,7 +33,8 @@ def create_ini_file(file_path):
     with open(file_path, 'w') as config_file:
         config.write(config_file)
         print(f"Configuration file {file_path} created.")
-
+def smtp_m(smtp_server, smtp_port, email, password):
+    pass
 async def push_msg(url, content, phone_number=''):
     '''发送钉钉bot消息
         asyncio.run(push_msg())
@@ -66,50 +70,8 @@ async def push_msg(url, content, phone_number=''):
         print(f"An unexpected error occurred: {e}")
 
 
-# async def push_msg(url, content, phone_number=''):
-#     '''发送钉钉bot消息
-#     asyncio.run(push_msg())
-#     https://open.dingtalk.com/document/robots/custom-robot-access
-#     '''
-#     import datetime,json,requests,urllib
-#     from urllib.error import URLError, HTTPError
-
-#     no_proxy_handler = urllib.request.ProxyHandler({})
-#     opener = urllib.request.build_opener(no_proxy_handler)
-#     headers = {
-#     'Content-Type': 'application/json',
-# }
-    
-#     try:
-#         now = datetime.datetime.now()
-#         json_data = {
-#             'msgtype': 'text',
-#             'text': {
-#                 'content': f'时间：{now}\n' + content,
-#             },
-#             "at": {
-#                 "atMobiles": [
-#                     phone_number
-#                 ],
-#             },
-#         }
-#         data = json.dumps(json_data).encode('utf-8')
-#         req = urllib.request.Request(url, data=data, headers=headers)
-#         response = opener.open(req, timeout=10)
-#         html_str = response.read().decode('utf-8')
-#         print(html_str)
-#         return html_str
-#     except HTTPError as e:
-#         print(f"HTTP Error: {e.code}")
-#     except URLError as e:
-#         print(f"URL Error: {e.reason}")
-#     except TimeoutError:
-#         print("The request timed out.")
-#         push_msg(url, content, phone_number)
-#     except Exception as e:
-#         print(f"An unexpected error occurred: {e}")
 def push_msg_fast(text):
-    import asyncio
+
     ini_file_path = "msg.ini"
     config = read_ini_file(ini_file_path)
 
@@ -118,6 +80,41 @@ def push_msg_fast(text):
     at_phone_number = config.get('Message', '@手机号', fallback=None)
 
     asyncio.run(push_msg(url,text,at_phone_number))
-if __name__ == "__main__":
-    push_msg_fast("游戏，grewgw")
+def push_mail():
+    # TODO 待实现整合到代码中 ，1，分离数据和逻辑 2.整合到gui中
+    # 邮件有点慢，需要10秒左右来发送
+    
+    # server
 
+    smtp_server = 'smtp.qq.com'
+    smtp_port = 587
+    smtp_user = '297278093@qq.com'
+    smtp_password = ''
+
+    # 设置发件人、收件人和邮件主题
+    sender = '297278093@qq.com'
+    receiver = '297278093@qq.com'
+    subject = '测试' # 标题
+    body = '测试文本.'
+
+    # 创建MIMEText对象
+    msg = MIMEText(body, 'plain')
+    msg['From'] = sender
+    msg['To'] = receiver
+    msg['Subject'] = subject
+
+    # 连接SMTP服务器并发送邮件
+    try:
+        server = smtplib.SMTP(smtp_server, smtp_port)
+        server.starttls()  # 启用安全传输模式
+        server.login(smtp_user, smtp_password)
+        server.sendmail(sender, receiver, msg.as_string())
+        print("Email sent successfully.")
+    except Exception as e:
+        print(f"Error occurred: {e}")
+    finally:
+        server.quit()
+
+if __name__ == "__main__":
+    #push_msg_fast("游戏，grewgw")
+    push_mail()
