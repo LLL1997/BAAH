@@ -148,7 +148,6 @@ def push_msg_fast(text):
     return push_msg_fast_Dingtalk(text) and push_msg_fast_xizhi(text)
     
 if __name__ == "__main__":
-    push_msg_fast_Dingtalk("狗修金SAMA🥵，B🥰A🥰A🥰H🥰，已经在运行了喵😊")
-    push_msg_fast_xizhi("狗修金SAMA🥵，BAAH🥰，已经在运行了喵😊")
+    push_msg_fast_Dingtalk("已经在运行了")
+    push_msg_fast_xizhi("BAAH🥰，已经在运行了😊")
     push_msg_fast("游戏 2222")
-    # https://xizhi.qqoq.net/XZ1b5ac315ebea4c12aa80ac391edf143b

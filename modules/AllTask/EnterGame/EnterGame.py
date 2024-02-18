@@ -26,6 +26,7 @@ class EnterGame(Task):
     def on_run(self) -> None:
         Loginin().run()
         CloseInform().run()
+  
         
      
     def post_condition(self) -> bool:

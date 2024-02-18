@@ -148,6 +148,7 @@ def BAAH_kill_emulator():
             push_msg_fast("碧蓝档案,BAAH关闭模拟器失败"+config.userconfigdict['SERVER_TYPE'])
     else:
         logging.info("跳过关闭模拟器")
+        
 
 def BAAH_restart_emulator():
     '''
@@ -173,7 +174,7 @@ def BAAH_main():
         # 运行任务
         logging.info("运行任务")
         my_AllTask.run()
-        daily_report()
+        daily_report().on_run()
         
     except Exception as e:
         from modules.add_functions.msg import push_msg_fast
@@ -190,7 +191,8 @@ def BAAH_main():
         time.sleep(3)
         BAAH_kill_emulator()
         logging.info(f"{config.userconfigdict['SERVER_TYPE']}任务结束")
-        # input("按回车退出")
+        if not config.userconfigdict["CLOSE_EMULATOR_BAAH"]:
+            input()
 
 
 if __name__ in ["__main__", "__mp_main__"]:

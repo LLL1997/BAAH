@@ -25,6 +25,7 @@ class CloseInform(Task):
         click((1226, 56))
         click(Page.MAGICPOINT)
 
+
      
     def post_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_HOME)

@@ -68,6 +68,9 @@ class AllTask:
         """
         for task in self.taskpool:
             task.run()
+            if isinstance(task, EnterGame):
+                from modules.utils.add_function import daily_report
+                daily_report().start()
     
     def add_task(self, task:Task) -> None:
         """

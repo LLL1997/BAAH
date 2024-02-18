@@ -46,7 +46,6 @@ def Daily_loop_control():
     print("asdasf")
 
 
-
 # 用携程来运行代码，通过时间来判断是否出错，超时触发TimeoutError异常
 
 # 错误日志
@@ -63,19 +62,19 @@ def log_error(message):
         file.write("{}: {}\n".format(datetime.now(), message))
 
 
-    
-
 class daily_report(Task):
     ''' 
     ocr资源数量
     通过检查红点和黄点和ocr实现
     '''
-    YELLOW_POINT = ((8, 160, 250), (25, 200, 255))
+    ORANGE_POINT = ((8, 160, 250), (25, 200, 255)) # 黄色小点
+    YELLOW_BANNER = ((64, 222, 234), (84, 242, 254)) # 总力战开启牌子（在作战中心）
     RED_POINT = ((15, 60, 250), (23, 72, 255))
     def __init__(self, name="daily_report") -> None:
+        pass
         # super().__init__(name)
-        self.on_run()
-    #用来做每日报告（
+        #self.on_run()
+    # 用来做每日报告（
     # def __init__(self) -> None:
     #     logging.info(self.ap_num())
     #     logging.info(self.gold_coins_num())
@@ -84,6 +83,25 @@ class daily_report(Task):
     # 用来执行其他函数，并统计返回
     def pre_condition(self) -> bool:
         return super().pre_condition()
+    def set_sessiondict(self,key,value):
+        config.sessiondict[key]=value
+
+    def get_sessiondict_value(self,key):
+        if key in config.sessiondict:
+            return config.sessiondict[key]
+        else:
+            return False
+    def start(self) -> None:
+        '''开始时统计一次资源'''
+        logging.info("开始执行开始时统计")
+        Task.back_to_home()
+        # global report_dict
+        # report_dict={"ap":self.ap_num(),"gold_coins":self.gold_coins_num(),"diamonds":self.diamonds_num()}
+        # logging.info("结束时统计")
+        # self.set_sessiondict("ap",self.ap_num())
+        self.set_sessiondict("gold_coins_num",self.gold_coins_num())
+        self.set_sessiondict("diamonds_num",self.diamonds_num())
+
     def on_run(self):
         # 创建一个字典，用来统计数据
         logging.info("开始执行统计")
@@ -92,34 +110,52 @@ class daily_report(Task):
                 "gold_coins_num":self.gold_coins_num(),
                 "diamonds_num":self.diamonds_num(),
                 "total_assault":self.total_assault(),
-                'grand_assault':self.grand_assault_status(),
-                'progress_Event':self.is_progress_Event(),
-                'contest_status':self.contest_status(),
-
+                "grand_assault":self.grand_assault_status(),
+                "progress_Event":self.is_progress_Event(),
+                "contest_status":self.contest_status(),
                 }
+        text = (
+            "碧蓝档案,BAAH"
+            + "服务器"
+            + config.userconfigdict["SERVER_TYPE"]
+            + f'\n剩余体力:{data["ap"]}\n'
+        )
+        # if  'report_dict' in globals() and   report_dict["gold_coins"] !='' :
+        if self.get_sessiondict_value("gold_coins_num") not in ["",None,False]:
+            try:
+                #last_num=str(report_dict["gold_coins"])
+                last_num=str(self.get_sessiondict_value("gold_coins_num"))
+                now_num=str(data["gold_coins_num"])
+                change_num=int(now_num.replace(",",""))-int(last_num.replace(",",""))
+                text =text+f'信用点:{data["gold_coins_num"]},\t变化:{str(change_num)}\n'
+            except Exception as e:
+                logging.info(e)
+                text=text+f'信用点:{data["gold_coins_num"]}\n'
+        else:
+
+            text=text+f'信用点:{data["gold_coins_num"]}\n'
+
+        #if 'report_dict' in globals() and   report_dict["diamonds"] !='' :
+        if self.get_sessiondict_value("diamonds_num") not in ["",None,False]:
+            try:
+                #last_num=str(report_dict["diamonds"])
+                last_num=str(self.get_sessiondict_value("diamonds_num"))
+                now_num=str(data["diamonds_num"])
+                change_num=int(now_num.replace(",",""))-int(last_num.replace(",",""))
+                text=text+f'青辉石:{data["diamonds_num"]},\t变化:{str(change_num)}\n'
+            except Exception as e:
+                logging.info(e)
+                text=text+f'青辉石:{data["diamonds_num"]}\n'
+        else:
+            text=text+f'青辉石:{data["diamonds_num"]}\n'
+
+        if data["total_assault"][0]=="开启":
+            text=text+f'总力:{data["total_assault"][0]},\t票:{data["total_assault"][1]}\n结束时间:{data["total_assault"][2]}\n'
+        if data["grand_assault"][0]=="开启":
+            text=text+f'大决战:{data["grand_assault"][0]}\n结束时间:{data["grand_assault"][1]}\n'
+        # 火力演习状态:{data["progress_Event"]}
         from modules.add_functions.msg import push_msg_fast
-        from modules.configs.MyConfig import config
-        push_msg_fast("碧蓝档案,BAAH"+'服务器'+config.userconfigdict['SERVER_TYPE']+f'''
-剩余体力{data["ap"]}
-
-信用点{data["gold_coins_num"]}
-
-清辉石{data["diamonds_num"]}
-
-总力开启状态:{data["total_assault"][0]}
-        
-总力票数:{data["total_assault"][1]}
-
-总力结束时间:{data["total_assault"][2]}
-
-大决战开启状态 :{data["grand_assault"][0]}
-
-大决战结束时间:{data["grand_assault"][1]}
-
-火力演习状态:{data["progress_Event"]}
-
-jjc状态:{data["contest_status"]}
-''')
+        push_msg_fast(text)
         return data
     def post_condition(self) -> bool:
         return super().post_condition()
@@ -132,32 +168,34 @@ jjc状态:{data["contest_status"]}
         '''体力'''
         num= self.ocr((512,21),(604,51))
         return num.split('/')[0] if '/' in num else num
-    
+
     def gold_coins_num(self):
         '''信用点'''
         return self.ocr((702,25),(818,51))#.replace(",","")
     def diamonds_num(self):
         '''清辉石'''
         return self.ocr((871,25),(965,54))#.replace(",","")
-    def total_assault(self)->tuple:
-        '''总力''' # 1016 391   票 940 108 978 129 time 1140 109 1249 131
+    def total_assault(self)->tuple:# 
+        '''总力''' # 黄色横幅 855 388 1016 391   票 940 108 978 129 time 1140 109 1249 131
         self.on_fight_center_page()
-        if not  match_pixel((1016,391),self.YELLOW_POINT):
-            if match_pixel((1016,391),self.RED_POINT):
+        if not  match_pixel((1015,392),self.ORANGE_POINT) or not  match_pixel((855,388),self.YELLOW_BANNER) :
+            if match_pixel((1015,392),self.RED_POINT):
                 return ('可领取',0,0)
 
-            return ('关闭',0,0)
-        else:
+            return ('关闭',0,0) # 
+        elif match_pixel((1015,392),self.ORANGE_POINT) or  match_pixel((855,388),self.YELLOW_BANNER):
             click((919,423))
             sleep(3)
             click(Page.MAGICPOINT)
             screenshot()
             num = self.ocr((940,110),(975,132))
-            #num.split('/')[0] if '/' in num else num
+            # num.split('/')[0] if '/' in num else num
             # 开启时间
             open_time = self.ocr((1140,110),(1250,132))
             click(Page.TOPLEFTBACK,1)
             return ("开启",num,open_time)
+        else:
+            return ('关闭',0,0)
 
     def on_fight_center_page(self):
         screenshot()
@@ -171,12 +209,12 @@ jjc状态:{data["contest_status"]}
             sleeptime=4
             )
     def grand_assault_status(self):
-        '''大决战''' #  893 600 time 964 665 1060 690
+        '''大决战''' #  893 600 time 964 665 1060 690 hs 960 511
         self.on_fight_center_page()
         if config.userconfigdict["SERVER_TYPE"]=="CN" or config.userconfigdict["SERVER_TYPE"]=="CN_BILI":
             return ('没有',0)
 
-        if not  match_pixel((994,518),self.YELLOW_POINT):
+        if not  match_pixel((994,518),self.ORANGE_POINT) or not match_pixel((888,511),self.YELLOW_BANNER) : 
             return ('关闭',0)
         else:
             click((893,600))
@@ -184,7 +222,7 @@ jjc状态:{data["contest_status"]}
             click(Page.MAGICPOINT)
             screenshot()
             # 开启时间
-            open_time = self.ocr((964,665),(1060,690))
+            open_time = self.ocr((857,666),(1060,690))
             click(Page.TOPLEFTBACK,1)
             return ("开启",open_time)
     def is_progress_Event(self):
@@ -193,7 +231,7 @@ jjc状态:{data["contest_status"]}
         if config.userconfigdict["SERVER_TYPE"]=="CN" or config.userconfigdict["SERVER_TYPE"]=="CN_BILI":
             return ('没有')
 
-        if not  match_pixel((1197,391),self.YELLOW_POINT):
+        if not  match_pixel((1197,391),self.ORANGE_POINT):
             return ('未刷')
     def contest_status(self):
         '''战术演习''' # 日服 1174 517 红点能领取钻石，黄点还有票 国服在 1197 397   国际服红点 1174  518
@@ -204,12 +242,10 @@ jjc状态:{data["contest_status"]}
             point=(1174,517)
         if match_pixel(point,self.RED_POINT):
             return ('未领取工资')
-        elif match_pixel(point,self.YELLOW_POINT):
-            return ('有剩余票据')
+        elif match_pixel(point,self.ORANGE_POINT):
+            return ('有剩余jjc票')
         else:
             return ('完成')
-            
-
 
 def daily_tasks_status():
     '''每日任务完成情况'''# 红点 日服 111 255  国际服en 94 256 
@@ -232,7 +268,6 @@ def lesson_status():
 def progress_status():
     '''检查什么开启了双倍三倍活动'''
     pass
-
 
 
 if __name__ == '__main__':
