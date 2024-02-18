@@ -17,6 +17,7 @@ from gui.pages.Setting_special import set_special
 from gui.pages.Setting_task_order import set_task_order
 from gui.pages.Setting_timetable import set_timetable
 from gui.pages.Setting_wanted import set_wanted
+from gui.pages.Setting_notification import set_notification
 
 @ui.refreshable
 def show_GUI(load_jsonname, config):
@@ -61,6 +62,7 @@ def show_GUI(load_jsonname, config):
                 ui.link(config.get_text("setting_server"), '#SERVER')
                 # 添加一个链接，链接到设置页面
                 ui.link(config.get_text("setting_task_order"), '#TASK_ORDER')
+                ui.link(config.get_text("setting_notification"), '#NOTIFICATION')
                 # 添加一个链接，链接到设置页面
                 ui.link(config.get_text("setting_next_config"), '#NEXT_CONFIG')
                 # 添加一个链接，链接到任务页面
@@ -96,6 +98,9 @@ def show_GUI(load_jsonname, config):
             
             # 任务执行顺序，后续配置文件
             set_task_order(config, real_taskname_to_show_taskname)
+            
+            # 通知
+            set_notification(config)
             
             # 咖啡馆
             set_cafe(config)
