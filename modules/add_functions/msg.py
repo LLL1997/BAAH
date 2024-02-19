@@ -139,6 +139,8 @@ def push_msg_fast_xizhi(text):
     try:
         Myini=IniFile('BAAH_CONFIGS\config.ini')
         url = Myini.get_value('Message', 'xizhi_url')
+        text = str(text)
+
         asyncio.run(push_msg(url,text,title=text))
         return True
     except Exception as e:
