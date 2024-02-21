@@ -245,7 +245,7 @@
     "ADB_PATH": "./tools/adb/adb.exe",
     "SCREENSHOT_NAME": "c5fd3201.png",
     "TARGET_PORT": 16480,
-    "TIME_AFTER_CLICK": 0.2,
+    "TIME_AFTER_CLICK": 0.3,
     "NEXT_CONFIG": "config_CN_xiaohao.json",
     "SHOP_NORMAL": [
         [],
@@ -291,7 +291,7 @@
         true
     ],
     "TARGET_IP_PATH": "127.0.0.1",
-    "RESPOND_Y": 50,
+    "RESPOND_Y": 40,
     "LOCK_SERVER_TO_RESPOND_Y": false,
     "CAFE_CAMERA_FULL": false,
     "SHOP_NORMAL_REFRESH_TIME": 0,

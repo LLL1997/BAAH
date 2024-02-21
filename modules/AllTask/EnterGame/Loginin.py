@@ -24,7 +24,7 @@ class Loginin(Task):
     
 
     @staticmethod
-    def try_jump_useless_pages(i=None,times=1):
+    def try_jump_useless_pages(i=None,times=0):
         # 点掉确认按钮
             
         if match(popup_pic(PopupName.POPUP_MAINTENACE_NOTICE)) and match(popup_pic(PopupName.POPUP_NOTICE)):# TODO 增加识别维护

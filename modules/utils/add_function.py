@@ -67,21 +67,13 @@ class daily_report(Task):
     ocr资源数量
     通过检查红点和黄点和ocr实现
     '''
-    ORANGE_POINT = ((8, 160, 250), (25, 200, 255)) # 黄色小点
+    ORANGE_POINT = ((8, 160, 250), (25, 200, 255)) # 橙色小点
     YELLOW_BANNER = ((64, 222, 234), (84, 242, 254)) # 总力战开启牌子（在作战中心）
-    RED_POINT = ((15, 60, 250), (23, 72, 255))
+    RED_POINT = ((15, 60, 250), (23, 72, 255)) # 红色小点
 
     def __init__(self, name="daily_report") -> None:
         super().__init__(name)
-        # super().__init__(name)
-        #self.on_run()
-    # 用来做每日报告（
-    # def __init__(self) -> None:
-    #     logging.info(self.ap_num())
-    #     logging.info(self.gold_coins_num())
-    #     logging.info(self.diamonds_num())
 
-    # 用来执行其他函数，并统计返回
     def pre_condition(self) -> bool:
         return super().pre_condition()
     
@@ -153,11 +145,11 @@ class daily_report(Task):
                 text=text+f'青辉石:{data["diamonds_num"]}\n'
         else:
             text=text+f'青辉石:{data["diamonds_num"]}\n' 
-        if data["lesson_status"] not in ['',None,]:
+        if data["lesson_status"] not in ['完成',]:
             text=text+f'课程表:\t{data["lesson_status"]}\n'
-        if data["wanted_status"] not in ['',None,'完成']:
+        if data["wanted_status"] not in ['完成',]:
             text=text+f'悬赏任务:\t{data["wanted_status"]}\n'
-        if data["contest_status"] not in ['',None,'完成']:
+        if data["contest_status"] not in ['完成',]:
             text=text+f'战术演习:\t{data["contest_status"]}\n'
         if data["total_assault"][0]=="开启":
             text=text+f'总力:{data["total_assault"][0]},\t票:{data["total_assault"][1]}\n总力结束:{data["total_assault"][2]}\n'
@@ -238,10 +230,11 @@ class daily_report(Task):
             sleep(3)
             click(Page.MAGICPOINT)
             screenshot()
-            # 开启时间
-            open_time = self.ocr((857,666),(1060,690))
+            # 开启时间 
+            open_time = ''.join([ch for ch in self.ocr((857,666),(1060,690)) if ch.isdigit() or ch in ['/','~','-',' ',':']])
+            open_time = open_time.replace("-", "~")
             try:
-                parts = open_time.split(" ~ ")
+                parts = open_time.split("~")
                 now_time_str =  datetime.now().strftime("%m/%d %H:%M") # parts[0].strip()
                 end_time_str = parts[1].strip()
                 # 定义日期和时间的格式
@@ -294,12 +287,13 @@ class daily_report(Task):
             lambda: click((212, 669)),
             lambda: Page.is_page(PageName.PAGE_TIMETABLE)
         )
-        try:
-            nolefttickets= self.ocr((223, 84), (162, 112))
+        try: 
+            nolefttickets= ''.join([ch for ch in self.ocr((213, 81), (264, 116)) if ch.isdigit() or ch =='/'])
+            print(nolefttickets)
             if int(nolefttickets[0])==0:
                 return '完成'
             else:
-                return '未完成'
+                return '未完成',nolefttickets[0]
         except Exception:
             return ''
 
