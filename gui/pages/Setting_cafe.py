@@ -19,3 +19,4 @@ def set_cafe(config):
         Invite_time_switch = ui.switch('是否只在限定时间执行邀请')
         ui.time(value='12:00').bind_visibility_from(Invite_time_switch,'value')
        
+        ui.checkbox(config.get_text("enable_diff_touch")).bind_value(config.userconfigdict, "CAFE_TOUCH_WAY_DIFF").bind_visibility_from(config.userconfigdict, "CAFE_CAMERA_FULL")

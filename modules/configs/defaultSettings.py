@@ -94,6 +94,7 @@ defaultUserDict = {
     "AUTO_EVENT_STORY_PUSH":{"d":False},
     "EXPLORE_RAINBOW_TEAMS":{"d":False},
     "ENABLE_MAIL_NOTI":{"d":False},
+    "CAFE_TOUCH_WAY_DIFF":{"d":False},
 }
 
 # 软件的config里的默认值
@@ -109,5 +110,6 @@ defaultSessionDict = {
     "PORT_IS_USED":{"d":False},
     "EMULATOR_PROCESS_PID":{"d":None},
     "GUI_OPEN_IN_WEB":{"d":True},
-    "LAST_TEAM_SET":{"d":[]}
+    "LAST_TEAM_SET":{"d":[]},
+    "CAFE_HAD_INVITED":{"d":True},
 }
