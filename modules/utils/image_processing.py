@@ -67,7 +67,7 @@ def match_pattern(sourcepic: str, patternpic: str,threshold: float = 0.9, show_r
             min_val, max_val, min_loc, max_loc = 0, best_max_val, 0, best_max_loc
         else:
             # 无旋转匹配
-            # https://pyimagesearch.com/2021/03/29/multi-template-matching-with-opencv/
+            # TODO： 多点匹配：https://pyimagesearch.com/2021/03/29/multi-template-matching-with-opencv/
             if pattern.shape[2] == 4:
                 # 有透明度通道
                 # 以透明部分作为mask
@@ -95,18 +95,18 @@ def match_pattern(sourcepic: str, patternpic: str,threshold: float = 0.9, show_r
             cv2.imshow('Matched Screenshot', screenshot)
             cv2.waitKey(0)
             cv2.destroyAllWindows()
-        if(max_val >= threshold and max_val <=1 ):
+        if(max_val >= threshold  and max_val <=1 ):
             logging.debug("Pattern of {} and {} matched ({}). Center: ({}, {})".format(sourcepic, patternpic, max_val, center_x, center_y))
             return (True, (center_x, center_y), max_val)
         return (False, (0, 0), max_val)
     except ValueError as e:
         logging.error(f"ValueError: {e}")
-        return (False, (0, 0), 0.0)
+        return (False, (0, 0), 0.01)
     except Exception as e:
         logging.error(f"An unexpected error occurred: {e}")
         from BAAH import BAAH_check_adb_connect # 尝试解决和别的脚本冲突的问题
         BAAH_check_adb_connect()
-        return (False, (0, 0), 0.0)
+        return (False, (0, 0), 0.01)
 def ocr_pic_area(imageurl, fromx, fromy, tox, toy, multi_lines = False):
     """
     get the string in the image area

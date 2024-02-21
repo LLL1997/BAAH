@@ -250,5 +250,6 @@
     "GRID_SOL_PATH": "./DATA/grid_solution",
     "AUTO_EVENT_STORY_PUSH": false,
     "EXPLORE_RAINBOW_TEAMS": false,
-    "ENABLE_MAIL_NOTI": false
+    "ENABLE_MAIL_NOTI": false,
+    "CAFE_TOUCH_WAY_DIFF": false
 }
