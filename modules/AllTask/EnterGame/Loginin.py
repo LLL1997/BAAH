@@ -32,6 +32,9 @@ class Loginin(Task):
             raise Exception("找到维护弹窗，退出")
         elif match(button_pic(ButtonName.BUTTON_CONFIRMB)):
             click(button_pic(ButtonName.BUTTON_CONFIRMB))   
+        # 点掉放弃上次战斗进度按钮
+        elif match(button_pic(ButtonName.BUTTON_QUIT_LAST)):
+            click(button_pic(ButtonName.BUTTON_QUIT_LAST))
         else:
             # 活动弹窗
             click((1250, 40))

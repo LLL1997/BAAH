@@ -24,6 +24,7 @@
     "setting_next_config":"后续配置文件",
     "setting_notification":"通知设置",
     "setting_other":"其他设置",
+    "setting_vpn":"加速器设置",
 
     "BAAH_desc":"BAAH可以帮助你完成碧蓝档案/蔚蓝档案的日服，国际服，国服官服，国服B服的每日任务。配置文件存放于BAAH_CONFIGS文件夹内。QQ群：441069156",
     "BAAH_get_version":"获取最新版本可以到Github下载，或进群下载",
@@ -45,6 +46,8 @@
     "button_enable":"开关",
     "button_add":"添加",
     "button_delete":"删除",
+    "button_get_now_app":"获取当前应用名",
+    "button_edit":"编辑",
 
     "config_cafe_attention":"请将咖啡馆视角拉到最高，保持勾选以下这项以提高效率",
     "config_camera_full":"进入咖啡馆时视角为最高",
@@ -84,13 +87,14 @@
     "config_push_normal_desc":"普通关卡推图起始章节",
     "config_push_hard_desc":"困难关卡推图起始章节",
     "config_rainbow_teams_desc":"（高练度开启）推图是否是彩虹队伍，勾选此项后推图时不再等待配队，请先自己配好三只彩虹队再开启推图任务。",
-    "config_explore_attention":"推图时请确保SKIP跳过战斗打开，PHASE回合自动结束关闭",
+    "config_explore_attention":"建议自己配个彩虹队，要不然自己配队有点折磨",
     "email_notification_desc":"是否启用邮件通知，目前仅支持QQ邮箱",
     "email_account":"QQ账号",
     "email_pwd":"QQ邮箱SMTP授权码",
     "get_email_pwd":"如何获取SMTP授权码",
     "notice_example_json": "你正在使用example.json，这是一个示例配置文件，请在BAAH_CONFIGS文件夹里重命名此文件然后编辑",
     "enable_diff_touch":"是否使用图片找不同的方式点击",
+    "vpn_desc":"勾选此项来模拟手动开启模拟器里的加速器软件（建议使用MUMU自动加速）坐标相关参数可以滑动至页面底部点击截图按钮查看",
 
 
     "config_server_jp":"日服",

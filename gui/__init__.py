@@ -18,6 +18,7 @@ from gui.pages.Setting_task_order import set_task_order
 from gui.pages.Setting_timetable import set_timetable
 from gui.pages.Setting_wanted import set_wanted
 from gui.pages.Setting_notification import set_notification
+from gui.pages.Setting_vpn import set_vpn
 
 @ui.refreshable
 def show_GUI(load_jsonname, config, shared_softwareconfig):
@@ -64,6 +65,7 @@ def show_GUI(load_jsonname, config, shared_softwareconfig):
                 ui.link(config.get_text("setting_emulator"), '#EMULATOR')
                 # 添加一个链接，链接到设置页面
                 ui.link(config.get_text("setting_server"), '#SERVER')
+                ui.link(config.get_text("setting_vpn"), '#VPN')
                 # 添加一个链接，链接到设置页面
                 ui.link(config.get_text("setting_task_order"), '#TASK_ORDER')
                 ui.link(config.get_text("setting_notification"), '#NOTIFICATION')
@@ -99,6 +101,9 @@ def show_GUI(load_jsonname, config, shared_softwareconfig):
             
             # 服务器配置
             set_server(config)
+            
+            # 自己的加速器配置
+            set_vpn(config)
             
             # 任务执行顺序，后续配置文件
             set_task_order(config, real_taskname_to_show_taskname)
