@@ -76,7 +76,7 @@ class daily_report(Task):
 
     def pre_condition(self) -> bool:
         return super().pre_condition()
-    
+
     def set_sessiondict(self,key,value):
         config.sessiondict[key]=value
 
@@ -85,11 +85,10 @@ class daily_report(Task):
             return config.sessiondict[key]
         else:
             return False
-        
+
     def start(self) -> None:
         '''开始时统计一次资源'''
         logging.info("开始执行开始时统计")
-        Task.back_to_home()
         # global report_dict
         # report_dict={"ap":self.ap_num(),"gold_coins":self.gold_coins_num(),"diamonds":self.diamonds_num()}
         # logging.info("结束时统计")
@@ -100,7 +99,6 @@ class daily_report(Task):
     def on_run(self):
         # 创建一个字典，用来统计数据
         logging.info("开始执行统计")
-        Task.back_to_home()
         data = {"ap":self.ap_num(),
                 "gold_coins_num":self.gold_coins_num(),
                 "diamonds_num":self.diamonds_num(),
@@ -120,7 +118,7 @@ class daily_report(Task):
         # if  'report_dict' in globals() and   report_dict["gold_coins"] !='' :
         if self.get_sessiondict_value("gold_coins_num") not in ["",None,False]:
             try:
-                #last_num=str(report_dict["gold_coins"])
+                # last_num=str(report_dict["gold_coins"])
                 last_num=str(self.get_sessiondict_value("gold_coins_num"))
                 now_num=str(data["gold_coins_num"])
                 change_num=int(now_num.replace(",",""))-int(last_num.replace(",",""))
@@ -132,10 +130,10 @@ class daily_report(Task):
 
             text=text+f'信用点:{data["gold_coins_num"]}\n'
 
-        #if 'report_dict' in globals() and   report_dict["diamonds"] !='' :
+        # if 'report_dict' in globals() and   report_dict["diamonds"] !='' :
         if self.get_sessiondict_value("diamonds_num") not in ["",None,False]:
             try:
-                #last_num=str(report_dict["diamonds"])
+                # last_num=str(report_dict["diamonds"])
                 last_num=str(self.get_sessiondict_value("diamonds_num"))
                 now_num=str(data["diamonds_num"])
                 change_num=int(now_num.replace(",",""))-int(last_num.replace(",",""))
@@ -159,17 +157,17 @@ class daily_report(Task):
         from modules.add_functions.msg import push_msg_fast
         push_msg_fast(text)
         return data
-    
+
     def post_condition(self) -> bool:
         return super().post_condition()
-    
+
     def red_point_status(self,point:tuple):
         return match_pixel(point, self.RED_POINT)
-    
+
     def ocr(self,upper_left_point:tuple,lower_right_point:tuple)->str:
         ocr_str = ocr_area(upper_left_point, lower_right_point)[0]# str num
         return ocr_str
-    
+
     def ap_num(self):
         '''体力'''
         num= self.ocr((512,21),(604,51))
@@ -178,11 +176,11 @@ class daily_report(Task):
     def gold_coins_num(self):
         '''信用点'''
         return self.ocr((702,25),(818,51))#.replace(",","")
-    
+
     def diamonds_num(self):
         '''清辉石'''
         return self.ocr((871,25),(965,54))#.replace(",","")
-    
+
     def total_assault(self)->tuple:# 
         '''总力''' # 黄色横幅 855 388 1016 391   票 940 108 978 129 time 1140 109 1249 131
         self.on_fight_center_page()
@@ -230,7 +228,7 @@ class daily_report(Task):
             sleep(3)
             click(Page.MAGICPOINT)
             screenshot()
-            # 开启时间 
+            # 开启时间
             open_time = ''.join([ch for ch in self.ocr((857,666),(1060,690)) if ch.isdigit() or ch in ['/','~','-',' ',':']])
             open_time = open_time.replace("-", "~")
             try:
@@ -248,7 +246,7 @@ class daily_report(Task):
                 return ("开启",end_time_str,time_difference)
             except Exception:
                 return ("开启",open_time,'error')
-        
+
     def is_progress_Event(self):
         '''火力演习''' # 1197 391
         self.on_fight_center_page()
@@ -257,7 +255,7 @@ class daily_report(Task):
 
         if  match_pixel((1197,391),self.ORANGE_POINT):
             return '未刷'
-        
+
     def contest_status(self):
         '''战术演习''' # 日服 1174 517 红点能领取钻石，黄点还有票 国服在 1197 397   国际服红点 1174  518
         self.on_fight_center_page()
@@ -272,7 +270,7 @@ class daily_report(Task):
             return '有剩余jjc票'
         else:
             return '完成'
-        
+
     def wanted_status(self): #833 393
         '''悬赏'''
         self.on_fight_center_page()
@@ -282,13 +280,21 @@ class daily_report(Task):
             return '完成'
     def lesson_status(self): # TODO 不好用，待后续优化
         '''课表'''
-        Task.back_to_home()
         self.run_until(
             lambda: click((212, 669)),
             lambda: Page.is_page(PageName.PAGE_TIMETABLE)
         )
-        try: 
-            nolefttickets= ''.join([ch for ch in self.ocr((213, 81), (264, 116)) if ch.isdigit() or ch =='/'])
+        num =220 # en服
+        if config.userconfigdict["SERVER_TYPE"]=="JP":
+            num=190
+        elif config.userconfigdict["SERVER_TYPE"]=="GLOBAL":
+            num=157
+        elif config.userconfigdict["SERVER_TYPE"] in ["CN","CN_BILI"]:
+            num=280
+        try: # 220 89 
+            nolefttickets = "".join([ ch for ch in self.ocr((num,81),(380, 116),) if ch.isdigit() or ch == "/"])
+    
+
             print(nolefttickets)
             if int(nolefttickets[0])==0:
                 return '完成'
@@ -316,4 +322,4 @@ if __name__ == '__main__':
     pass
     Daily_loop_control()
     # os._exit(0)
-    #close_emulator('D:/Program Files/Netease/MuMuPlayer-12.0/shell/','MuMuPlayer.exe' , 3)
+    # close_emulator('D:/Program Files/Netease/MuMuPlayer-12.0/shell/','MuMuPlayer.exe' , 3)

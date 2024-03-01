@@ -36,8 +36,8 @@
     "WANTED_HIGHEST_LEVEL": [
         [
             [
-                2,
-                12,
+                3,
+                9,
                 -1
             ]
         ]
@@ -104,13 +104,13 @@
                 12,
                 3,
                 -1,
-                true
+                false
             ],
             [
                 8,
                 3,
                 -1,
-                true
+                false
             ],
             [
                 19,
@@ -164,19 +164,14 @@
         "每日任务"
     ],
     "TARGET_EMULATOR_PATH": "D:/Program Files/Netease/MuMuPlayer-12.0/shell/MuMuPlayer.exe -v 1",
-    "PIC_PATH": "./DATA/assets_global_en",
+    "PIC_PATH": "./DATA/assets",
     "ADB_PATH": "./tools/adb/adb.exe",
     "SCREENSHOT_NAME": "e6c3adda.png",
     "TARGET_PORT": 16416,
     "TIME_AFTER_CLICK": 0.3,
     "NEXT_CONFIG": "",
     "SHOP_NORMAL": [
-        [
-            1,
-            2,
-            3,
-            4
-        ],
+        [],
         [
             1,
             2,
@@ -227,7 +222,7 @@
         true,
         true,
         true,
-        true,
+        false,
         true
     ],
     "TARGET_IP_PATH": "127.0.0.1",
@@ -236,13 +231,13 @@
     "CAFE_CAMERA_FULL": false,
     "SHOP_NORMAL_REFRESH_TIME": 0,
     "SHOP_CONTEST_REFRESH_TIME": 3,
-    "SERVER_TYPE": "GLOBAL_EN",
+    "SERVER_TYPE": "GLOBAL",
     "CLOSE_EMULATOR_BAAH": true,
     "FANHEXIE": false,
     "KILL_PORT_IF_EXIST": true,
     "CAFE_EXHAUSTIVITY_TOUCH_HEAD": true,
     "SHOP_CONTEST_switch": false,
-    "SHOP_CONTEST_SWITCH": false,
+    "SHOP_CONTEST_SWITCH": true,
     "PUSH_NORMAL_QUEST": 0,
     "PUSH_NORMAL_QUEST_LEVEL": 1,
     "PUSH_HARD_QUEST": 0,

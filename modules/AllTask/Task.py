@@ -63,7 +63,7 @@ class Task:
             logging.warn("任务{}执行前条件不成立或超时，跳过此任务".format(self.name))
 
     @staticmethod
-    def back_to_home(times = 3) -> bool:
+    def back_to_home(times = 10) -> bool:
         """
         尝试从游戏内的页面返回主页
         

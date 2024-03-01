@@ -1,23 +1,24 @@
 {
     "ACTIVITY_PATH": "com.RoamingStar.BlueArchive.bilibili/com.yostar.supersdk.activity.YoStarSplashActivity",
     "TIMETABLE_TASK": [
-        [],
-        [],
-        [],
         [
-            8,
             7
         ],
+        [
+            7
+        ],
+        [
+            7,
+            8
+        ],
+        [],
         [
             6,
             5
         ],
         [
-            8,
-            7,
             6,
-            5,
-            4
+            5
         ]
     ],
     "WANTED_HIGHEST_LEVEL": [
@@ -25,17 +26,17 @@
             [
                 1,
                 9,
-                2
+                4
             ],
             [
                 2,
                 9,
-                2
+                4
             ],
             [
                 3,
                 9,
-                2
+                4
             ]
         ]
     ],
@@ -69,7 +70,19 @@
         [
             [
                 11,
-                99
+                -1
+            ]
+        ],
+        [
+            [
+                10,
+                -1
+            ]
+        ],
+        [
+            [
+                9,
+                -1
             ]
         ]
     ],
@@ -85,7 +98,7 @@
                 14,
                 3,
                 -1,
-                false
+                true
             ],
             [
                 18,
@@ -106,7 +119,7 @@
                 false
             ],
             [
-                12,
+                17,
                 3,
                 -1,
                 false
@@ -127,13 +140,13 @@
                 15,
                 2,
                 -1,
-                false
+                true
             ],
             [
-                2,
-                2,
-                3,
-                false
+                16,
+                1,
+                -1,
+                true
             ],
             [
                 4,
@@ -145,19 +158,19 @@
                 12,
                 3,
                 3,
-                true
+                false
             ],
             [
                 14,
                 1,
                 3,
-                true
+                false
             ],
             [
                 15,
                 3,
                 3,
-                false
+                true
             ],
             [
                 11,
@@ -181,7 +194,7 @@
                 16,
                 1,
                 3,
-                true
+                false
             ],
             [
                 8,
@@ -224,7 +237,7 @@
         "战术大赛",
         "社团",
         "邮件",
-        "咖啡馆只摸头",
+        "咖啡馆",
         "战术大赛",
         "课程表",
         "悬赏通缉",
@@ -287,20 +300,20 @@
         false,
         true,
         true,
-        true,
+        false,
         true
     ],
     "TARGET_IP_PATH": "127.0.0.1",
     "RESPOND_Y": 40,
     "LOCK_SERVER_TO_RESPOND_Y": false,
-    "CAFE_CAMERA_FULL": false,
+    "CAFE_CAMERA_FULL": true,
     "SHOP_NORMAL_REFRESH_TIME": 0,
     "SHOP_CONTEST_REFRESH_TIME": 3,
     "SERVER_TYPE": "CN_BILI",
     "CLOSE_EMULATOR_BAAH": true,
     "FANHEXIE": true,
     "KILL_PORT_IF_EXIST": true,
-    "CAFE_EXHAUSTIVITY_TOUCH_HEAD": true,
+    "CAFE_EXHAUSTIVITY_TOUCH_HEAD": false,
     "SHOP_CONTEST_switch": false,
     "SHOP_CONTEST_SWITCH": false,
     "PUSH_NORMAL_QUEST": 0,
@@ -311,5 +324,5 @@
     "AUTO_EVENT_STORY_PUSH": false,
     "EXPLORE_RAINBOW_TEAMS": false,
     "ENABLE_MAIL_NOTI": false,
-    "CAFE_TOUCH_WAY_DIFF": false
+    "CAFE_TOUCH_WAY_DIFF": true
 }

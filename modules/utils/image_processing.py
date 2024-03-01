@@ -99,6 +99,12 @@ def match_pattern(sourcepic: str, patternpic: str,threshold: float = 0.9, show_r
             logging.debug("Pattern of {} and {} matched ({}). Center: ({}, {})".format(sourcepic, patternpic, max_val, center_x, center_y))
             return (True, (center_x, center_y), max_val)
         return (False, (0, 0), max_val)
+    except cv2.error as e:
+        logging.error(f"OpenCV 错误: {e}")
+        return (False, (0, 0), 0.01)
+    except FileNotFoundError as e:
+        logging.error(f'文件打开错误{e}')
+        return (False, (0, 0), 0.01)
     except ValueError as e:
         logging.error(f"ValueError: {e}")
         return (False, (0, 0), 0.01)
@@ -152,6 +158,11 @@ def match_pixel_color_range(imageurl, x, y, low_range, high_range, printit = Fal
     return True if the color is between the range
     """
     img = cv2.imread(imageurl)
+    if img is None:
+        if not img:
+            return False
+        else:
+            return False
     pixel = img[y, x][:3]
     if printit:
         print("Pixel color at ({}, {}): {}".format(x, y, pixel))

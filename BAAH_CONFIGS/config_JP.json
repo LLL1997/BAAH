@@ -33,7 +33,7 @@
     "WANTED_HIGHEST_LEVEL": [
         [
             [
-                2,
+                3,
                 9,
                 -1
             ]
@@ -154,12 +154,7 @@
     "TIME_AFTER_CLICK": 0.3,
     "NEXT_CONFIG": "",
     "SHOP_NORMAL": [
-        [
-            1,
-            2,
-            3,
-            4
-        ],
+        [],
         [
             1,
             2,
@@ -212,7 +207,7 @@
         true,
         true,
         true,
-        true,
+        false,
         true,
         true
     ],
