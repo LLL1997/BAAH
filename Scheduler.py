@@ -106,9 +106,11 @@ def multi_threaded_task(config_list:list=["config.json",],max_threads:int=2,task
 
     if len(error_count)>0:
         kill_mumu()
-        for x in error_count:
-            print(f"再尝试运行一次{x}")
-            start_script_and_load_json(x,task_name)
+        with concurrent.futures.ThreadPoolExecutor(max_threads) as executor:
+            for _config in error_count:
+                print(f"再尝试运行一次{_config}")
+                [executor.submit(lambda :start_script_and_load_json(_config,task_name)) for x in config_list]
+
     push_msg_fast(f'碧蓝档案，{task_name}完成')
     print(f'碧蓝档案，{task_name}完成')
     #remove_running_log()
@@ -116,6 +118,7 @@ def multi_threaded_task(config_list:list=["config.json",],max_threads:int=2,task
 def multi_daily_task(config_tuple:tuple):
     '''清体力和其他'''
     push_msg_fast('碧蓝档案，每日日常开始')
+    # kill_mumu()
     print("每日日常 : "+datetime.now().strftime('%d日%H时%M分'))
     multi_threaded_task(config_tuple,task_name='每日')
 

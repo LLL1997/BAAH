@@ -83,7 +83,9 @@ class InEvent(Task):
             sleep(1)
             if not check_app_running(config.userconfigdict['ACTIVITY_PATH']):
                 logging.error("重新进入游戏失败")
-                raise Exception("重新进入游戏失败")
+                self.back_to_home()
+                return False
+                #raise Exception("重新进入游戏失败")
             screenshot() # 截图让后面继续判断
         if not Page.is_page(PageName.PAGE_EVENT):
             # 可能首次进入活动，有活动剧情

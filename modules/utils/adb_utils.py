@@ -97,7 +97,7 @@ def get_now_running_app(use_config=None):
             output = sentence
             if "null" in output:
                 #logging.warn("MUMU模拟器需要设置里关闭保活！")
-                return False
+                return output
             break
     # 截取app activity
     try:

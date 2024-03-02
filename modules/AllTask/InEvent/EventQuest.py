@@ -63,9 +63,9 @@ class EventQuest(Task):
                 click(Page.MAGICPOINT)
                 # 点击Quest标签
                 click((965, 98))
-                self.scroll_right_up()
+                self.scroll_right_up(times=5)
                 # 点击第一个level
-                click((1130, 200), sleeptime=2)
+                click((1130, 200), sleeptime=3)
                 logging.info(f"尝试跳转到第{level_ind+1}个level")
                 # 向右挪到第level_ind个level
                 # 判断是否要推图并推图

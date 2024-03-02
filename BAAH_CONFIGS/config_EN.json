@@ -168,7 +168,7 @@
     "ADB_PATH": "./tools/adb/adb.exe",
     "SCREENSHOT_NAME": "e6c3adda.png",
     "TARGET_PORT": 16416,
-    "TIME_AFTER_CLICK": 0.3,
+    "TIME_AFTER_CLICK": 1.0,
     "NEXT_CONFIG": "",
     "SHOP_NORMAL": [
         [],
@@ -246,5 +246,18 @@
     "AUTO_EVENT_STORY_PUSH": false,
     "EXPLORE_RAINBOW_TEAMS": false,
     "ENABLE_MAIL_NOTI": false,
-    "CAFE_TOUCH_WAY_DIFF": false
+    "CAFE_TOUCH_WAY_DIFF": false,
+    "USE_VPN": false,
+    "VPN_CONFIG": {
+        "VPN_ACTIVITY": "com.github.kr328.clash/com.github.kr328.clash.MainActivity",
+        "CLICK_AND_WAIT_LIST": [
+            [
+                [
+                    622,
+                    248
+                ],
+                2
+            ]
+        ]
+    }
 }
