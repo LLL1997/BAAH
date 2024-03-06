@@ -4,12 +4,13 @@ from DATA.assets.PageName import PageName
 from DATA.assets.ButtonName import ButtonName
 from DATA.assets.PopupName import PopupName
 
+import logging
 from modules.AllPage.Page import Page
 from modules.AllTask.Task import Task
 
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep
+from modules.configs.MyConfig import config
 
-import logging
 # =====
 
 class Loginin(Task):
@@ -44,7 +45,7 @@ class Loginin(Task):
 
 
         from modules.utils.adb_utils import open_app,check_app_running,close_app
-        from modules.configs.MyConfig import config
+        
         if i != None and i%10==0 and not check_app_running(config.userconfigdict['ACTIVITY_PATH']) :
             sleep(5)
             open_app(config.userconfigdict['ACTIVITY_PATH'])
