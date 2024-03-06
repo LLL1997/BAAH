@@ -73,7 +73,7 @@ class Task:
         click(Page.MAGICPOINT)
         click(Page.MAGICPOINT)
         if Task.run_until(
-            lambda: click(button_pic(ButtonName.BUTTON_HOME_ICON)) or click((1250, 40)), 
+            lambda: click(button_pic(ButtonName.BUTTON_HOME_ICON)) or click(Page.HOMEPOINT), 
             lambda: Page.is_page(PageName.PAGE_HOME), times=times, sleeptime=3):
             logging.info("返回主页成功")
             return True

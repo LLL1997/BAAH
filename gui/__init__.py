@@ -160,7 +160,7 @@ def show_GUI(load_jsonname, config, shared_softwareconfig):
                 if os.path.exists("BAAH.exe"):
                     os.system(f'start BAAH.py "{load_jsonname}"')
                 else:
-                    os.system(f'start main.py "{load_jsonname}"')
+                    os.system(f'start python main.py "{load_jsonname}"')
                 
                 
             ui.button(config.get_text("button_save_and_run"), on_click=save_and_alert_and_run)

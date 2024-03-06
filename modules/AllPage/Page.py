@@ -7,7 +7,7 @@ class Page:
     """
     Center of the screen
     """
-    MAGICPOINT = (300, 2)
+    MAGICPOINT = tuple((300, 2))
     """
     Magicpoint is the point that never contains any activable item
     """

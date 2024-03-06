@@ -19,6 +19,7 @@ class Loginin(Task):
      
     def pre_condition(self) -> bool:
         if(self.post_condition()):
+            click(Page.MAGICPOINT, 3)
             return False
         return True
     
@@ -37,6 +38,8 @@ class Loginin(Task):
             click(button_pic(ButtonName.BUTTON_QUIT_LAST))
         else:
             # 活动弹窗
+            if config.userconfigdict['SERVER_TYPE']  not in ["CN", "CN_BILI"]:
+                click(Page.MAGICPOINT, 3) #
             click((1250, 40))
 
 

@@ -146,11 +146,11 @@
         "战术大赛",
         "每日任务"
     ],
-    "TARGET_EMULATOR_PATH": "D:/Program Files/Netease/MuMuPlayer-12.0/shell/MuMuPlayer.exe -v 4",
+    "TARGET_EMULATOR_PATH": "D:/Program Files/MuMuPlayer-12.0/shell/MuMuPlayer.exe -v 3",
     "PIC_PATH": "./DATA/assets_jp",
     "ADB_PATH": "./tools/adb/adb.exe",
     "SCREENSHOT_NAME": "c7c19314.png",
-    "TARGET_PORT": 16512,
+    "TARGET_PORT": 16480,
     "TIME_AFTER_CLICK": 0.3,
     "NEXT_CONFIG": "",
     "SHOP_NORMAL": [
@@ -232,7 +232,7 @@
     "AUTO_EVENT_STORY_PUSH": false,
     "EXPLORE_RAINBOW_TEAMS": false,
     "ENABLE_MAIL_NOTI": false,
-    "CAFE_TOUCH_WAY_DIFF": false,
+    "CAFE_TOUCH_WAY_DIFF": true,
     "USE_VPN": false,
     "VPN_CONFIG": {
         "VPN_ACTIVITY": "com.github.kr328.clash/com.github.kr328.clash.MainActivity",

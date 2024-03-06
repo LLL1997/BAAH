@@ -20,6 +20,7 @@ class EnterGame(Task):
             return False
         if match(button_pic(ButtonName.BUTTON_HOME_ICON)):
             return not self.back_to_home()
+
         return True
     
      

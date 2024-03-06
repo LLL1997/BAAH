@@ -1,4 +1,5 @@
-import os,time
+import os
+import  time
 import schedule
 import threading
 import subprocess 
@@ -85,7 +86,7 @@ def start_script_and_load_json(json_config_file_path,task_name):
     
 def remove_running_log():
     # 获取目录下的所有文件和文件夹
-    file_list = os.listdir('./log/')
+    file_list = os.listdir('./log')
     # 筛选出名称中含有"running"的文件
     running_files = [file for file in file_list if '运行中' in file]
     [remove_file('./log/'+file) for file in running_files]
