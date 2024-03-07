@@ -46,20 +46,25 @@ class InSpecial(Task):
             lambda: Page.is_page(PageName.PAGE_SPECIAL),
         )
         # 开始扫荡target_info中的每一个关卡
-        # from modules.utils.add_function import check_banner
-        # #@@check_banner()
+        sleep(2)
+        if config.userconfigdict["SERVER_TYPE"] in ["CN","CN_BILI"]:
+            click((952, 261))
+            sleep(2)
         logging.info(match(page_pic(PageName.PAGE_IN_PROGRESS),threshold=0.90,returnpos=True))
-        if not match(page_pic(PageName.PAGE_IN_PROGRESS), threshold=0.90): 
+        if not match(page_pic(PageName.PAGE_IN_PROGRESS),threshold=0.90,returnpos=True): 
             logging.info(
                 f"特殊作战设置为不在活动时间不刷取,未检测到活动图标{PageName.PAGE_IN_PROGRESS}，忽略"
             )
             return
         else:
             logging.info(f"特殊作战设置为仅在活动中（双倍三倍）执行，且检测到横幅{PageName.PAGE_IN_PROGRESS}")
+
             # 这之后target_info是一个list，内部会有多个关卡扫荡
         # 序号转下标
         # target_info = [[each[0]-1, each[1]-1, each[2]] for each in target_info]
-        
+        if config.userconfigdict["SERVER_TYPE"] in ["CN","CN_BILI"]:
+            click(Page.TOPLEFTBACK)
+            sleep(2)
         def _generator(target_info):
             for  x in target_info:
                 if len(x)==4:

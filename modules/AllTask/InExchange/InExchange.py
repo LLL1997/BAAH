@@ -45,24 +45,22 @@ class InExchange(Task):
             lambda: click((712, 592)),
             lambda: Page.is_page(PageName.PAGE_EXCHANGE),
         )
+        time.sleep(3)
         if config.userconfigdict["SERVER_TYPE"] in ["CN","CN_BILI"]:
             click((963, 544))
+            sleep(2)
         # TODO 后期加个判断是否双倍或者三倍，实现可能为判断是否为三倍双倍横幅位置是否为空白的（没有横幅），左上角的按钮和出击页面的按钮不同，无法匹配，这里用左上角的
-        logging.info(match(page_pic(PageName.PAGE_IN_PROGRESS),threshold=0.920,returnpos=True))
-        if  match(page_pic(PageName.PAGE_IN_PROGRESS),threshold=0.90):
+        logging.info(match(page_pic(PageName.PAGE_IN_PROGRESS),threshold=0.86,returnpos=True))
+        if  match(page_pic(PageName.PAGE_IN_PROGRESS),threshold=0.86):
             logging.info(f"学院交流会为仅在活动中（双倍三倍）执行，且检测到横幅{PageName.PAGE_IN_PROGRESS}")
-
         else:
             logging.info("学院交流会设置为不在活动时间不刷取,未检测到横幅{PageName.PAGE_IN_PROGRESS}，忽略")
             # 回到主页
             self.back_to_home()
             return
-        if config.userconfigdict["SERVER_TYPE"] in ["CN","CN_BILI"]:
-                self.run_until(
-                lambda: click(Page.TOPLEFTBACK),
-                lambda: not Page.is_page(PageName.PAGE_EXCHANGE_SUB),
-                sleeptime=3
-                )
+        if config.userconfigdict["SERVER_TYPE"] in ["CN","CN_BILI",]:
+            click(Page.TOPLEFTBACK)
+            sleep(2)
         # 这之后target_info是一个list，内部会有多个关卡扫荡
         # 15-Feb-24 15:27:37 - INFO - (True, (1209, 164), inf)
         logging.info(match(page_pic(PageName.PAGE_IN_PROGRESS),threshold=0.92,returnpos=True))
