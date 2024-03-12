@@ -256,6 +256,7 @@
         "活动关卡",
         "战术大赛",
         "特殊任务",
+        "活动关卡",
         "普通关卡",
         "每日任务"
     ],
@@ -303,9 +304,10 @@
         true,
         true,
         true,
+        false,
         true,
         true,
-        true,
+        false,
         false,
         true
     ],

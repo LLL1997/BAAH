@@ -228,7 +228,7 @@
     "CAFE_CAMERA_FULL": true,
     "SERVER_TYPE": "CN",
     "CLOSE_EMULATOR_BAAH": true,
-    "FANHEXIE": true,
+    "FANHEXIE": false,
     "KILL_PORT_IF_EXIST": true,
     "CAFE_EXHAUSTIVITY_TOUCH_HEAD": false,
     "SHOP_CONTEST_switch": false,
