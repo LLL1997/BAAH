@@ -53,7 +53,7 @@ class Loginin(Task):
             sleep(20)
 
         # 超过一半的运行时间,尝试重启app一次来解决卡登录问题
-        if i == int(times*0.5): 
+        if i == int(times*0.2): 
             # 关闭app,
             logging.info("可能app卡登录,尝试重启app来解决")
             close_app(config.userconfigdict['ACTIVITY_PATH'])
