@@ -80,7 +80,7 @@ class InEvent(Task):
         if not check_app_running(config.userconfigdict['ACTIVITY_PATH']):
             logging.warn("跳转出了游戏，尝试重新进入游戏")
             open_app(config.userconfigdict['ACTIVITY_PATH'])
-            sleep(1)
+            sleep(3)
             if not check_app_running(config.userconfigdict['ACTIVITY_PATH']):
                 logging.error("重新进入游戏失败")
                 self.back_to_home()
@@ -90,6 +90,9 @@ class InEvent(Task):
         if not Page.is_page(PageName.PAGE_EVENT):
             # 可能首次进入活动，有活动剧情
             SkipStory(pre_times=5).run()
+        click(Page.MAGICPOINT, sleeptime=0.3)
+        click(Page.MAGICPOINT, sleeptime=0.3)
+        screenshot()
         # 判断左上角标题
         if not Page.is_page(PageName.PAGE_EVENT):
             return False

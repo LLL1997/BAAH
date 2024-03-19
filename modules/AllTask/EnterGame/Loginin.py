@@ -8,7 +8,9 @@ import logging
 from modules.AllPage.Page import Page
 from modules.AllTask.Task import Task
 
-from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep
+import logging
+
+from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, check_app_running, open_app, screenshot
 from modules.configs.MyConfig import config
 
 # =====
@@ -27,6 +29,12 @@ class Loginin(Task):
 
     @staticmethod
     def try_jump_useless_pages(i=None,times=0):
+        # 确认处在游戏界面
+        if not check_app_running(config.userconfigdict['ACTIVITY_PATH']):
+            open_app(config.userconfigdict['ACTIVITY_PATH'])
+            logging.warn("游戏未在前台，尝试打开游戏")
+            sleep(2)
+            screenshot()
         # 点掉确认按钮
             
         if match(popup_pic(PopupName.POPUP_MAINTENACE_NOTICE)) and match(popup_pic(PopupName.POPUP_NOTICE)):# TODO 增加识别维护
@@ -65,8 +73,8 @@ class Loginin(Task):
         # 因为涉及到签到页面什么的，所以这里点多次魔法点
         if self.run_until(self.try_jump_useless_pages, 
                       lambda: match(popup_pic(PopupName.POPUP_LOGIN_FORM)) or Page.is_page(PageName.PAGE_HOME), 
-                      times = 999,
-                      sleeptime = 1.5)==False:
+                      times = 666,
+                      sleeptime = 2)==False:
             from modules.add_functions.msg import push_msg_fast
             push_msg_fast(f"碧蓝档案游戏，游戏登录，无法进入主页可能要更新app或服务器维护，程序退出{self.name}")
             raise Exception("游戏登录，无法进入主页可能要更新app或服务器维护，程序退出原因{}".format(self.name))

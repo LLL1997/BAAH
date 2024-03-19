@@ -2,7 +2,10 @@ from modules.AllPage.Page import Page
 from DATA.assets.PageName import PageName
 from DATA.assets.PopupName import PopupName
 from DATA.assets.ButtonName import ButtonName
+
+
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, screenshot
+
 import logging
 import inspect
 
@@ -70,32 +73,44 @@ class Task:
         返回成功与否
         """
         logging.info("尝试返回主页")
-        click(Page.MAGICPOINT)
-        click(Page.MAGICPOINT)
+        for i in range(times):
+            click(Page.MAGICPOINT)
+            click(Page.MAGICPOINT)
+            screenshot()
+            if match(button_pic(ButtonName.BUTTON_HOME_ICON)):
+                click(button_pic(ButtonName.BUTTON_HOME_ICON), sleeptime=2)
+            screenshot()
+            if(Page.is_page(PageName.PAGE_HOME)):
+                logging.info("返回主页成功")
+                return True
+            # 跳过故事
+            screenshot()
+            if match(button_pic(ButtonName.BUTTON_STORY_MENU)):
+                menures = match(button_pic(ButtonName.BUTTON_STORY_MENU), returnpos=True)
+                menuxy = menures[1]
+                click(menuxy, sleeptime=1)
+                click((menuxy[0], menuxy[1] + 80), sleeptime=1)
+                screenshot()
+                click(button_pic(ButtonName.BUTTON_CONFIRMB), sleeptime=2)
+        logging.error("返回主页失败")
+        from BAAH import  BAAH_restart_emulator, check_connect, check_app_running, open_app, BAAH_open_target_app
+        from modules.configs.MyConfig import config
+        from modules.AllTask.EnterGame.EnterGame import EnterGame
+        if not  check_connect(): 
+            logging.info("adb断开,重启模拟器")
+            BAAH_restart_emulator()
+        if not check_app_running(config.userconfigdict['ACTIVITY_PATH']) :
+            logging.info("app不在运行,重启游戏")
+            BAAH_open_target_app()
+            EnterGame()
+
         if Task.run_until(
-            lambda: click(button_pic(ButtonName.BUTTON_HOME_ICON)) or click(Page.HOMEPOINT), 
+            lambda: click(button_pic(ButtonName.BUTTON_HOME_ICON))or click(Page.HOMEPOINT), 
             lambda: Page.is_page(PageName.PAGE_HOME), times=times, sleeptime=3):
             logging.info("返回主页成功")
             return True
-        else:
-            logging.info("返回主页失败,尝试解决")
-            from BAAH import  BAAH_restart_emulator, check_connect, check_app_running, open_app, BAAH_open_target_app
-            from modules.configs.MyConfig import config
-            from modules.AllTask.EnterGame.EnterGame import EnterGame
-            if not  check_connect(): 
-                logging.info("adb断开,重启模拟器")
-                BAAH_restart_emulator()
-            if not check_app_running(config.userconfigdict['ACTIVITY_PATH']) :
-                logging.info("app不在运行,重启游戏")
-                BAAH_open_target_app()
-                EnterGame()
-            if Task.run_until(
-                lambda: click(button_pic(ButtonName.BUTTON_HOME_ICON)) or click((1245, 30)), 
-                lambda: Page.is_page(PageName.PAGE_HOME), times=times, sleeptime=3):
-                logging.info("返回主页成功")
-                return True
-            logging.info("返回主页失败")
-            return False
+        logging.info("返回主页失败")
+        return False
         
     
     @staticmethod
@@ -111,19 +126,6 @@ class Task:
         """
         # ...
         pass
-    
-    @staticmethod
-    def close_any_non_select_popup() -> bool:
-        """
-        关闭任一非选择性的弹窗一次，如设置栏，桃信等弹窗
-        
-        返回是否产生了关闭动作
-        """
-        isSettingRes = match(popup_pic(PopupName.POPUP_SETTING_SELECT), returnpos=True)
-        if(isSettingRes[0]):
-            click(isSettingRes[1])
-            return True
-        return False
 
     def click_magic_sleep(self, sleeptime = 3):
         if self.click_magic_when_run:
