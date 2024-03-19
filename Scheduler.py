@@ -143,7 +143,7 @@ def setup_daily_tasks(fun,time:tuple,config:tuple | list):
 #         time.sleep(20)
 
 if __name__ == '__main__':
-    # kill_mumu()
+#     kill_mumu()
     remove_running_log()
     # 定义一个子线程，用来检测模拟器所在的桌面，发现不在桌面3就移动到桌面3
     # t0 = threading.Thread(target=check_emulator_VD)

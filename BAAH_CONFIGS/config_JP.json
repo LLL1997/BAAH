@@ -106,18 +106,36 @@
             ],
             [
                 14,
-                3,
+                1,
                 -1
             ],
             [
-                12,
                 3,
+                2,
                 -1
             ],
             [
-                8,
-                3,
+                17,
+                2,
                 -1
+            ],
+            [
+                15,
+                2,
+                -1,
+                true
+            ],
+            [
+                23,
+                2,
+                -1,
+                true
+            ],
+            [
+                15,
+                3,
+                -1,
+                true
             ]
         ]
     ],
@@ -237,7 +255,7 @@
     "PUSH_HARD_QUEST": 0,
     "PUSH_HARD_QUEST_LEVEL": 1,
     "GRID_SOL_PATH": "./DATA/grid_solution",
-    "AUTO_EVENT_STORY_PUSH": false,
+    "AUTO_EVENT_STORY_PUSH": true,
     "EXPLORE_RAINBOW_TEAMS": false,
     "ENABLE_MAIL_NOTI": false,
     "CAFE_TOUCH_WAY_DIFF": true,
@@ -253,5 +271,6 @@
                 2
             ]
         ]
-    }
+    },
+    "AUTO_PUSH_EVENT_QUEST": true
 }

@@ -63,7 +63,19 @@
     "EVENT_QUEST_LEVEL": [
         [
             [
-                12,
+                9,
+                -1
+            ]
+        ],
+        [
+            [
+                10,
+                -1
+            ]
+        ],
+        [
+            [
+                11,
                 -1
             ]
         ]
@@ -77,10 +89,10 @@
                 true
             ],
             [
-                14,
+                19,
                 3,
                 -1,
-                false
+                true
             ],
             [
                 18,
@@ -92,25 +104,25 @@
                 13,
                 2,
                 -1,
-                false
+                true
             ],
             [
                 16,
                 2,
                 -1,
-                false
+                true
             ],
             [
-                12,
-                3,
+                14,
+                1,
                 -1,
-                false
+                true
             ],
             [
-                8,
-                3,
+                17,
+                2,
                 -1,
-                false
+                true
             ],
             [
                 19,
@@ -120,9 +132,9 @@
             ],
             [
                 15,
-                2,
+                3,
                 -1,
-                false
+                true
             ]
         ]
     ],
@@ -195,6 +207,12 @@
             2,
             3,
             4
+        ],
+        [
+            1,
+            2,
+            3,
+            4
         ]
     ],
     "SHOP_CONTEST": [
@@ -220,7 +238,7 @@
         true,
         true,
         true,
-        true,
+        false,
         true,
         false,
         true
@@ -237,7 +255,7 @@
     "KILL_PORT_IF_EXIST": true,
     "CAFE_EXHAUSTIVITY_TOUCH_HEAD": false,
     "SHOP_CONTEST_switch": false,
-    "SHOP_CONTEST_SWITCH": true,
+    "SHOP_CONTEST_SWITCH": false,
     "PUSH_NORMAL_QUEST": 0,
     "PUSH_NORMAL_QUEST_LEVEL": 1,
     "PUSH_HARD_QUEST": 0,
@@ -259,5 +277,6 @@
                 2
             ]
         ]
-    }
+    },
+    "AUTO_PUSH_EVENT_QUEST": true
 }

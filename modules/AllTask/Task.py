@@ -92,6 +92,7 @@ class Task:
                 click((menuxy[0], menuxy[1] + 80), sleeptime=1)
                 screenshot()
                 click(button_pic(ButtonName.BUTTON_CONFIRMB), sleeptime=2)
+            sleep(i)
         logging.error("返回主页失败")
         from BAAH import  BAAH_restart_emulator, check_connect, check_app_running, open_app, BAAH_open_target_app
         from modules.configs.MyConfig import config

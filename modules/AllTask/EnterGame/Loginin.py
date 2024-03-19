@@ -10,6 +10,8 @@ from modules.AllTask.Task import Task
 
 import logging
 
+
+from modules.utils.adb_utils import close_app
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, check_app_running, open_app, screenshot
 from modules.configs.MyConfig import config
 
@@ -52,7 +54,6 @@ class Loginin(Task):
             click((1250, 40))
 
 
-        from modules.utils.adb_utils import open_app,check_app_running,close_app
         
         if i != None and i%10==0 and not check_app_running(config.userconfigdict['ACTIVITY_PATH']) :
             sleep(5)
@@ -71,13 +72,17 @@ class Loginin(Task):
 
     def on_run(self) -> None:
         # 因为涉及到签到页面什么的，所以这里点多次魔法点
-        if self.run_until(self.try_jump_useless_pages, 
-                      lambda: match(popup_pic(PopupName.POPUP_LOGIN_FORM)) or Page.is_page(PageName.PAGE_HOME), 
+        if not self.run_until(self.try_jump_useless_pages, 
+                      lambda: match(popup_pic(PopupName.POPUP_LOGIN_FORM) or Page.is_page(PageName.PAGE_HOME)), 
                       times = 666,
-                      sleeptime = 2)==False:
+                      sleeptime = 2):
             from modules.add_functions.msg import push_msg_fast
             push_msg_fast(f"碧蓝档案游戏，游戏登录，无法进入主页可能要更新app或服务器维护，程序退出{self.name}")
             raise Exception("游戏登录，无法进入主页可能要更新app或服务器维护，程序退出原因{}".format(self.name))
+        if config.userconfigdict['SERVER_TYPE']  not in ["GLOBAL", ]:
+                click(Page.MAGICPOINT)
+                sleep(10)
+                click(Page.MAGICPOINT) # 有时候公告加载慢了 卡识别，国际服加载公告慢
 
      
     def post_condition(self) -> bool:

@@ -162,9 +162,6 @@ def BAAH_kill_emulator():
         try:
             if not config.sessiondict["EMULATOR_PROCESS_PID"]:
                 logging.error("未能获取到模拟器进程，跳过关闭模拟器")
-                from modules.add_functions.msg import push_msg_fast
-                push_msg_fast("碧蓝档案,BAAH未能获取到模拟器进程"+config.userconfigdict['SERVER_TYPE'])
-                return
             # 提取出模拟器的exe名字
             full_path = config.userconfigdict['TARGET_EMULATOR_PATH']
             emulator_exe=os.path.basename(full_path).split(".exe")[0]+".exe"
