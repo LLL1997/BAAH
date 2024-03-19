@@ -73,7 +73,7 @@ class Loginin(Task):
     def on_run(self) -> None:
         # 因为涉及到签到页面什么的，所以这里点多次魔法点
         if not self.run_until(self.try_jump_useless_pages, 
-                      lambda: match(popup_pic(PopupName.POPUP_LOGIN_FORM) or Page.is_page(PageName.PAGE_HOME)), 
+                      lambda: match(popup_pic(PopupName.POPUP_LOGIN_FORM)) or Page.is_page(PageName.PAGE_HOME), 
                       times = 666,
                       sleeptime = 2):
             from modules.add_functions.msg import push_msg_fast
