@@ -41,10 +41,14 @@ class InSpecial(Task):
             sleeptime=4
         )
         # 进入特殊任务页面
-        self.run_until(
+        caninspecial = self.run_until(
             lambda: click((721, 538)),
             lambda: Page.is_page(PageName.PAGE_SPECIAL),
         )
+        if not caninspecial:
+            logging.warning("Can't open special page, task quit")
+            self.back_to_home()
+            return
         # 开始扫荡target_info中的每一个关卡
         sleep(2)
         if config.userconfigdict["SERVER_TYPE"] in ["CN","CN_BILI"]:

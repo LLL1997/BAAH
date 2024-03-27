@@ -41,7 +41,7 @@ class InExchange(Task):
             sleeptime=4
         )
         # 进入学院交流会页面
-        self.run_until(
+        caninexchange = self.run_until(
             lambda: click((712, 592)),
             lambda: Page.is_page(PageName.PAGE_EXCHANGE),
         )
@@ -73,6 +73,10 @@ class InExchange(Task):
                 else: # 兼容老版3个参数的config
                     yield  [x[0]-1,x[1]-1,x[2]]
         target_info=(_generator(_target_info))
+        if not caninexchange:
+            logging.warning("Can't open exchange page, task quit")
+            self.back_to_home()
+            return
         for each_target in target_info:
             # check whether there is a ticket
             if each_target[-1] == 'false' or each_target[-1] == False or each_target[-1] == 0 : # 开关关闭
