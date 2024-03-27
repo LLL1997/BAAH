@@ -2,10 +2,7 @@ from modules.AllPage.Page import Page
 from DATA.assets.PageName import PageName
 from DATA.assets.PopupName import PopupName
 from DATA.assets.ButtonName import ButtonName
-
-
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, screenshot
-
 import logging
 import inspect
 
@@ -127,6 +124,19 @@ class Task:
         """
         # ...
         pass
+    
+    @staticmethod
+    def close_any_non_select_popup() -> bool:
+        """
+        关闭任一非选择性的弹窗一次，如设置栏，桃信等弹窗
+        
+        返回是否产生了关闭动作
+        """
+        isSettingRes = match(popup_pic(PopupName.POPUP_SETTING_SELECT), returnpos=True)
+        if(isSettingRes[0]):
+            click(isSettingRes[1])
+            return True
+        return False
 
     def click_magic_sleep(self, sleeptime = 3):
         if self.click_magic_when_run:

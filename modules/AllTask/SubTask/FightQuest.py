@@ -65,25 +65,15 @@ class FightQuest(Task):
                 lambda: not Page.is_page(PageName.PAGE_EDIT_QUEST_TEAM),
                 sleeptime = 2
             )
-        for t in range(2):
-            # 等到右上角白色UI出来, 或者可能进入剧情
-            self.run_until(
-                lambda: click(Page.MAGICPOINT),
-                lambda: match_pixel((1250, 32), Page.COLOR_BUTTON_WHITE) or match(button_pic(ButtonName.BUTTON_STORY_MENU)),
-                times=10,
-                sleeptime = 2
-            )
-            # 1. 如果是白色UI，进入战斗
-            if match_pixel((1250, 32), Page.COLOR_BUTTON_WHITE):
-                # 战斗中
-                logging.info("战斗中...")
-                break
-            # 2. 如果是剧情，跳过剧情
-            if match(button_pic(ButtonName.BUTTON_STORY_MENU)):
-                logging.info("剧情中...")
-                SkipStory(pre_times=3).run()
-                # 跳过剧情后，重新判断是否进入了战斗
-                continue
+        # 战斗中
+        logging.info("战斗中...")
+        # 等到右上角白色UI出来
+        self.run_until(
+            lambda: click(Page.MAGICPOINT),
+            lambda: match_pixel((1250, 32), Page.COLOR_BUTTON_WHITE),
+            times=10,
+            sleeptime = 2
+        )
         # 切换AUTO
         logging.info("切换AUTO...")
         self.run_until(
@@ -111,7 +101,7 @@ class FightQuest(Task):
             self.run_until(
                 lambda: click(button_pic(ButtonName.BUTTON_FIGHT_RESULT_CONFIRMB)) and click(Page.MAGICPOINT),
                 lambda: not match(button_pic(ButtonName.BUTTON_FIGHT_RESULT_CONFIRMB)),
-                times=7,
+                times=5,
                 sleeptime=1
             )
         # 战斗后可能剧情
@@ -140,9 +130,9 @@ class FightQuest(Task):
         # 获得奖励，右下确认黄色（左边返回大厅）
         logging.info("点击确认...")
         backres = self.run_until(
-            lambda: click(button_pic(ButtonName.BUTTON_CONFIRMY), threshold=0.8) or click(Page.MAGICPOINT),
+            lambda: click(button_pic(ButtonName.BUTTON_CONFIRMY), threshold=0.8) and click(Page.MAGICPOINT),
             self.backtopic,
-            times=20,
+            times=15,
             sleeptime=1
         )
         if not backres:
