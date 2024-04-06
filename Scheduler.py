@@ -148,14 +148,15 @@ if __name__ == '__main__':
     # 定义一个子线程，用来检测模拟器所在的桌面，发现不在桌面3就移动到桌面3
     # t0 = threading.Thread(target=check_emulator_VD)
     # t0.start()
-    multi_daily_task(['config.json','config_JP.json','config_EN.json'])    
+    multi_daily_task(['config.json','config_JP.json','config_EN.json'])
+    # multi_daily_task(['config_摸头.json','config_JP_摸头.json','config_EN_摸头.json'])   
     setup_daily_tasks(fun=multi_daily_task,
                       time=['04:30','20:30'],
                       config=['config.json','config_JP.json','config_EN.json'],
                       )
     setup_daily_tasks(fun=multi_threaded_touch_head_task,
                       time=['04:00','07:30','11:00','14:30','16:00','19:30','23:00','02:30'],
-                      config=('bilibili_只摸头.json','日服_只摸头.json','国际服_只摸头.json'),
+                      config=('config_摸头.json','config_JP_摸头.json','config_EN_摸头.json'),
                       )
 
     while True:
