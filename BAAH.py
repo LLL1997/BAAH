@@ -6,7 +6,7 @@ import os
 current_dir = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(current_dir)
 
-import logging
+from modules.utils.log_utils import logging
 from modules.configs.MyConfig import config
 from modules.utils import *
 from modules.AllTask.myAllTask import my_AllTask
@@ -182,14 +182,22 @@ def BAAH_send_email():
     发送邮件
     """
     if config.userconfigdict["ENABLE_MAIL_NOTI"]:
-        logging.info("发送邮件")
+        logging.info("尝试发送邮件")
         try:
+            # 构造通知对象
+            notificationer = create_notificationer()
             # 构造邮件内容
             content = []
             content.append("BAAH任务结束")
             content.append("配置文件名称: "+config.nowuserconfigname)
+            content.append("任务开始时间: "+config.sessiondict["BAAH_START_TIME"])
             content.append("任务结束时间: "+time.strftime("%Y-%m-%d %H:%M:%S"))
             content.append("游戏区服: "+config.userconfigdict["SERVER_TYPE"])
+            # 任务内容
+            content.append("执行的任务内容:")
+            for ind, task in enumerate(config.userconfigdict["TASK_ORDER"]):
+                if config.userconfigdict["TASK_ACTIVATE"][ind]:
+                    content.append(f"  {task}")
             print(notificationer.send("\n".join(content)))
             logging.info("邮件发送结束")
         except Exception as e:
@@ -197,6 +205,7 @@ def BAAH_send_email():
             logging.error(e)
 
 def BAAH_restart_emulator():
+    config.sessiondict["BAAH_START_TIME"] = time.strftime("%Y-%m-%d %H:%M:%S")
     '''
     重启模拟器
     '''

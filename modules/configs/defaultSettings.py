@@ -1,4 +1,5 @@
 from modules.configs.settingMaps import *
+from time import time
 
 # 用户的脚本config里的默认值以及可选值
 # 如果用户的config里没有某个值，先看能否用settingMaps里映射出来，如果不能，就用默认值代替
@@ -104,21 +105,43 @@ defaultUserDict = {
     "CAFE_COLLECT":{"d":True},
     "CAFE_TOUCH":{"d":True},
     "CAFE_INVITE":{"d":True},
+    "RAISE_ERROR_IF_CANNOT_PUSH_EVENT_QUEST":{"d":True},
+    
+    # 邮件相关
+    "MAIL_USER":{"d":""},
+    "MAIL_PASS":{"d":""},
+    "ADVANCED_EMAIL":{"d":False},
+    "SENDER_EMAIL":{"d":""},
+    "RECEIVER_EMAIL":{"d":""},
+    "MAIL_HOST":{"d":""},
 }
 
 # 软件的config里的默认值
 
 defaultSoftwareDict = {
     "LANGUAGE":{"d":"zh_CN", "s":["zh_CN", "en_US"]},
-    "MAIL_USER":{"d":""},
-    "MAIL_PASS":{"d":""},
+    # "MAIL_USER":{"d":""},  # 弃用
+    # "MAIL_PASS":{"d":""},  # 弃用
+    # "ADVANCED_EMAIL":{"d":False},  # 弃用
+    # "SENDER_EMAIL":{"d":""},  # 弃用
+    # "RECEIVER_EMAIL":{"d":""},  # 弃用
+    # "MAIL_HOST":{"d":""},  # 弃用
+    "ENCRYPT_KEY":{
+        "d":"54321",
+        "m":{
+            "from": "LANGUAGE", # map功能必须要有from字段，这里充当占位符
+            # 使用现在的时间戳作为加密key，长度截取最后五位，字符串！
+            "map": lambda x:  str(int(time()))[-5:]
+        }}
 }
 
-# sessiondict是一个dict，存储了一次任务的运行时信息
+# sessiondict是一个dict，存储一个BAAH配置任务的运行时信息，每次运行的时候都会按照以下内容初始化一个新的sessiondict
 defaultSessionDict = {
     "PORT_IS_USED":{"d":False},
     "EMULATOR_PROCESS_PID":{"d":None},
     "GUI_OPEN_IN_WEB":{"d":True},
     "LAST_TEAM_SET":{"d":[]},
     "CAFE_HAD_INVITED":{"d":True},
+    "TIMETABLE_NO_TICKET":{"d":False},
+    "BAAH_START_TIME":{"d":""},
 }

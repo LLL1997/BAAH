@@ -3,7 +3,9 @@ from DATA.assets.PageName import PageName
 from DATA.assets.PopupName import PopupName
 from DATA.assets.ButtonName import ButtonName
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, screenshot
-import logging
+
+from modules.utils.log_utils import logging
+
 import inspect
 
 class Task:
@@ -204,5 +206,23 @@ class Task:
         """
         for i in range(times):
             swipe((264, 558), (265, 254), sleeptime=0.2)
+        sleep(0.5)
+    
+    @staticmethod
+    def scroll_to_left(times=3):
+        """
+        scroll to left
+        """
+        for i in range(times):
+            swipe((459, 375), (797, 375), sleeptime=0.2)
+        sleep(0.5)
+    
+    @staticmethod
+    def scroll_to_right(times=3):
+        """
+        scroll to right
+        """
+        for i in range(times):
+            swipe((797, 375), (459, 375), sleeptime=0.2)
         sleep(0.5)
         

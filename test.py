@@ -1,6 +1,5 @@
 import sys
-import logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S', encoding='utf-8')
+from modules.utils.log_utils import logging
 from modules.configs.MyConfig import config
 if len(sys.argv) > 1:
     configname = sys.argv[1]
@@ -92,8 +91,7 @@ if __name__=="__main__":
     # print(match(button_pic(ButtonName.BUTTON_COLLECT), returnpos=True)[2])
     
     # 测match
-    # res1 = match_pattern(config.userconfigdict['SCREENSHOT_NAME'], page_pic(PageName.PAGE_FIGHT_CENTER),  show_result=True, auto_rotate_if_trans=False)
-    
+    # res1 = match_pattern(config.userconfigdict['SCREENSHOT_NAME'], button_pic(ButtonName.BUTTON_NEW_STORY_LEVEL),  show_result=True, auto_rotate_if_trans=False)
 
     # 比划点
     screencut_tool()
@@ -103,7 +101,7 @@ if __name__=="__main__":
     # matchres = match_pixel((639, 240), Page.COLOR_RED)
     # print(matchres)
     
-    # InCafe().run()
+    # AutoStory().run()
     
     
     

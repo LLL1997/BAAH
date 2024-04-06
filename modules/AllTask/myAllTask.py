@@ -3,7 +3,7 @@ from modules.AllTask import *
 from modules.AllPage.Page import Page
 
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, screenshot
-import logging
+from modules.utils.log_utils import logging
 from modules.configs.MyConfig import config
 
 # 用户config里的 任务名称 和 任务类 的对应关系
@@ -25,7 +25,8 @@ task_dict= {
     "邮件":[CollectMails,{}],
     "普通关卡":[InQuest, {'types':["normal"]}],
     "普通推图":[InQuest, {'types':["push-normal"]}],
-    "困难推图":[InQuest, {'types':["push-hard"]}]
+    "困难推图":[InQuest, {'types':["push-hard"]}],
+    "主线剧情":[AutoStory,{}],
 }
 
 class AllTask:
