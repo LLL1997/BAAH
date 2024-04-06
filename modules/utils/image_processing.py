@@ -102,6 +102,7 @@ def match_pattern(sourcepic: str, patternpic: str,threshold: float = 0.9, show_r
         return (False, (0, 0), max_val)
     except cv2.error as e:
         logging.error(f"OpenCV 错误: {e}")
+        raise  Exception # TODO 考虑增加全局错误计数器，统计严重错误和一般错误
         return (False, (0, 0), 0.01)
     except FileNotFoundError as e:
         logging.error(f'文件打开错误{e}')
