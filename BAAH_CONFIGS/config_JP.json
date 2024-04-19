@@ -307,7 +307,7 @@
     "SHOP_NORMAL_REFRESH_TIME": 0,
     "SHOP_CONTEST_REFRESH_TIME": 0,
     "SERVER_TYPE": "JP",
-    "CLOSE_EMULATOR_BAAH": true,
+    "CLOSE_EMULATOR_BAAH": false,
     "FANHEXIE": false,
     "KILL_PORT_IF_EXIST": true,
     "CAFE_EXHAUSTIVITY_TOUCH_HEAD": true,
@@ -337,5 +337,12 @@
     "AUTO_PUSH_EVENT_QUEST": true,
     "CAFE_COLLECT": true,
     "CAFE_TOUCH": true,
-    "CAFE_INVITE": true
+    "CAFE_INVITE": true,
+    "RAISE_ERROR_IF_CANNOT_PUSH_EVENT_QUEST": true,
+    "MAIL_USER": "",
+    "MAIL_PASS": "",
+    "ADVANCED_EMAIL": false,
+    "SENDER_EMAIL": "",
+    "RECEIVER_EMAIL": "",
+    "MAIL_HOST": ""
 }
