@@ -15,7 +15,7 @@ from modules.AllTask.InEvent.EventQuest import EventQuest
 from modules.AllTask.InEvent.EventStory import EventStory
 from modules.AllTask.Task import Task
 
-from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, screenshot, check_app_running, open_app
+from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, screenshot, check_app_running, open_app, get_now_running_app_entrance_activity
 
 class InEvent(Task):
     def __init__(self, name="InEvent") -> None:
@@ -77,15 +77,14 @@ class InEvent(Task):
         判断页面是否是一个有效的活动页面
         """
         # 判断是否是在ba游戏里
-        if not check_app_running(config.userconfigdict['ACTIVITY_PATH']):
+        if not check_app_running(config.userconfigdict['ACTIVITY_PATH']) or get_now_running_app_entrance_activity() != config.userconfigdict['ACTIVITY_PATH']:
             logging.warn("跳转出了游戏，尝试重新进入游戏")
             open_app(config.userconfigdict['ACTIVITY_PATH'])
-            sleep(1)
+            sleep(1.5)
             if not check_app_running(config.userconfigdict['ACTIVITY_PATH']):
                 logging.error("重新进入游戏失败")
-                self.back_to_home()
-                return False
-                #raise Exception("重新进入游戏失败")
+                raise Exception("重新进入游戏失败")
+            logging.info("重新进入游戏成功")
             screenshot() # 截图让后面继续判断
         if not Page.is_page(PageName.PAGE_EVENT):
             # 可能首次进入活动，有活动剧情
@@ -220,7 +219,7 @@ class InEvent(Task):
                 maxquest_ind = maxquest - 1
                 logging.info(f"最大关卡: {maxquest}，开始检测是否需要推图")
                 # 设置一个推maxquest_ind关卡0次的任务
-                EventQuest([[maxquest_ind, 0]]).run()
+                EventQuest([[maxquest_ind, 0]], explore=True, raid=False, collect=False).run()
         # 扫荡任务
         if config.userconfigdict["EVENT_QUEST_LEVEL"] and len(config.userconfigdict["EVENT_QUEST_LEVEL"]) != 0:
             # 可选任务队列不为空时

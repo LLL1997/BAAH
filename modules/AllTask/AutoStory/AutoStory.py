@@ -20,21 +20,12 @@ class AutoStory(Task):
     """
     def __init__(self, name="AutoStory") -> None:
         super().__init__(name)
-        if config.userconfigdict["SERVER_TYPE"] in ["CN", "CN_BILI"]:
-            # 国服
-            self.yellow_points = [
-                (974, 297),
-                (939, 357),
-                (903, 422),
-                (866, 485),
-            ]
-        else:
-            self.yellow_points = [
-                (978, 290),
-                (939, 354),
-                (903, 419),
-                (866, 482),
-            ]
+        self.yellow_points = [
+            (975, 297),
+            (939, 359),
+            (903, 422),
+            (866, 485),
+        ]
         # 黄色提示点的bgr值
         self.yellow_bgr = ((0, 170, 250), (30, 200, 255))
 
@@ -137,7 +128,7 @@ class AutoStory(Task):
             # 国服直接以数字开头
             if len(line[0])>=2 and line[0][0].isdigit() and line[0][1] == ".":
                 maxnum = max(maxnum, int(line[0][0]))
-        logging.info("最大篇章数为%d", maxnum)
+        logging.info(f"最大篇章数为{maxnum}")
         return maxnum
      
     def pre_condition(self) -> bool:

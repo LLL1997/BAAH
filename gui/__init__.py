@@ -19,6 +19,7 @@ from gui.pages.Setting_timetable import set_timetable
 from gui.pages.Setting_wanted import set_wanted
 from gui.pages.Setting_notification import set_notification
 from gui.pages.Setting_vpn import set_vpn
+from gui.pages.Setting_Assault import set_assault
 
 @ui.refreshable
 def show_GUI(load_jsonname, config, shared_softwareconfig):
@@ -44,6 +45,7 @@ def show_GUI(load_jsonname, config, shared_softwareconfig):
         "战术大赛":config.get_text("task_contest"),
         "困难关卡":config.get_text("task_hard"),
         "活动关卡":config.get_text("task_event"),
+        "总力战":config.get_text("task_assault"),
         "每日任务":config.get_text("task_daily"),
         "邮件":config.get_text("task_mail"),
         "普通关卡":config.get_text("task_normal"),
@@ -86,7 +88,7 @@ def show_GUI(load_jsonname, config, shared_softwareconfig):
                 ui.link(config.get_text("task_exchange"), '#EXCHANGE')
                 # 添加一个链接，链接到任务页面
                 ui.link(config.get_text("task_event"), '#ACTIVITY')
-                # 添加一个链接，链接到任务页面
+                ui.link(config.get_text("task_assault"), '#ASSAULT')
                 ui.link(config.get_text("task_hard"), '#HARD')
                 # 添加一个链接，链接到任务页面
                 ui.link(config.get_text("task_normal"), '#NORMAL')
@@ -132,6 +134,9 @@ def show_GUI(load_jsonname, config, shared_softwareconfig):
 
             # 活动关卡
             set_event(config)
+            
+            # 总力战
+            set_assault(config)
                 
             # 困难关卡
             set_hard(config)

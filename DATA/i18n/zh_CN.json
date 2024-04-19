@@ -18,6 +18,7 @@
     "push_normal":"普通图推图",
     "push_hard":"困难图推图",
     "push_main_story":"推主线剧情",
+    "task_assault":"总力战",
 
     "setting_emulator":"模拟器配置",
     "setting_server":"服务器配置",
@@ -29,7 +30,7 @@
 
     "BAAH_desc":"BAAH可以帮助你完成碧蓝档案/蔚蓝档案的日服，国际服，国服官服，国服B服的每日任务。配置文件存放于BAAH_CONFIGS文件夹内。QQ群：441069156",
     "BAAH_get_version":"获取最新版本可以到Github下载，或进群下载",
-    "BAAH_attention":"模拟器分辨率请设置为1280*720，240DPI!",
+    "BAAH_attention":"模拟器分辨率请设置为1280*720，240DPI! 游戏内 设置选项-游戏-技能动画-关，设置选项-图像-分辨率-低，设置选项-图像-战斗时上下黑边-关",
 
     "notice_success":"成功",
     "notice_fail":"失败",
@@ -47,7 +48,8 @@
     "button_enable":"开关",
     "button_add":"添加",
     "button_delete":"删除",
-    "button_get_now_app":"获取当前应用名",
+    "button_get_now_app":"获取当前页面",
+    "button_get_now_app_enter":"获取当前应用的入口页面",
     "button_edit":"编辑",
 
     "config_cafe_attention":"请将咖啡馆视角拉到最高，保持勾选以下这项以提高效率",
@@ -105,6 +107,9 @@
     "config_email_sender":"发件人邮箱",
     "config_email_receiver":"收件人邮箱",
     "config_email_smtp":"SMTP服务器",
+    "desc_assault":"总力战目标扫荡难度，如果没解锁会尝试推到目标挡位；本功能为游戏右下角Auto，大概是人手打的练度减两档",
+    "config_run_until_wait_time":"循环等待时间",
+    "config_run_until_try_times":"循环尝试次数",
 
     "config_server_jp":"日服",
     "config_server_cn":"国服官服",

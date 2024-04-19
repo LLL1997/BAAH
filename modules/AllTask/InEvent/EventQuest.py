@@ -17,11 +17,17 @@ from modules.AllTask.Task import Task
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, match_pixel, screenshot
 
 class EventQuest(Task):
-    def __init__(self, level_list, name="EventQuest") -> None:
+    def __init__(self, level_list, explore = True, raid = True, collect = True, name="EventQuest") -> None:
         super().__init__(name)
         self.level_list = level_list
         # 记录上次自动推图的关卡下标
         self.last_fight_level_ind = -1
+        # 是否推图
+        self.explore = explore
+        # 是否扫荡
+        self.raid = raid
+        # 是否领取奖励
+        self.collect = collect
 
      
     def pre_condition(self) -> bool:
@@ -31,6 +37,8 @@ class EventQuest(Task):
         """
         观察下标为this_level_ind的关卡是否可扫荡，如果不可扫荡就打一次
         """
+        if not config.userconfigdict["AUTO_PUSH_EVENT_QUEST"]:
+            return "no"
         screenshot()
         if not match(popup_pic(PopupName.POPUP_TASK_INFO)) and not match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE):
             logging.info("触发推图任务")
@@ -57,11 +65,15 @@ class EventQuest(Task):
     
     def try_collect_all_rewards(self):
         """尝试领取右下角蓝色奖励资讯和左下角每日任务奖励，调用此函数时确保在Quest栏，函数结束会返回到活动页面"""
-        logging.info("尝试领取右下角点数奖励和左下角任务奖励")
         self.run_until(
             lambda: click(Page.MAGICPOINT),
             lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
         )
+        if not self.collect:
+            logging.info("不尝试领取奖励")
+            return
+        else:
+            logging.info("尝试领取右下角点数奖励和左下角任务奖励")
         # 领取右下
         self.run_until(
             lambda: click((1124, 659)),
@@ -85,20 +97,18 @@ class EventQuest(Task):
             )
             # 进入页面后，点击黄色全部领取
             collect_all = self.run_until(
-                lambda: click(button_pic(ButtonName.BUTTON_ALL_COLLECT)),
-                lambda: not match(button_pic(ButtonName.BUTTON_ALL_COLLECT)),
-                times = 3
+                lambda: click(Page.MAGICPOINT) and click(button_pic(ButtonName.BUTTON_ALL_COLLECT)),
+                lambda: not match(button_pic(ButtonName.BUTTON_ALL_COLLECT))
             )
             # 清空弹窗
             self.run_until(
                 lambda: click(Page.MAGICPOINT),
                 lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
             )
-            if collect_all:
-                # 领取每日任务全部完成后的钻石
-                click((970, 670))
-                click((970, 670))
-                click((970, 670))
+            # 领取每日任务全部完成后的钻石
+            click((970, 670))
+            click((970, 670))
+            click((970, 670))
         # 返回活动页面
         self.run_until(
             lambda: click(Page.TOPLEFTBACK),
@@ -126,6 +136,8 @@ class EventQuest(Task):
                 click((1130, 200), sleeptime=3)
                 logging.info(f"尝试跳转到第{level_ind+1}个level")
                 # 向右挪到第level_ind个level
+                if not config.userconfigdict["AUTO_PUSH_EVENT_QUEST"] or not self.explore:
+                    logging.info("设置的不自动推活动图，尝试直接跳转到扫荡关卡")
                 # 判断是否要推图并推图
                 res=self.judge_whether_and_do_fight(0)
                 if res=="yes":
@@ -160,7 +172,9 @@ class EventQuest(Task):
                     # 继续从头滑动
                     continue
                 # 结束自动推图，或不用推图：扫荡
-                RaidQuest(repeat_times).run()
+                if self.raid:
+                    logging.info("开始扫荡")
+                    RaidQuest(repeat_times).run()
                 # 关闭任务咨询弹窗
                 logging.info("关闭任务咨询弹窗")
                 Task.run_until(
