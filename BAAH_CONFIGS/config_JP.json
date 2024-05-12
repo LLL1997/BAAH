@@ -69,6 +69,18 @@
                 12,
                 -1
             ]
+        ],
+        [
+            [
+                11,
+                -1
+            ]
+        ],
+        [
+            [
+                10,
+                -1
+            ]
         ]
     ],
     "HARD": [
@@ -238,11 +250,11 @@
         "普通关卡",
         "战术大赛"
     ],
-    "TARGET_EMULATOR_PATH": "D:/Program Files/Netease/MuMuPlayer-12.0/shell/MuMuPlayer.exe -v 3",
+    "TARGET_EMULATOR_PATH": "D:/Program Files/Netease/MuMuPlayer-12.0/shell/MuMuPlayer.exe -v 4",
     "PIC_PATH": "./DATA/assets_jp",
     "ADB_PATH": "./tools/adb/adb.exe",
     "SCREENSHOT_NAME": "c7c19314.png",
-    "TARGET_PORT": 16480,
+    "TARGET_PORT": 16512,
     "TIME_AFTER_CLICK": 0.3,
     "NEXT_CONFIG": "",
     "SHOP_NORMAL": [
@@ -292,7 +304,7 @@
         true,
         true,
         true,
-        false,
+        true,
         true,
         true,
         true,
@@ -307,7 +319,7 @@
     "SHOP_NORMAL_REFRESH_TIME": 0,
     "SHOP_CONTEST_REFRESH_TIME": 0,
     "SERVER_TYPE": "JP",
-    "CLOSE_EMULATOR_BAAH": false,
+    "CLOSE_EMULATOR_BAAH": true,
     "FANHEXIE": false,
     "KILL_PORT_IF_EXIST": true,
     "CAFE_EXHAUSTIVITY_TOUCH_HEAD": true,
@@ -344,5 +356,8 @@
     "ADVANCED_EMAIL": false,
     "SENDER_EMAIL": "",
     "RECEIVER_EMAIL": "",
-    "MAIL_HOST": ""
+    "MAIL_HOST": "",
+    "AUTO_ASSAULT_LEVEL": 4,
+    "RUN_UNTIL_TRY_TIMES": 6,
+    "RUN_UNTIL_WAIT_TIME": 1.5
 }

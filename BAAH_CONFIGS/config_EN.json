@@ -11,12 +11,14 @@
         ],
         [
             7,
-            8,
-            6,
-            5
+            8
         ],
-        [],
-        [],
+        [
+            7
+        ],
+        [
+            7
+        ],
         [
             5,
             6
@@ -50,9 +52,25 @@
     "EXCHANGE_HIGHEST_LEVEL": [
         [
             [
+                1,
+                4,
+                -1
+            ]
+        ],
+        [
+            [
+                2,
+                4,
+                -1,
+                true
+            ]
+        ],
+        [
+            [
                 3,
-                3,
-                6
+                4,
+                -1,
+                true
             ]
         ]
     ],
@@ -226,7 +244,6 @@
         "困难关卡",
         "特殊任务",
         "每日任务",
-        "清momotalk",
         "战术大赛",
         "活动关卡",
         "普通关卡",
@@ -272,28 +289,33 @@
             4
         ]
     ],
-    "SHOP_CONTEST": [],
+    "SHOP_CONTEST": [
+        [],
+        [
+            3,
+            2
+        ]
+    ],
     "TASK_ACTIVATE": [
         true,
         true,
         true,
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-        false,
-        true,
         false,
         true,
         true,
-        false,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
         true
     ],
     "TARGET_IP_PATH": "127.0.0.1",
@@ -301,11 +323,11 @@
     "LOCK_SERVER_TO_RESPOND_Y": true,
     "CAFE_CAMERA_FULL": true,
     "SHOP_NORMAL_REFRESH_TIME": 0,
-    "SHOP_CONTEST_REFRESH_TIME": 0,
+    "SHOP_CONTEST_REFRESH_TIME": 3,
     "SERVER_TYPE": "GLOBAL",
-    "CLOSE_EMULATOR_BAAH": false,
+    "CLOSE_EMULATOR_BAAH": true,
     "FANHEXIE": false,
-    "KILL_PORT_IF_EXIST": false,
+    "KILL_PORT_IF_EXIST": true,
     "CAFE_EXHAUSTIVITY_TOUCH_HEAD": true,
     "PUSH_NORMAL_QUEST": 0,
     "PUSH_NORMAL_QUEST_LEVEL": 1,
@@ -313,7 +335,7 @@
     "PUSH_HARD_QUEST_LEVEL": 1,
     "GRID_SOL_PATH": "./DATA/grid_solution",
     "AUTO_EVENT_STORY_PUSH": true,
-    "SHOP_CONTEST_SWITCH": false,
+    "SHOP_CONTEST_SWITCH": true,
     "EXPLORE_RAINBOW_TEAMS": true,
     "ENABLE_MAIL_NOTI": false,
     "CAFE_TOUCH_WAY_DIFF": true,
@@ -340,5 +362,8 @@
     "ADVANCED_EMAIL": false,
     "SENDER_EMAIL": "",
     "RECEIVER_EMAIL": "",
-    "MAIL_HOST": ""
+    "MAIL_HOST": "",
+    "AUTO_ASSAULT_LEVEL": 4,
+    "RUN_UNTIL_TRY_TIMES": 6,
+    "RUN_UNTIL_WAIT_TIME": 1.5
 }

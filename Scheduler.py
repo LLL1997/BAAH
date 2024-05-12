@@ -7,7 +7,7 @@ import re
 import concurrent.futures
 from datetime import datetime
 from modules.add_functions.msg import push_msg_fast
-#from modules.utils.move_window import move_windows, window_in_virtual_desktop_and_move_to
+# from modules.utils.move_window import move_windows, window_in_virtual_desktop_and_move_to
 
 def kill_mumu():
     """
@@ -131,17 +131,28 @@ def multi_threaded_touch_head_task(config_tuple):
 
 def setup_daily_tasks(fun,time:tuple,config:tuple | list):
     [schedule.every().day.at(x).do(fun,tuple(config)) for x in time]
-# def check_emulator_VD():
-#     '''检查模拟器所在的桌面，不在桌面3就移动到桌面3'''
-#     while True:
-#         move_windows()
-#         move_windows('MAA')
-#         move_windows('py.exe')
-#         # window_in_virtual_desktop_and_move_to('MAA')
-#         # window_in_virtual_desktop_and_move_to('py.exe')
-#         # window_in_virtual_desktop_and_move_to('模拟器')
-#         time.sleep(20)
+def check_emulator_VD():
+    '''检查模拟器所在的桌面，不在桌面3就移动到桌面3'''
+    while True:
+        move_windows()
+        move_windows('MAA')
+        move_windows('py.exe')
+        window_in_virtual_desktop_and_move_to('MAA')
+        window_in_virtual_desktop_and_move_to('py.exe')
+        window_in_virtual_desktop_and_move_to('模拟器')
+        time.sleep(20)
+class run_status:
+    '''
+    用来管理运行的状态，控制运行时间，防止长时间卡运行，超过限定时间结束任务
+    到达下一个执行时间结束上一个任务开始新的任务
 
+    '''
+    def __init__(self,name,status=False):
+        self.congfig_list=[] # 运行的配置文件列表
+        self.max_time=3600
+        self.max_running=3
+        self.time_list=[]
+        self.post_mail=False
 if __name__ == '__main__':
 #     kill_mumu()
     remove_running_log()

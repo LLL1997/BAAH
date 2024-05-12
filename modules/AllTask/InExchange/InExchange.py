@@ -5,7 +5,7 @@ from DATA.assets.PopupName import PopupName
 from modules.AllPage.Page import Page
 from modules.AllTask.Task import Task
 
-from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area_0,match_pixel
+from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, config, screenshot, match_pixel
 from modules.utils.log_utils import logging
 import time
 import numpy as np
@@ -50,7 +50,8 @@ class InExchange(Task):
             click((963, 544))
             sleep(2)
         # TODO 后期加个判断是否双倍或者三倍，实现可能为判断是否为三倍双倍横幅位置是否为空白的（没有横幅），左上角的按钮和出击页面的按钮不同，无法匹配，这里用左上角的
-        logging.info(match(page_pic(PageName.PAGE_IN_PROGRESS),threshold=0.86,returnpos=True))
+        # logging.info(match(page_pic(PageName.PAGE_IN_PROGRESS),threshold=0.86,returnpos=True))
+        screenshot()
         if  match(page_pic(PageName.PAGE_IN_PROGRESS),threshold=0.86):
             logging.info(f"学院交流会为仅在活动中（双倍三倍）执行，且检测到横幅{PageName.PAGE_IN_PROGRESS}")
         else:
