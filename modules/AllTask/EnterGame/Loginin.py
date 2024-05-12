@@ -34,15 +34,19 @@ class Loginin(Task):
             logging.warn("游戏未在前台，尝试打开游戏")
             sleep(2)
             screenshot()
-        # 点掉确认按钮
+        
             
         if match(popup_pic(PopupName.POPUP_MAINTENACE_NOTICE)) and match(popup_pic(PopupName.POPUP_NOTICE)):# TODO 增加识别维护
             logging.info("服务器维护")
             raise Exception("找到维护弹窗，退出")
         elif match(button_pic(ButtonName.BUTTON_CONFIRMB)):
+            # 点掉确认按钮
             click(button_pic(ButtonName.BUTTON_CONFIRMB))   
-        # 点掉放弃上次战斗进度按钮
+        elif match(button_pic(ButtonName.BUTTON_USER_AGREEMENT)):
+            # 用户协议
+            click(button_pic(ButtonName.BUTTON_USER_AGREEMENT))
         elif match(button_pic(ButtonName.BUTTON_QUIT_LAST)):
+            # 点掉放弃上次战斗进度按钮
             click(button_pic(ButtonName.BUTTON_QUIT_LAST))
         else:
             # 活动弹窗

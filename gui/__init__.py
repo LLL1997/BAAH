@@ -60,9 +60,8 @@ def show_GUI(load_jsonname, config, shared_softwareconfig):
 
 # 定义一个函数，用于渲染设置页面，参数为ui
     with ui.row().style('min-width: 800px; display: flex; flex-direction: row;flex-wrap: nowrap;'):
-        with ui.column().style('min-width: 200px; overflow: auto;flex-grow: 1;position: sticky; top: 0px;'):
-            with ui.card():
-                # 添加一个链接，链接到BAAH页面
+        with ui.column().style('height:80vh;min-width: 200px; overflow: auto;flex-grow: 1; position: sticky; top: 0px;'):
+            with ui.card().style('overflow: auto;'):
                 ui.link("BAAH", '#BAAH')
                 # 添加一个链接，链接到设置页面
                 ui.link(config.get_text("setting_emulator"), '#EMULATOR')

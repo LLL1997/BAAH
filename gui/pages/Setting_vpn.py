@@ -71,12 +71,18 @@ def set_vpn(config):
                 # 分割出点击位置和等待时间
                 click_pos, sleep_time = line
                 with ui.row():
-                    # 如果click_pos是列表
-                    if isinstance(click_pos, list):
+                    # 处理如果click_pos是None，虽然不知道为什么可能是None
+                    # 但是有群友遇到过这个问题
+                    if click_pos == None:
+                        click_pos = f"Error: is None, ind = {i}"
+                    # 如果click_pos是字符串
+                    if isinstance(click_pos, str):
+                        ui.image(click_pos).style("max-width: 100px; max-height: 100px")
+                        ui.input("Pic", value=click_pos, on_change=lambda x,i=i: change_click_pos_x(i, None, x.value)).style('width: 400px')
+                    else:
+                        # 注意list和tuple判断
                         ui.number("X", min=-1, value=click_pos[0], on_change=lambda x,i=i: change_click_pos_x(i, 0, x.value))
                         ui.number("Y", min=-1, value=click_pos[1], on_change=lambda x,i=i: change_click_pos_x(i, 1, x.value))
-                    else:
-                        ui.input("Pic", value=click_pos, on_change=lambda x,i=i: change_click_pos_x(i, None, x.value)).style('width: 400px')
                     ui.number("Wait", min=0, value=sleep_time, on_change=lambda x,i=i: change_wait_time(i, x.value))
                     ui.button(config.get_text("button_edit"), on_click=lambda x,i=i: set_click_pos_of_line(i))
                     ui.button(config.get_text("button_add"), on_click=lambda x, i=i:add_line(i))
@@ -96,6 +102,7 @@ def set_vpn(config):
     with ui.row():
         # 选择加速器包名
         ui.input("APP").bind_value(config.userconfigdict['VPN_CONFIG'], "VPN_ACTIVITY").style('width: 400px')
-        ui.button(config.get_text("button_get_now_app"), on_click=connect_and_get_now_app)
+        ui.button(config.get_text("button_get_now_app_enter"), on_click=lambda : connect_and_get_now_app(enter_activity=True))
+        ui.button(config.get_text("button_get_now_app"), on_click=lambda : connect_and_get_now_app(enter_activity=False))
     # 一系列点击操作
     list_of_click_and_sleep()

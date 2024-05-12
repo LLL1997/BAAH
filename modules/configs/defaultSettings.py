@@ -99,7 +99,7 @@ defaultUserDict = {
     "USE_VPN":{"d":False},
     "VPN_CONFIG":{"d":{
         "VPN_ACTIVITY":"com.github.kr328.clash/com.github.kr328.clash.MainActivity",
-        "CLICK_AND_WAIT_LIST":[[(622, 248), 2]],
+        "CLICK_AND_WAIT_LIST":[[[622, 248], 2]],
     }},
     "AUTO_PUSH_EVENT_QUEST":{"d":True},
     "CAFE_COLLECT":{"d":True},
@@ -119,6 +119,14 @@ defaultUserDict = {
     
     "RUN_UNTIL_TRY_TIMES":{"d":6},
     "RUN_UNTIL_WAIT_TIME":{"d":1.5},
+    
+    # 是否直接使用emulator-5554这种序列号
+    "ADB_DIRECT_USE_SERIAL_NUMBER":{"d":False},
+    "ADB_SEIAL_NUMBER":{"d":"emulator-5554"},
+    # 是否助战学生
+    "IS_AUTO_ASSAULT_STUDENT_HELP":{"d":False},
+    "AUTO_ASSAULT_HELP_STUDENT_IS_SUPPORT":{"d":False},
+    "AUTO_ASSAULT_HELP_STUDENT":{"d":""},
     
 }
 
@@ -150,4 +158,6 @@ defaultSessionDict = {
     "CAFE_HAD_INVITED":{"d":True},
     "TIMETABLE_NO_TICKET":{"d":False},
     "BAAH_START_TIME":{"d":""},
+    "BEFORE_BAAH_SOURCES":{"d":{"power":0, "credit":0, "diamond":0}},
+    "AFTER_BAAH_SOURCES":{"d":{"power":0, "credit":0, "diamond":0}},
 }
