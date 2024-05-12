@@ -86,25 +86,25 @@ def match_pattern(sourcepic: str, patternpic: str,threshold: float = 0.9, show_r
                 result = cv2.matchTemplate(screenshot, pattern[:,:,:3], cv2.TM_CCOEFF_NORMED)
             min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
             
-            h, w, _ = pattern.shape
-            top_left = max_loc
-            # get the center of the pattern
-            center_x = top_left[0] + int(w / 2)
-            center_y = top_left[1] + int(h / 2)
-            if (show_result):
-                bottom_right = (top_left[0] + w, top_left[1] + h)
-                # draw a rectangle on the screenshot
-                cv2.rectangle(screenshot, top_left, bottom_right, (0, 255, 0), 2)
-                # draw a circle on the center of the pattern
-                cv2.circle(screenshot, (center_x, center_y), 10, (0, 0, 255), -1)
-                print("max_val: ", max_val)
-                cv2.imshow('Matched Screenshot', screenshot)
-                cv2.waitKey(0)
-                cv2.destroyAllWindows()
-            if(max_val >= threshold  and max_val <=1 ):
-                logging.debug("Pattern of {} and {} matched ({}). Center: ({}, {})".format(sourcepic, patternpic, max_val, center_x, center_y))
-                return (True, (center_x, center_y), max_val)
-            return (False, (0, 0), max_val)
+        h, w, _ = pattern.shape
+        top_left = max_loc
+        # get the center of the pattern
+        center_x = top_left[0] + int(w / 2)
+        center_y = top_left[1] + int(h / 2)
+        if (show_result):
+            bottom_right = (top_left[0] + w, top_left[1] + h)
+            # draw a rectangle on the screenshot
+            cv2.rectangle(screenshot, top_left, bottom_right, (0, 255, 0), 2)
+            # draw a circle on the center of the pattern
+            cv2.circle(screenshot, (center_x, center_y), 10, (0, 0, 255), -1)
+            print("max_val: ", max_val)
+            cv2.imshow('Matched Screenshot', screenshot)
+            cv2.waitKey(0)
+            cv2.destroyAllWindows()
+        if(max_val >= threshold  and max_val <=1 ):
+            logging.debug("Pattern of {} and {} matched ({}). Center: ({}, {})".format(sourcepic, patternpic, max_val, center_x, center_y))
+            return (True, (center_x, center_y), max_val)
+        return (False, (0, 0), max_val)
     except cv2.error as e:
         logging.error(f"OpenCV 错误: {e}")
         # raise  Exception # TODO 考虑增加全局错误计数器，统计严重错误和一般错误
