@@ -69,18 +69,6 @@
                 12,
                 -1
             ]
-        ],
-        [
-            [
-                11,
-                -1
-            ]
-        ],
-        [
-            [
-                10,
-                -1
-            ]
         ]
     ],
     "HARD": [
@@ -258,12 +246,7 @@
     "TIME_AFTER_CLICK": 0.3,
     "NEXT_CONFIG": "",
     "SHOP_NORMAL": [
-        [
-            1,
-            2,
-            3,
-            4
-        ],
+        [],
         [
             1,
             2,
@@ -304,7 +287,7 @@
         true,
         true,
         true,
-        true,
+        false,
         true,
         true,
         true,
@@ -319,9 +302,9 @@
     "SHOP_NORMAL_REFRESH_TIME": 0,
     "SHOP_CONTEST_REFRESH_TIME": 0,
     "SERVER_TYPE": "JP",
-    "CLOSE_EMULATOR_BAAH": false,
+    "CLOSE_EMULATOR_BAAH": true,
     "FANHEXIE": false,
-    "KILL_PORT_IF_EXIST": false,
+    "KILL_PORT_IF_EXIST": true,
     "CAFE_EXHAUSTIVITY_TOUCH_HEAD": true,
     "PUSH_NORMAL_QUEST": 0,
     "PUSH_NORMAL_QUEST_LEVEL": 1,

@@ -335,7 +335,7 @@
     "PUSH_HARD_QUEST_LEVEL": 1,
     "GRID_SOL_PATH": "./DATA/grid_solution",
     "AUTO_EVENT_STORY_PUSH": true,
-    "SHOP_CONTEST_SWITCH": true,
+    "SHOP_CONTEST_SWITCH": false,
     "EXPLORE_RAINBOW_TEAMS": true,
     "ENABLE_MAIL_NOTI": false,
     "CAFE_TOUCH_WAY_DIFF": true,

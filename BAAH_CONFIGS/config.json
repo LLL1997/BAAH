@@ -1,21 +1,11 @@
 {
     "ACTIVITY_PATH": "com.RoamingStar.BlueArchive.bilibili/com.yostar.supersdk.activity.YoStarSplashActivity",
     "TIMETABLE_TASK": [
-        [
-            7
-        ],
-        [
-            7
-        ],
-        [
-            7,
-            8
-        ],
         [],
-        [
-            7,
-            8
-        ],
+        [],
+        [],
+        [],
+        [],
         [
             7,
             8,
@@ -148,16 +138,40 @@
                 true
             ],
             [
-                15,
-                3,
+                17,
+                2,
                 -1,
-                false
+                true
             ],
             [
                 19,
                 3,
                 -1,
-                false
+                true
+            ],
+            [
+                14,
+                2,
+                -1,
+                true
+            ],
+            [
+                16,
+                1,
+                -1,
+                true
+            ],
+            [
+                7,
+                1,
+                -1,
+                true
+            ],
+            [
+                15,
+                2,
+                -1,
+                true
             ],
             [
                 10,
@@ -166,37 +180,13 @@
                 false
             ],
             [
-                14,
-                3,
-                -1,
-                false
-            ],
-            [
-                16,
-                1,
-                -1,
-                false
-            ],
-            [
-                14,
-                2,
-                -1,
-                false
-            ],
-            [
-                17,
-                2,
-                -1,
-                false
-            ],
-            [
                 11,
-                1,
+                2,
                 -1,
                 false
             ],
             [
-                7,
+                8,
                 2,
                 -1,
                 false
@@ -305,7 +295,7 @@
         true,
         true,
         true,
-        true,
+        false,
         true,
         true,
         true,
@@ -330,9 +320,9 @@
     "SHOP_NORMAL_REFRESH_TIME": 0,
     "SHOP_CONTEST_REFRESH_TIME": 0,
     "SERVER_TYPE": "CN_BILI",
-    "CLOSE_EMULATOR_BAAH": false,
+    "CLOSE_EMULATOR_BAAH": true,
     "FANHEXIE": true,
-    "KILL_PORT_IF_EXIST": false,
+    "KILL_PORT_IF_EXIST": true,
     "CAFE_EXHAUSTIVITY_TOUCH_HEAD": false,
     "PUSH_NORMAL_QUEST": 0,
     "PUSH_NORMAL_QUEST_LEVEL": 1,
