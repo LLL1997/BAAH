@@ -8,7 +8,7 @@ from modules.AllPage.Page import Page
 from modules.AllTask.InCafe.InviteStudent import InviteStudent
 from modules.AllTask.Task import Task
 from modules.utils.log_utils import logging
-from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, config
+from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, config, match_pixel
 
 # =====
 
@@ -59,11 +59,16 @@ class InCafe(Task):
                 logging.info("设置的咖啡馆不邀请学生，跳过第二次摸头")
         else:
             logging.info("设置的咖啡馆不摸头")
+        # 清除弹窗
+        self.run_until(
+            lambda: click(Page.MAGICPOINT),
+            lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
+        )
         # 检测是否有第二个咖啡厅
         if match(button_pic(ButtonName.BUTTON_CAFE_SET_ROOM)):
             # 进入第二个咖啡厅
             logging.info("进入第二个咖啡厅")
-            click(button_pic(ButtonName.BUTTON_CAFE_SET_ROOM))
+            click(button_pic(ButtonName.BUTTON_CAFE_SET_ROOM), sleeptime=1)
             click((247, 165))
             if self.touch:
                 # 摸第二个咖啡厅头
