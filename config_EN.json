@@ -1,0 +1,263 @@
+{
+    "ACTIVITY_PATH": "com.nexon.bluearchive/.MxUnityPlayerActivity",
+    "TIMETABLE_TASK": [
+        [
+            7
+        ],
+        [
+            7
+        ],
+        [
+            7,
+            8
+        ],
+        [],
+        [],
+        [
+            8,
+            7,
+            6,
+            5
+        ],
+        [
+            5,
+            6
+        ],
+        [
+            5,
+            6
+        ],
+        [
+            5,
+            6
+        ],
+        []
+    ],
+    "WANTED_HIGHEST_LEVEL": [
+        [
+            [
+                3,
+                9,
+                -1
+            ]
+        ]
+    ],
+    "SPECIAL_HIGHTEST_LEVEL": [
+        [
+            [
+                2,
+                13,
+                10
+            ]
+        ]
+    ],
+    "EXCHANGE_HIGHEST_LEVEL": [
+        [
+            [
+                3,
+                3,
+                -1
+            ]
+        ]
+    ],
+    "EVENT_QUEST_LEVEL": [
+        [
+            [
+                12,
+                -1
+            ]
+        ]
+    ],
+    "HARD": [
+        [
+            [
+                20,
+                3,
+                -1,
+                true
+            ],
+            [
+                14,
+                3,
+                -1,
+                false
+            ],
+            [
+                18,
+                3,
+                -1,
+                true
+            ],
+            [
+                13,
+                2,
+                -1,
+                false
+            ],
+            [
+                16,
+                2,
+                -1,
+                false
+            ],
+            [
+                12,
+                3,
+                -1,
+                false
+            ],
+            [
+                8,
+                3,
+                -1,
+                false
+            ],
+            [
+                19,
+                3,
+                -1,
+                true
+            ],
+            [
+                15,
+                2,
+                -1,
+                false
+            ]
+        ]
+    ],
+    "NORMAL": [
+        [
+            [
+                23,
+                4,
+                -1,
+                true
+            ],
+            [
+                22,
+                1,
+                -1,
+                true
+            ]
+        ]
+    ],
+    "TASK_ORDER": [
+        "登录游戏",
+        "战术大赛",
+        "社团",
+        "邮件",
+        "咖啡馆",
+        "战术大赛",
+        "课程表",
+        "悬赏通缉",
+        "战术大赛",
+        "学园交流会",
+        "商店",
+        "战术大赛",
+        "每日任务",
+        "困难关卡",
+        "活动关卡",
+        "特殊任务",
+        "战术大赛",
+        "普通关卡",
+        "每日任务"
+    ],
+    "TARGET_EMULATOR_PATH": "D:/Program Files/MuMuPlayer-12.0/shell/MuMuPlayer.exe -v 2",
+    "PIC_PATH": "./DATA/assets",
+    "ADB_PATH": "./tools/adb/adb.exe",
+    "SCREENSHOT_NAME": "e6c3adda.png",
+    "TARGET_PORT": 16448,
+    "TIME_AFTER_CLICK": 1.0,
+    "NEXT_CONFIG": "",
+    "SHOP_NORMAL": [
+        [],
+        [
+            1,
+            2,
+            3,
+            4
+        ],
+        [
+            1,
+            2,
+            3,
+            4
+        ],
+        [
+            1,
+            2,
+            3,
+            4
+        ],
+        [
+            1,
+            2,
+            3,
+            4
+        ]
+    ],
+    "SHOP_CONTEST": [
+        [],
+        [
+            2,
+            3
+        ]
+    ],
+    "TASK_ACTIVATE": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false,
+        true
+    ],
+    "TARGET_IP_PATH": "127.0.0.1",
+    "RESPOND_Y": 40,
+    "LOCK_SERVER_TO_RESPOND_Y": true,
+    "CAFE_CAMERA_FULL": false,
+    "SHOP_NORMAL_REFRESH_TIME": 0,
+    "SHOP_CONTEST_REFRESH_TIME": 3,
+    "SERVER_TYPE": "GLOBAL",
+    "CLOSE_EMULATOR_BAAH": true,
+    "FANHEXIE": false,
+    "KILL_PORT_IF_EXIST": true,
+    "CAFE_EXHAUSTIVITY_TOUCH_HEAD": true,
+    "SHOP_CONTEST_switch": false,
+    "SHOP_CONTEST_SWITCH": true,
+    "PUSH_NORMAL_QUEST": 0,
+    "PUSH_NORMAL_QUEST_LEVEL": 1,
+    "PUSH_HARD_QUEST": 0,
+    "PUSH_HARD_QUEST_LEVEL": 1,
+    "GRID_SOL_PATH": "./DATA/grid_solution",
+    "AUTO_EVENT_STORY_PUSH": false,
+    "EXPLORE_RAINBOW_TEAMS": false,
+    "ENABLE_MAIL_NOTI": false,
+    "CAFE_TOUCH_WAY_DIFF": false,
+    "USE_VPN": false,
+    "VPN_CONFIG": {
+        "VPN_ACTIVITY": "com.github.kr328.clash/com.github.kr328.clash.MainActivity",
+        "CLICK_AND_WAIT_LIST": [
+            [
+                [
+                    622,
+                    248
+                ],
+                2
+            ]
+        ]
+    }
+}
