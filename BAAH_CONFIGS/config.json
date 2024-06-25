@@ -118,7 +118,7 @@
     "EVENT_QUEST_LEVEL": [
         [
             [
-                4,
+                11,
                 -1
             ]
         ]
@@ -230,7 +230,7 @@
     "TASK_ORDER": [
         "登录游戏",
         "战术大赛",
-        "咖啡馆",
+        "社团",
         "邮件",
         "咖啡馆",
         "战术大赛",
@@ -249,11 +249,11 @@
         "普通关卡",
         "每日任务"
     ],
-    "TARGET_EMULATOR_PATH": "D:/Program Files/Netease/MuMuPlayer-12.0/shell/MuMuPlayer.exe -v 1",
+    "TARGET_EMULATOR_PATH": "D:/Program Files/Netease/MuMu Player 12/shell/MuMuPlayer.exe -v 3",
     "PIC_PATH": "./DATA/assets_cn",
     "ADB_PATH": "./tools/adb/adb.exe",
     "SCREENSHOT_NAME": "c5fd3201.png",
-    "TARGET_PORT": 16416,
+    "TARGET_PORT": 16480,
     "TIME_AFTER_CLICK": 0.3,
     "NEXT_CONFIG": "",
     "SHOP_NORMAL": [
@@ -309,7 +309,7 @@
         true,
         false,
         true,
-        true,
+        false,
         false,
         true
     ],
@@ -321,7 +321,7 @@
     "SHOP_CONTEST_REFRESH_TIME": 0,
     "SERVER_TYPE": "CN_BILI",
     "CLOSE_EMULATOR_BAAH": true,
-    "FANHEXIE": true,
+    "FANHEXIE": false,
     "KILL_PORT_IF_EXIST": true,
     "CAFE_EXHAUSTIVITY_TOUCH_HEAD": false,
     "PUSH_NORMAL_QUEST": 0,
@@ -329,7 +329,7 @@
     "PUSH_HARD_QUEST": 0,
     "PUSH_HARD_QUEST_LEVEL": 1,
     "GRID_SOL_PATH": "./DATA/grid_solution",
-    "AUTO_EVENT_STORY_PUSH": false,
+    "AUTO_EVENT_STORY_PUSH": true,
     "SHOP_CONTEST_SWITCH": false,
     "EXPLORE_RAINBOW_TEAMS": false,
     "ENABLE_MAIL_NOTI": false,
@@ -347,7 +347,7 @@
             ]
         ]
     },
-    "AUTO_PUSH_EVENT_QUEST": false,
+    "AUTO_PUSH_EVENT_QUEST": true,
     "CAFE_COLLECT": true,
     "CAFE_TOUCH": true,
     "CAFE_INVITE": true,
@@ -365,5 +365,9 @@
     "ADB_SEIAL_NUMBER": "emulator-5554",
     "IS_AUTO_ASSAULT_STUDENT_HELP": false,
     "AUTO_ASSAULT_HELP_STUDENT_IS_SUPPORT": false,
-    "AUTO_ASSAULT_HELP_STUDENT": ""
+    "AUTO_ASSAULT_HELP_STUDENT": "",
+    "ENABLE_HTTP_NOTI": false,
+    "TARGET_HTTP_URL": "",
+    "TARGET_HTTP_TOKEN": "",
+    "USE_MEMORY_IMAGE": false
 }

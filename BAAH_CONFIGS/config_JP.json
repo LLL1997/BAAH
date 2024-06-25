@@ -6,8 +6,8 @@
         [],
         [],
         [
-            6,
-            5
+            7,
+            8
         ],
         [
             7,
@@ -16,11 +16,11 @@
         [],
         [],
         [
-            5,
-            6
+            7,
+            8
         ],
         [
-            6
+            8
         ]
     ],
     "WANTED_HIGHEST_LEVEL": [
@@ -98,16 +98,16 @@
                 true
             ],
             [
-                10,
+                22,
                 3,
                 -1,
-                false
+                true
             ],
             [
-                14,
-                3,
+                21,
+                2,
                 -1,
-                false
+                true
             ],
             [
                 16,
@@ -210,9 +210,33 @@
     "NORMAL": [
         [
             [
-                22,
+                25,
                 1,
                 -1
+            ]
+        ],
+        [
+            [
+                23,
+                4,
+                -1,
+                true
+            ]
+        ],
+        [
+            [
+                25,
+                4,
+                -1,
+                true
+            ]
+        ],
+        [
+            [
+                23,
+                2,
+                -1,
+                true
             ]
         ]
     ],
@@ -238,7 +262,7 @@
         "普通关卡",
         "战术大赛"
     ],
-    "TARGET_EMULATOR_PATH": "D:/Program Files/Netease/MuMuPlayer-12.0/shell/MuMuPlayer.exe -v 4",
+    "TARGET_EMULATOR_PATH": "D:/Program Files/Netease/MuMu Player 12/shell/MuMuPlayer.exe -v 4",
     "PIC_PATH": "./DATA/assets_jp",
     "ADB_PATH": "./tools/adb/adb.exe",
     "SCREENSHOT_NAME": "c7c19314.png",
@@ -247,6 +271,12 @@
     "NEXT_CONFIG": "",
     "SHOP_NORMAL": [
         [],
+        [
+            1,
+            2,
+            3,
+            4
+        ],
         [
             1,
             2,
@@ -347,5 +377,9 @@
     "ADB_SEIAL_NUMBER": "emulator-5554",
     "IS_AUTO_ASSAULT_STUDENT_HELP": false,
     "AUTO_ASSAULT_HELP_STUDENT_IS_SUPPORT": false,
-    "AUTO_ASSAULT_HELP_STUDENT": ""
+    "AUTO_ASSAULT_HELP_STUDENT": "",
+    "ENABLE_HTTP_NOTI": false,
+    "TARGET_HTTP_URL": "",
+    "TARGET_HTTP_TOKEN": "",
+    "USE_MEMORY_IMAGE": false
 }

@@ -6,9 +6,10 @@
         [],
         [],
         [
-            5,
-            6
+            7,
+            8
         ],
+        [],
         [
             7,
             8
@@ -17,11 +18,8 @@
             7
         ],
         [
-            7
-        ],
-        [
-            5,
-            6
+            7,
+            8
         ]
     ],
     "WANTED_HIGHEST_LEVEL": [
@@ -249,11 +247,11 @@
         "普通关卡",
         "每日任务"
     ],
-    "TARGET_EMULATOR_PATH": "D:/Program Files/Netease/MuMuPlayer-12.0/shell/MuMuPlayer.exe -v 2",
+    "TARGET_EMULATOR_PATH": "D:/Program Files/Netease/MuMu Player 12/shell/MuMuPlayer.exe -v 1",
     "PIC_PATH": "./DATA/assets",
     "ADB_PATH": "./tools/adb/adb.exe",
     "SCREENSHOT_NAME": "e6c3adda.png",
-    "TARGET_PORT": 16448,
+    "TARGET_PORT": 16416,
     "TIME_AFTER_CLICK": 0.5,
     "NEXT_CONFIG": "",
     "SHOP_NORMAL": [
@@ -300,22 +298,22 @@
         true,
         true,
         true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
         false,
         true,
         true,
         true,
         true,
+        false,
         true,
         true,
         true,
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
+        false,
         true
     ],
     "TARGET_IP_PATH": "127.0.0.1",
@@ -335,7 +333,7 @@
     "PUSH_HARD_QUEST_LEVEL": 1,
     "GRID_SOL_PATH": "./DATA/grid_solution",
     "AUTO_EVENT_STORY_PUSH": true,
-    "SHOP_CONTEST_SWITCH": false,
+    "SHOP_CONTEST_SWITCH": true,
     "EXPLORE_RAINBOW_TEAMS": true,
     "ENABLE_MAIL_NOTI": false,
     "CAFE_TOUCH_WAY_DIFF": true,
@@ -370,5 +368,9 @@
     "ADB_SEIAL_NUMBER": "emulator-5554",
     "IS_AUTO_ASSAULT_STUDENT_HELP": false,
     "AUTO_ASSAULT_HELP_STUDENT_IS_SUPPORT": false,
-    "AUTO_ASSAULT_HELP_STUDENT": ""
+    "AUTO_ASSAULT_HELP_STUDENT": "",
+    "ENABLE_HTTP_NOTI": false,
+    "TARGET_HTTP_URL": "",
+    "TARGET_HTTP_TOKEN": "",
+    "USE_MEMORY_IMAGE": false
 }
