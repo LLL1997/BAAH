@@ -26,6 +26,7 @@ def disconnect_this_device():
 def kill_adb_server():
     """Kill the adb server."""
     subprocess_run([get_config_adb_path(), "kill-server"])
+    subprocess_run([get_config_adb_path(), "start-server"])
 
 def connect_to_device():
     """Connect to a device with the given device port."""
@@ -86,7 +87,8 @@ def check_app_running(activity_path:str) -> bool:
             output = sentence
             logging.info("当前运行的app为：{}".format(output))
             if "null" in output:
-                logging.warn("MUMU模拟器需要设置里关闭保活！")
+                #logging.warn("MUMU模拟器需要设置里关闭保活！")
+                return False
             break
     if app_name in output:
         return True
@@ -98,6 +100,20 @@ def open_app(activity_path:str):
     使用adb打开app
     """
     subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(), 'shell', 'am', 'start', activity_path], isasync=True)
-    time.sleep(2)
     appname = activity_path.split("/")[0]
     subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(), 'shell', 'monkey', '-p', appname, '1'], isasync=True)
+
+def close_app(activity_path:str):
+    """
+    使用adb关闭app
+    """
+    subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(), 'shell', 'am', 'start', '-S',activity_path])
+    time.sleep(2)
+    subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(), 'shell', 'am', 'force-stop', activity_path], isasync=True)
+    time.sleep(2)
+    appname = activity_path.split("/")[0]
+    subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(), 'shell', 'force-stop', appname])
+    time.sleep(2)
+    subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(), 'shell', 'am', 'kill', appname])
+    time.sleep(2)
+    subprocess_run([get_config_adb_path(), "-s", getNewestSeialNumber(), 'shell', 'am', 'kill-all'])

@@ -1,0 +1,241 @@
+{
+    "ACTIVITY_PATH": "com.YostarJP.BlueArchive/com.yostarjp.bluearchive.MxUnityPlayerActivity",
+    "TIMETABLE_TASK": [
+        [
+            7
+        ],
+        [
+            7
+        ],
+        [
+            7,
+            8
+        ],
+        [],
+        [],
+        [
+            8,
+            7,
+            6,
+            5
+        ],
+        [
+            5,
+            6
+        ],
+        [
+            5,
+            6
+        ],
+        [],
+        []
+    ],
+    "WANTED_HIGHEST_LEVEL": [
+        [
+            [
+                2,
+                9,
+                -1
+            ]
+        ]
+    ],
+    "SPECIAL_HIGHTEST_LEVEL": [
+        [
+            [
+                2,
+                13,
+                -1
+            ],
+            [
+                1,
+                13,
+                1,
+                true
+            ],
+            [
+                2,
+                13,
+                1,
+                false
+            ]
+        ]
+    ],
+    "EXCHANGE_HIGHEST_LEVEL": [
+        [
+            [
+                1,
+                4,
+                3,
+                true
+            ],
+            [
+                4,
+                4,
+                2,
+                false
+            ],
+            [
+                3,
+                4,
+                3,
+                true
+            ]
+        ]
+    ],
+    "EVENT_QUEST_LEVEL": [
+        [
+            [
+                12,
+                -1
+            ]
+        ]
+    ],
+    "HARD": [
+        [
+            [
+                20,
+                3,
+                -1
+            ],
+            [
+                19,
+                3,
+                -1
+            ],
+            [
+                18,
+                3,
+                -1
+            ],
+            [
+                14,
+                3,
+                -1
+            ],
+            [
+                12,
+                3,
+                -1
+            ],
+            [
+                8,
+                3,
+                -1
+            ]
+        ]
+    ],
+    "NORMAL": [
+        [
+            [
+                22,
+                1,
+                -1
+            ]
+        ]
+    ],
+    "TASK_ORDER": [
+        "登录游戏",
+        "战术大赛",
+        "社团",
+        "邮件",
+        "咖啡馆",
+        "战术大赛",
+        "课程表",
+        "悬赏通缉",
+        "学园交流会",
+        "商店",
+        "战术大赛",
+        "每日任务",
+        "困难关卡",
+        "特殊任务",
+        "战术大赛",
+        "活动关卡",
+        "每日任务",
+        "战术大赛",
+        "特殊任务",
+        "普通关卡",
+        "战术大赛"
+    ],
+    "TARGET_EMULATOR_PATH": "D:/Program Files/Netease/MuMuPlayer-12.0/shell/MuMuPlayer.exe -v 4",
+    "PIC_PATH": "./DATA/assets_jp",
+    "ADB_PATH": "./tools/adb/adb.exe",
+    "SCREENSHOT_NAME": "c7c19314.png",
+    "TARGET_PORT": 16512,
+    "TIME_AFTER_CLICK": 0.3,
+    "NEXT_CONFIG": "",
+    "SHOP_NORMAL": [
+        [
+            1,
+            2,
+            3,
+            4
+        ],
+        [
+            1,
+            2,
+            3,
+            4
+        ],
+        [
+            1,
+            2,
+            3,
+            4
+        ],
+        [
+            1,
+            2,
+            3,
+            4
+        ],
+        [
+            1,
+            2,
+            3,
+            4
+        ]
+    ],
+    "SHOP_CONTEST": [
+        [],
+        [
+            2,
+            3
+        ]
+    ],
+    "TASK_ACTIVATE": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false,
+        false,
+        true
+    ],
+    "TARGET_IP_PATH": "127.0.0.1",
+    "RESPOND_Y": 40,
+    "LOCK_SERVER_TO_RESPOND_Y": true,
+    "CAFE_CAMERA_FULL": false,
+    "SHOP_NORMAL_REFRESH_TIME": 0,
+    "SHOP_CONTEST_REFRESH_TIME": 3,
+    "SERVER_TYPE": "JP",
+    "CLOSE_EMULATOR_BAAH": true,
+    "FANHEXIE": false,
+    "KILL_PORT_IF_EXIST": true,
+    "CAFE_EXHAUSTIVITY_TOUCH_HEAD": true,
+    "SHOP_CONTEST_switch": false,
+    "SHOP_CONTEST_SWITCH": true
+}

@@ -1,58 +1,44 @@
 import os,datetime,subprocess,time
-'''
-todo
-1.ocr_store
-    1.总力战开启
-    2.资源
-2.close_emulator
-3.判断维护结束当前任务实现
-4.网页版每日报告
-5.希望今年做完（
-6.优化()下adb链接逻辑，实现自动重启adb和模拟器，解决闪退问题
-'''
-def close_emulator(path,file_name,mumu_num=None)->None:
-    ''' 关闭模拟器'''
-    # 烦死了 只用mumu算了
-    # 后期用win32做吧， 2024年1月10日
-    
-    current_dir = os.getcwd()
-    def CallCMD(cmd_command):
-        try:
-            completed_process = subprocess.check_output(
-                cmd_command, 
-                shell=True,
-                text=True  # 让输出以文本形式返回而不是字节形式
-            )
+import functools
+from datetime import datetime
+import logging
 
-            return completed_process
-        except subprocess.CalledProcessError as e:
-            print("命令执行失败:", e)
-            return "error"
-    path=str(path)
-    file_name=str(file_name)
-    os.chdir(path)
-    callable('ls')
-    if file_name=='MuMuPlayer.exe':
-        if mumu_num !=None:
-            cmd3 = f"MuMuManager.exe api -v {mumu_num}  shutdown_player "
-            CallCMD(cmd3)
-            time.sleep(5)
-            os.chdir(current_dir)
-            callable('ls')
-            return
-        else:
-            cmd3 = "MuMuManager.exe api -v 0 shutdown_player "
-            CallCMD(cmd3)
-            time.sleep(5)
-            os.chdir(current_dir)
-            callable('ls')
-            return
-    os.chdir(current_dir)
-
-
-
+# 用来检查是否在限定时间，否则不执行
+def time_restriction(*args:tuple[int,int,int,int]):
+    '''参考调用@time_restriction((12, 00, 00, 50),(12, 00, 16, 50))'''
+    times = args
+    if len(args)==0:
+        return False    
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            now = datetime.now()
+            # 获取当前的小时和分钟
+            current_hour , current_minute = now.hour , now.minute
+            # 检查当前时间是否在限定时间内
+            def _check_time():
+                for x in times:
+                    start_hour, start_minute, end_hour, end_minute = int(x[0]), int(x[1]), int(x[2]), int(x[3])
+                    if 0 <= start_hour < 24 and 0 < end_hour < 24 and 0 <= start_minute < 60 and 0 <= end_minute < 60: # 检测时间格式
+                        pass
+                    else:
+                        logging.info("时间参数不正确")
+                        return False
+                    if start_hour <= current_hour < end_hour or (start_hour == current_hour and current_minute >= start_minute) or (current_hour == end_hour and current_minute <= end_minute):
+                        logging.info(f"Function {func.__name__} 在限定时间内{start_hour}:{start_minute} 到 {end_hour}:{end_minute}，执行")
+                        return True
+                    else:
+                        logging.info(f"Function {func.__name__} 不在限定时间内{start_hour}:{start_minute} 到 {end_hour}:{end_minute}，不执行")
+                return False
+            if _check_time():
+                return func(*args, **kwargs)  # 在限定时间内，执行函数
+            else:
+                return None
+        return wrapper
+    return decorator
+@time_restriction((12, 00, 23, 50),(12, 00, 19, 50))
 def Daily_loop_control():
-    pass
+    print("asdasf")
 # 用携程来运行代码，通过时间来判断是否出错，超时触发TimeoutError异常
 
 # 错误日志
@@ -90,5 +76,6 @@ class ocr_store:
 
 if __name__ == '__main__':
     pass
+    Daily_loop_control()
     # os._exit(0)
     #close_emulator('D:/Program Files/Netease/MuMuPlayer-12.0/shell/','MuMuPlayer.exe' , 3)

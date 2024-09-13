@@ -111,8 +111,10 @@ if __name__ in ["__main__", "__mp_main__"]:
     except Exception as e:
         # 打印完整的错误信息
         traceback.print_exc()
-        from modules.utils.msg import push_msg_fast
-        push_msg_fast(f"游戏，{config.configdict['ACTIVITY_PATH']}，baah意外退出,")
+        print_BAAH_finish()
+        # input("按回车键继续:")
+        raise Exception("运行出错")
+    # 运行结束后，删除截图文件
     try:
         # 如果截图文件存在，删除截图文件
         if os.path.exists(f"./{config.SCREENSHOT_NAME}"):

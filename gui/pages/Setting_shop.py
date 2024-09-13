@@ -28,5 +28,7 @@ def set_shop(config):
             min=0,
             max=3
             ).bind_value(config.userconfigdict, 'SHOP_CONTEST_REFRESH_TIME', forward=lambda v: int(v)).style('width: 400px')
-        
+    with ui.row():
+        ui.switch('战术商店是否开启购买').bind_value(config.userconfigdict, "SHOP_CONTEST_SWITCH")
+        #ui.checkbox('战术商店是否开启购买').bind_value(config.userconfigdict, "SHOP_CONTEST_SWITCH")
     list_edit_area(config.userconfigdict["SHOP_CONTEST"], [config.get_text("config_row"), config.get_text("config_column")], config.get_text("config_desc_shop_edit"))

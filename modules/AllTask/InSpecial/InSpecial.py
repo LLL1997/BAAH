@@ -31,14 +31,22 @@ class InSpecial(Task):
         today = time.localtime().tm_mday
         # 选择一个location的下标
         target_loc = today%len(config.userconfigdict['SPECIAL_HIGHTEST_LEVEL'])
-        target_info = config.userconfigdict['SPECIAL_HIGHTEST_LEVEL'][target_loc]
+        _target_info = config.userconfigdict['SPECIAL_HIGHTEST_LEVEL'][target_loc]
         # 判断这一天是否设置有特殊关卡
-        if len(target_info) == 0:
+        if len(_target_info) == 0:
             logging.warn("今天轮次中无特殊关卡，跳过")
             return
         # 这之后target_info是一个list，内部会有多个关卡扫荡
         # 序号转下标
-        target_info = [[each[0]-1, each[1]-1, each[2]] for each in target_info]
+        # target_info = [[each[0]-1, each[1]-1, each[2]] for each in target_info]
+        
+        def _generator(target_info):
+            for  x in target_info:
+                if len(x)==4:
+                    yield  [x[0]-1,x[1]-1,x[2],x[3]]
+                else: # 兼容老版3个参数的config
+                    yield  [x[0]-1,x[1]-1,x[2]]
+        target_info=_generator(_target_info)
         # 从主页进入战斗池页面
         self.run_until(
             lambda: click((1196, 567)),
@@ -53,6 +61,9 @@ class InSpecial(Task):
         # 开始扫荡target_info中的每一个关卡
         for each_target in target_info:
             # 使用PageName.PAGE_SPECIAL的坐标判断是国服还是其他服
+            if each_target[-1] == 'false' or each_target[-1] == False or each_target[-1] == 0 : # 开关关闭
+                logging.info(f"特殊作战{each_target[0]+1}-{each_target[1]+1}设置为关, 忽略")
+                continue
             if match(page_pic(PageName.PAGE_SPECIAL), returnpos=True)[1][1]>133:
                 points = np.linspace(276, 415, 2)
             else:

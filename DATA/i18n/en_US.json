@@ -31,10 +31,12 @@
     "notice_save_success": "Save Successful",
     "notice_start_run": "Start Execution",
     "notice_get_new_version": "Latest Version Released",
+    "notice_no_new_version":"No New Version",
+    "notice_download_version":"Download Version",
 
     "button_save": "Save",
     "button_save_and_run": "Save and Execute",
-    "button_check_version": "Check for Updates",
+    "button_check_version": "Check for Updates and Download(Make sure BAAH is not running)",
     "button_select_all": "Select All",
     "button_select_none": "Deselect All",
     "button_enable": "Enable",
@@ -43,7 +45,9 @@
 
     "config_cafe_attention": "In CN server, the cafe's perspective cannot be inherited, please uncheck the following item; for the global/JP server, please zoom out the camera, and keep the following item checked",
     "config_camera_full": "Enter Cafe with Maximum Camera View",
+    "config_cafe_exhaustivity_touch_head":"咖啡馆地毯式摸头（Ignoring it, Incomplete ）",
     "config_emulator_port": "Emulator Port",
+    "config_kill_port": "Whether force to kill the port before starting emulator",
     "config_emulator_path": "Emulator Path",
     "config_close_emulator_and_baah": "Close Emulator and BAAH After Execution",
     "config_desc_times": "About the number of times: 4 times means sweep 4 times, -1 means sweep max times, -2 means sweep max - 2 times.",
@@ -73,6 +77,9 @@
     "config_ip_root": "Emulator Listening IP Address (This item does not include the port number)",
     "config_adb_path": "ADB Path",
     "config_screenshot_name": "Screenshot File Name",
+    "config_auto_event_story":"Auto View Event Story",
+    "config_push_normal_desc":"push normal stage start chapter, 0 means not push",
+    "config_push_hard_desc":"push hard stage start chapter, 0 means not push",
 
     "config_server_jp": "Japanese Server",
     "config_server_cn": "Chinese Official Server",

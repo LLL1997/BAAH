@@ -2,7 +2,7 @@ import json
 import logging
 import os
 import time
-from modules.configs.defaultSettings import defaultUserDict, defaultSoftwareDict
+from modules.configs.defaultSettings import defaultUserDict, defaultSoftwareDict, defaultSessionDict
 from modules.configs.settingMaps import configname2screenshotname
 
 # 程序入口应当先import这个类，然后调用parse_user_config方法解析该config实例
@@ -12,7 +12,7 @@ class MyConfigger:
     """
     维护config字典，包含软件config，用户任务config，语言包
     """
-    NOWVERSION="1.2.1"
+    NOWVERSION="1.2.6"
     USER_CONFIG_FOLDER="./BAAH_CONFIGS"
     SOFTWARE_CONFIG_FOLDER="./DATA/CONFIGS"
     LANGUAGE_PACKAGE_FOLDER="./DATA/i18n"
@@ -28,6 +28,7 @@ class MyConfigger:
         self.userconfigdict = {}
         # 一次区服任务运行的session
         self.sessiondict = {}
+        self._check_session_config()
         # 读取软件的config
         self.parse_software_config(self.SOFTWARE_CONFIG_NAME)
 
@@ -41,6 +42,7 @@ class MyConfigger:
         self.userconfigdict = self._read_config_file(file_path)
         # 清空sessiondict
         self.sessiondict = {}
+        self._check_session_config()
         # 检查缺失的配置
         self._check_user_config()
         # 强制设置截图文件名为配置名
@@ -151,6 +153,15 @@ class MyConfigger:
             # 如果用户的config里没有这个值
             if shouldKey not in self.softwareconfigdict:
                 self._fill_by_map_or_default(defaultSoftwareDict, self.softwareconfigdict, shouldKey)
+    
+    def _check_session_config(self):
+        """
+        session内的值设置默认值，sessiondict的值会在运行时被修改
+        """
+        for shouldKey in defaultSessionDict:
+            # 如果没有这个值
+            if shouldKey not in self.sessiondict:
+                self._fill_by_map_or_default(defaultSessionDict, self.sessiondict, shouldKey)
 
     def get_text(self, text_id):
         """
@@ -167,6 +178,25 @@ class MyConfigger:
         file_path = os.path.join(self.current_dir, self.SOFTWARE_CONFIG_FOLDER, self.SOFTWARE_CONFIG_NAME)
         with open(file_path, 'w', encoding="utf8") as f:
             json.dump(self.softwareconfigdict, f, indent=4, ensure_ascii=False)
+    
+    def get_one_version_num(self, versionstr="nothing"):
+        """
+        将版本号字符串转换成数字
+        """
+        if versionstr == "nothing":
+            versionstr = self.NOWVERSION
+        versionlist = versionstr.split(".")
+        if len(versionlist) != 3:
+            return -1
+        return int(versionlist[0])*10000+int(versionlist[1])*100+int(versionlist[2])
+
+    def get_version_str(self, versionnum=-1):
+        """
+        将版本号数字转换成字符串
+        """
+        if versionnum == -1:
+            versionnum = self.get_one_version_num()
+        return f"{int(versionnum/10000)}.{int(versionnum%10000/100)}.{versionnum%100}"
 
 
 

@@ -4,7 +4,7 @@ from DATA.assets.PopupName import PopupName
 from DATA.assets.ButtonName import ButtonName
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, screenshot
 import logging
-
+import inspect
 
 class Task:
     # 父类
@@ -73,12 +73,28 @@ class Task:
         click(Page.MAGICPOINT)
         click(Page.MAGICPOINT)
         if Task.run_until(
-            lambda: click(button_pic(ButtonName.BUTTON_HOME_ICON)), 
+            lambda: click(button_pic(ButtonName.BUTTON_HOME_ICON)) or click((1250, 40)), 
             lambda: Page.is_page(PageName.PAGE_HOME), times=times, sleeptime=3):
             logging.info("返回主页成功")
             return True
         else:
-            logging.error("返回主页失败")
+            logging.info("返回主页失败,尝试解决")
+            from BAAH import  BAAH_restart_emulator, check_connect, check_app_running, open_app, BAAH_open_target_app
+            from modules.configs.MyConfig import config
+            from modules.AllTask.EnterGame.EnterGame import EnterGame
+            if not  check_connect(): 
+                logging.info("adb断开,重启模拟器")
+                BAAH_restart_emulator()
+            if not check_app_running(config.userconfigdict['ACTIVITY_PATH']) :
+                logging.info("app不在运行,重启游戏")
+                BAAH_open_target_app()
+                EnterGame()
+            if Task.run_until(
+                lambda: click(button_pic(ButtonName.BUTTON_HOME_ICON)) or click((1245, 30)), 
+                lambda: Page.is_page(PageName.PAGE_HOME), times=times, sleeptime=3):
+                logging.info("返回主页成功")
+                return True
+            logging.info("返回主页失败")
             return False
         
     
@@ -130,7 +146,10 @@ class Task:
             screenshot()
             if(func2()):
                 return True
-            func1()
+            if len(inspect.signature(func1).parameters) > 1:# 用来判断是否能接受参数，这个代码是用来解决卡登录的
+                func1(i,times)   # （日服和国际服会卡在登录不会进入签到或者公告，可能是网络问题）
+            else:
+                func1()
             sleep(sleeptime)
             # 加点错误处理，用来解决MUMU国际服闪退的问题
             if error_handling and error_handling(i):
