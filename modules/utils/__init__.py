@@ -4,8 +4,13 @@ from .adb_utils import *
 from .image_processing import *
 from .subprocess_helper import *
 from .grid_analyze import *
+<<<<<<< HEAD
+=======
+from .notification import *
+from .data_utils import *
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
 
-import logging
+from modules.utils.log_utils import logging
 import time
 from modules.configs.MyConfig import config
 
@@ -41,10 +46,13 @@ def click(item:Union[str, Tuple[float, float]], sleeptime = -1, threshold=0.9) -
         matchRes = match(item, returnpos=True, threshold=threshold)
         if matchRes[0]:
             click_on_screen(matchRes[1][0], matchRes[1][1])
-            time.sleep(get_config_time_after_click())
+            if(sleeptime!=-1):
+                time.sleep(sleeptime)
+            else:
+                time.sleep(get_config_time_after_click())
             return True
         else:
-            logging.warning("Cannot find the target pattern {} when try to click".format(item))
+            logging.warning("无法匹配模板图像: {} ".format(item))
             return False
     else:
         click_on_screen(item[0], item[1])
@@ -147,14 +155,14 @@ def ocr_area_0(frompixel, topixel) -> bool:
     # 长度大于1直接返回False
     return False
 
-def match_pixel(xy, color):
+def match_pixel(xy, color, printit = False):
     """
         match whether the pixel is the given color
         
         color: Page.COLOR_*
         axis is in image form
     """
-    return match_pixel_color_range(f"./{get_config_screenshot_name()}", xy[0], xy[1], color[0], color[1])
+    return match_pixel_color_range(f"./{get_config_screenshot_name()}", xy[0], xy[1], color[0], color[1], printit=printit)
 
 def page_pic(picname):
     """
@@ -223,6 +231,10 @@ def check_connect():
             # 第一维度是高，第二维度是宽
             if img.shape[0] == 720 and img.shape[1] == 1280:
                 logging.info("图片分辨率为1280*720")
+                return True
+            elif img.shape[0] == 1280 and img.shape[1] == 720:
+                logging.warn("图片分辨率为720*1280，可能是模拟器设置错误，也可能是模拟器bug")
+                logging.warn("继续运行，但是可能会出现问题，请确保模拟器分辨率为1280*720")
                 return True
             else:
                 logging.error("图片分辨率不为1280*720，请设置模拟器分辨率为1280*720（当前{}*{}）".format(img.shape[1], img.shape[0]))

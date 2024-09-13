@@ -1,6 +1,10 @@
 import sys
+<<<<<<< HEAD
 import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S', encoding='utf-8')
+=======
+from modules.utils.log_utils import logging
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
 from modules.configs.MyConfig import config
 if len(sys.argv) > 1:
     configname = sys.argv[1]
@@ -32,6 +36,7 @@ from modules.AllTask import *
 from modules.AllTask.InCafe.CollectPower import CollectPower
 from modules.AllPage.Page import Page
 
+<<<<<<< HEAD
 drawing = False  # 检查是否正在绘制
 start_x, start_y = -1, -1
 def screencut_tool():
@@ -75,8 +80,27 @@ def screencut_tool():
 
     cv2.waitKey(0)
     cv2.destroyAllWindows()
+=======
+
+from email.mime.text import MIMEText
+from email.header import Header
+from smtplib import SMTP_SSL
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
 
 if __name__=="__main__":
+    # #sender_qq为发件人的qq号码
+    # sender_qq = '1113746057'
+    # #pwd为qq邮箱的授权码
+    # pwd = ''
+    # #收件人邮箱receiver
+    # receiver='1113746057@qq.com'
+    # #邮件的正文内容
+    # mail_content = f'测试\n{config.userconfigdict["SERVER_TYPE"]}'
+    # #邮件标题
+    # mail_title = 'BAAH 测试'
+    
+    # send_mail(sender_qq=sender_qq,pwd=pwd,receiver=receiver,mail_title=mail_title,mail_content=mail_content)
+    
     # print([i for i in os.listdir(config.USER_CONFIG_FOLDER) if i.endswith(".json")])
     
     # print(os.path.basename(config.userconfigdict['TARGET_EMULATOR_PATH']+" --instance pie"))
@@ -111,25 +135,46 @@ if __name__=="__main__":
     #         print(response.json()['data'])
     
     connect_to_device()
-    screenshot()
+    # screenshot()
     # print(Page.is_page(PageName.PAGE_CAFE))
     # print(match(button_pic(ButtonName.BUTTON_COLLECT_GRAY)))
     # print(match(button_pic(ButtonName.BUTTON_COLLECT_GRAY), returnpos=True)[2])
     # print(match(button_pic(ButtonName.BUTTON_COLLECT), returnpos=True)[2])
     
     # 测match
+<<<<<<< HEAD
     # res1 = match_pattern(config.userconfigdict['SCREENSHOT_NAME'], "./DATA/assets_global_en/BUTTON/BUTTON_CONFIRMY.png",  show_result=True, auto_rotate_if_trans=False)
     
+=======
+    # res1 = match_pattern(config.userconfigdict['SCREENSHOT_NAME'], button_pic(ButtonName.BUTTON_NEW_STORY_LEVEL),  show_result=True, auto_rotate_if_trans=False)
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
 
     # 比划点
     screencut_tool()
     # offset = 40
     
+    
     # matchres = match_pixel((639, 240), Page.COLOR_RED)
     # print(matchres)
     
-    # ScrollSelect(9, 148, 262, 694, 1130, lambda: False).run() # Event无进度条
-    # ScrollSelect(9, 140, 238, 583, 1130, lambda: False).run() # Event有进度条
+    # AutoStory().run()
+    
+    
+    
+    # 推图那一套
+    # FightQuest(backtopic=page_pic(PageName.PAGE_EVENT)).run()
+    
+    # ga = GridAnalyzer("quest","7-3.json")
+    
+    # GridQuest(ga, lambda: match(page_pic(PageName.PAGE_QUEST_SEL)), require_type="0").run()
+    
+    # knn_positions, _, _ = ga.multikmeans(ga.get_mask(get_screenshot_cv_data(), ga.PIXEL_HEAD_YELLOW, shrink_kernels=[(4, 2), (2, 2)]), 1)
+    # print(knn_positions[0][1], knn_positions[0][0])
+    # cv2.imshow( "s", ga.get_mask(get_screenshot_cv_data(), ga.PIXEL_HEAD_YELLOW) )
+    # cv2.waitKey(0)
+    # cv2.destroyAllWindows()
+    # screencut_tool()
+    
     
     
     # 推图那一套
@@ -157,8 +202,12 @@ if __name__=="__main__":
     
     # 图像识别
     # rawMat = cv2.imread("./screenshot.png")
+<<<<<<< HEAD
     # res = ocr_area((327, 257), (353, 288))
     # print(res)
+=======
+    # res = ocr_area((18, 50), (74, 87), multi_lines=True)
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
     # for i in range(10):
         # print(ocr_area((72, 85), (200, 114)))
     # reslist = ocr_area((72, 544), (91, 569), multi_lines=False)
@@ -178,6 +227,22 @@ if __name__=="__main__":
     # newpic = rotate_image_with_transparency(mypic, 90)
     # cv2.imshow("newpic", newpic)
     # cv2.waitKey(0)
+    
+    # 测找不同获取咖啡馆学生中心坐标
+    # click((68, 649), 1)
+    # screenshot()
+    # noStu = cv2.imread(config.userconfigdict['SCREENSHOT_NAME'])
+    # click((1171, 95), 1)
+    # for i in range(10):
+    #     screenshot()
+    #     hasStu = cv2.imread(config.userconfigdict['SCREENSHOT_NAME'])
+    #     diff_pos_list = compare_diff(noStu, hasStu, [1, 1279], [124, 568])
+    #     print(diff_pos_list)
+    #     for pos in diff_pos_list:
+    #         cv2.circle(hasStu, pos, 10, (0, 0, 255), -1)
+    #     cv2.imshow("newpic", hasStu)
+    #     cv2.waitKey(0)
+    #     cv2.destroyAllWindows()
     
     # 画3x3点
     # mypic = cv2.imread("./screenshot.png")

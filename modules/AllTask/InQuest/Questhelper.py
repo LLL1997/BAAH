@@ -1,7 +1,7 @@
 from modules.utils import click, match_pixel, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area
 from modules.AllTask.Task import Task
 from modules.AllPage.Page import Page
-import logging
+from modules.utils.log_utils import logging
 
 def jump_to_page(to_num: int) -> bool:
     """
@@ -21,6 +21,11 @@ def jump_to_neighbour_page(to_num: int) -> bool:
     
     return True if it is already in the page
     """
+    # 清除弹窗
+    Task.run_until(
+        lambda: click(Page.MAGICPOINT),
+        lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
+    )
     ocr_str = ocr_area((122, 179), (165, 211))[0]
     if ocr_str == "":
         return False

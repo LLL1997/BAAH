@@ -1,5 +1,5 @@
  
-import logging
+from modules.utils.log_utils import logging
 import random
 import time
 import requests
@@ -15,12 +15,16 @@ from modules.AllTask.InEvent.EventQuest import EventQuest
 from modules.AllTask.InEvent.EventStory import EventStory
 from modules.AllTask.Task import Task
 
-from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, screenshot
+from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, screenshot, check_app_running, open_app, get_now_running_app_entrance_activity, get_now_running_app
 
 class InEvent(Task):
     def __init__(self, name="InEvent") -> None:
         super().__init__(name)
+<<<<<<< HEAD
         self.try_enter_times = 3
+=======
+        self.try_enter_times = 2
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
         self.next_sleep_time = 0.1
         # 是否有活动但是已经结束
         self.has_event_but_closed = False
@@ -76,6 +80,16 @@ class InEvent(Task):
         """
         判断页面是否是一个有效的活动页面
         """
+        # 判断是否是在ba游戏里
+        if not check_app_running(config.userconfigdict['ACTIVITY_PATH']) or get_now_running_app_entrance_activity() != config.userconfigdict['ACTIVITY_PATH'] or "webview" in get_now_running_app().lower():
+            logging.warn("跳转出了游戏，尝试重新进入游戏")
+            open_app(config.userconfigdict['ACTIVITY_PATH'])
+            sleep(1.5)
+            if not check_app_running(config.userconfigdict['ACTIVITY_PATH']) or get_now_running_app_entrance_activity() != config.userconfigdict['ACTIVITY_PATH'] or "webview" in get_now_running_app().lower():
+                logging.error("重新进入游戏失败")
+                raise Exception("重新进入游戏失败")
+            logging.info("重新进入游戏成功")
+            screenshot() # 截图让后面继续判断
         if not Page.is_page(PageName.PAGE_EVENT):
             # 可能首次进入活动，有活动剧情
             SkipStory(pre_times=5).run()
@@ -93,20 +107,30 @@ class InEvent(Task):
             logging.warn("此页面不存在活动Quest")
             return False
         # 通过数字识别关卡数字，判断活动是否已结束
+<<<<<<< HEAD
+=======
+        # event_res为最终判断活动有没有开放还是进入到领取奖励阶段
+        event_res = False
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
         screenshot()
         reslist = ocr_area((695, 416), (752, 699), multi_lines=True)
         for res in reslist:
             try:
                 res_num = int(res[0])
+<<<<<<< HEAD
                 return True
+=======
+                event_res = True
+                break
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
             except:
                 continue
         # # 判断左下角时间
-        # time_res = ocr_area((175, 566), (552, 593))
+        time_res = ocr_area((175, 566), (552, 593))
         # if len(time_res[0])==0:
         #     return False
         # # '2023-12-2603:00~2024-01-0902:59'
-        # logging.info(f"识别活动时间: {time_res}")
+        logging.info(f"识别活动时间: {time_res}")
         # # 分割出结束时间
         # # 取最后15个字符
         # if len(time_res[0]) < 15:
@@ -141,19 +165,56 @@ class InEvent(Task):
         # if local_time_struct > end_time_struct:
         #     logging.info("此活动已结束")
         #     return False
+<<<<<<< HEAD
         logging.error("未能识别有效活动关卡，判断此活动已结束")
         self.has_event_but_closed = True
         return False
+=======
+        
+        end_date = time_res[0][-16:]
+        if event_res:
+            logging.info("活动开放中")
+            # 避免重复输出
+            config.sessiondict["INFO_DICT"]["EVENT_DATE"] = f"活动开放中，结束日期: {end_date}"
+            return True
+        else:
+            logging.error("未能识别有效活动关卡，判断活动已结束")
+            self.has_event_but_closed = True
+            # 避免重复输出
+            config.sessiondict["INFO_DICT"]["EVENT_DATE"] = f"活动领取奖励阶段，结束日期: {end_date}"
+            return False
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
 
+    def get_biggest_level(self):
+        """
+        通过下滑到底ocr获取最大关卡数
+        
+        -1表示没有找到
+        """
+        self.scroll_right_down()
+        sleep(1)
+        screenshot()
+        reslist = ocr_area((695, 416), (752, 699), multi_lines=True)
+        temp_max = -1
+        logging.info("ocr结果："+str(reslist))
+        # 将每一个字母尝试转换成数字，如果是数字就比较目前最大
+        for res in reslist:
+            try:
+                # 最大不过12
+                temp_max = min(max(temp_max, int(res[0])), 12)
+            except:
+                pass
+        self.max_level = temp_max
+        return temp_max
     
     def on_run(self) -> None:
-        # 进入Fight Center
+        # 进入Fight Center, 这里离开了主页之后就狂点活动标
         self.run_until(
             lambda: click((1196, 567)),
-            lambda: Page.is_page(PageName.PAGE_FIGHT_CENTER),
+            lambda: not Page.is_page(PageName.PAGE_HOME),
         )
         # 狂点活动标
-        for i in range(10):
+        for i in range(15):
             click((35, 110), sleeptime=0.2)
         click(Page.MAGICPOINT)
         click(Page.MAGICPOINT)
@@ -175,6 +236,24 @@ class InEvent(Task):
         # 检测并跳过剧情
         if config.userconfigdict["AUTO_EVENT_STORY_PUSH"]:
             EventStory().run()
+<<<<<<< HEAD
+=======
+        # 推图任务，如果已经进入过活动一次了，就不用再推图了
+        if config.userconfigdict["AUTO_PUSH_EVENT_QUEST"] and not config.sessiondict["HAS_ENTER_EVENT"]:
+            # 点击Quest标签
+            click((965, 98))
+            click((965, 98))
+            logging.info("检查活动关卡是否推完")
+            maxquest = self.get_biggest_level()
+            if maxquest == -1:
+                logging.warn("未能识别活动关卡，跳过推图直接进行扫荡")
+            else:
+                maxquest_ind = maxquest - 1
+                logging.info(f"最大关卡: {maxquest}，开始检测是否需要推图")
+                # 设置一个推maxquest_ind关卡0次的任务
+                EventQuest([[maxquest_ind, 0]], explore=True, raid=False, collect=False).run()
+        # 扫荡任务
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
         if config.userconfigdict["EVENT_QUEST_LEVEL"] and len(config.userconfigdict["EVENT_QUEST_LEVEL"]) != 0:
             # 可选任务队列不为空时
             quest_loc = today%len(config.userconfigdict['EVENT_QUEST_LEVEL'])
@@ -188,4 +267,5 @@ class InEvent(Task):
 
      
     def post_condition(self) -> bool:
+        config.sessiondict["HAS_ENTER_EVENT"] = True
         return self.back_to_home()

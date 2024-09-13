@@ -1,5 +1,9 @@
 import sys
 import os
+<<<<<<< HEAD
+=======
+from time import sleep, strftime
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
 
 # 将当前脚本所在目录添加到模块搜索路径
 current_dir = os.path.dirname(os.path.realpath(__file__))
@@ -8,8 +12,7 @@ sys.path.append(current_dir)
 if __name__ in ["__main__", "__mp_main__"]:
     try:
         # config logging before all imports
-        import logging
-        logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S', encoding='utf-8')
+        from modules.utils.log_utils import logging
         # 从命令行参数获取要运行的config文件名，并将config实例parse为那个config文件
         
         configname = "config.json"
@@ -17,6 +20,7 @@ if __name__ in ["__main__", "__mp_main__"]:
         logging.info("读取默认config文件: "+configname)
         if len(sys.argv) > 1:
             configname = sys.argv[1]
+<<<<<<< HEAD
             config.parse_config(configname)
             logging.info("重新读取指定的config文件: "+configname)
         logging.info(f"模拟器:{config.configdict['TARGET_EMULATOR_PATH']}")
@@ -36,6 +40,25 @@ if __name__ in ["__main__", "__mp_main__"]:
         print("||"+"".center(80, " ")+"||")
         print("+"+"".center(80, "=")+"+")
     
+=======
+            logging.info("读取指定的config文件: "+configname)
+            config.parse_user_config(configname)
+        else:
+            configname = "config.json"
+            logging.info("读取默认config文件: "+configname)
+            config.parse_user_config(configname)
+
+        from BAAH import BAAH_main, my_AllTask, create_notificationer
+        
+        # 打印BAAH信息
+        print_BAAH_start()
+        
+        # 打印config信息
+        logging.info(f"读取的config文件: {configname}")
+        logging.info(f"模拟器:{config.userconfigdict['TARGET_EMULATOR_PATH']}")
+        logging.info(f"端口:{config.userconfigdict['TARGET_PORT']}")
+        logging.info(f"区服:{config.userconfigdict['SERVER_TYPE']}")
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
 
         # 不带GUI运行
         # config历史列表
@@ -112,7 +135,28 @@ if __name__ in ["__main__", "__mp_main__"]:
         # 打印完整的错误信息
         traceback.print_exc()
         print_BAAH_finish()
+<<<<<<< HEAD
         # input("按回车键继续:")
+=======
+        # 发送错误通知邮件
+        if config.userconfigdict["ENABLE_MAIL_NOTI"]:
+            logging.info("发送错误通知邮件")
+            try:
+                # 构造通知对象
+                notificationer = create_notificationer()
+                # 构造邮件内容
+                content = []
+                content.append("BAAH任务出现错误")
+                content.append("配置文件名称: "+config.nowuserconfigname)
+                content.append("游戏区服: "+config.userconfigdict["SERVER_TYPE"])
+                content.append("错误信息: "+str(e))
+                print(notificationer.send("\n".join(content)))
+                logging.info("邮件发送结束")
+            except Exception as eagain:
+                logging.error("发送邮件失败")
+                logging.error(eagain)
+        # input("出现错误，按回车键退出:")
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
         raise Exception("运行出错")
     # 运行结束后，删除截图文件
     try:

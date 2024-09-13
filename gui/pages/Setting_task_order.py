@@ -28,7 +28,11 @@ def set_task_order(config, real_taskname_to_show_taskname):
                             value=config.userconfigdict["TASK_ORDER"][i],
                             on_change=lambda v,i=i: config.userconfigdict["TASK_ORDER"].__setitem__(i, v.value),
                             )
+<<<<<<< HEAD
                 acheck = ui.switch(config.get_text("button_enable"), value=config.userconfigdict["TASK_ACTIVATE"][i], on_change=lambda v,i=i: config.userconfigdict["TASK_ACTIVATE"].__setitem__(i, v.value))
+=======
+                acheck = ui.switch(config.get_text("button_enable"), value=config.userconfigdict["TASK_ACTIVATE"][i], on_change=lambda v,i=i:config.userconfigdict["TASK_ACTIVATE"].__setitem__(i, v.value))
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
                 if i==0:
                     atask.set_enabled(False)
                     acheck.set_enabled(False)

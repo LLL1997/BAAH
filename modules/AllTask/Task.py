@@ -2,8 +2,18 @@ from modules.AllPage.Page import Page
 from DATA.assets.PageName import PageName
 from DATA.assets.PopupName import PopupName
 from DATA.assets.ButtonName import ButtonName
+<<<<<<< HEAD
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, screenshot
 import logging
+import inspect
+=======
+
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
+
+from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, screenshot, config
+
+from modules.utils.log_utils import logging
+
 import inspect
 
 class Task:
@@ -61,18 +71,50 @@ class Task:
                     raise Exception("任务{}执行后条件不成立或超时，且无法正确返回主页，程序退出".format(self.name))
         else:
             logging.warn("任务{}执行前条件不成立或超时，跳过此任务".format(self.name))
+            config.sessiondict["INFO_DICT"][self.name+"_SKIP"] = f"跳过{self.name}任务"
 
     @staticmethod
-    def back_to_home(times = 3) -> bool:
+    def back_to_home(times = 10) -> bool:
         """
         尝试从游戏内的页面返回主页
         
         返回成功与否
         """
         logging.info("尝试返回主页")
-        click(Page.MAGICPOINT)
-        click(Page.MAGICPOINT)
+        for i in range(times):
+            click(Page.MAGICPOINT)
+            click(Page.MAGICPOINT)
+            screenshot()
+            if match(button_pic(ButtonName.BUTTON_HOME_ICON)):
+                click(button_pic(ButtonName.BUTTON_HOME_ICON), sleeptime=2)
+            screenshot()
+            if(Page.is_page(PageName.PAGE_HOME)):
+                logging.info("返回主页成功")
+                return True
+            # 跳过故事
+            screenshot()
+            if match(button_pic(ButtonName.BUTTON_STORY_MENU)):
+                menures = match(button_pic(ButtonName.BUTTON_STORY_MENU), returnpos=True)
+                menuxy = menures[1]
+                click(menuxy, sleeptime=1)
+                click((menuxy[0], menuxy[1] + 80), sleeptime=1)
+                screenshot()
+                click(button_pic(ButtonName.BUTTON_CONFIRMB), sleeptime=2)
+            sleep(i)
+        logging.error("返回主页失败")
+        from BAAH import  BAAH_restart_emulator, check_connect, check_app_running, open_app, BAAH_open_target_app
+        from modules.configs.MyConfig import config
+        from modules.AllTask.EnterGame.EnterGame import EnterGame
+        if not  check_connect(): 
+            logging.info("adb断开,重启模拟器")
+            BAAH_restart_emulator()
+        if not check_app_running(config.userconfigdict['ACTIVITY_PATH']) :
+            logging.info("app不在运行,重启游戏")
+            BAAH_open_target_app()
+            EnterGame()
+
         if Task.run_until(
+<<<<<<< HEAD
             lambda: click(button_pic(ButtonName.BUTTON_HOME_ICON)) or click((1250, 40)), 
             lambda: Page.is_page(PageName.PAGE_HOME), times=times, sleeptime=3):
             logging.info("返回主页成功")
@@ -96,6 +138,14 @@ class Task:
                 return True
             logging.info("返回主页失败")
             return False
+=======
+            lambda: click(button_pic(ButtonName.BUTTON_HOME_ICON))or click(Page.HOMEPOINT), 
+            lambda: Page.is_page(PageName.PAGE_HOME), times=times, sleeptime=3):
+            logging.info("返回主页成功")
+            return True
+        logging.info("返回主页失败")
+        return False
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
         
     
     @staticmethod
@@ -132,7 +182,11 @@ class Task:
             sleep(sleeptime)
     
     @staticmethod
+<<<<<<< HEAD
     def run_until(func1, func2, times=6, sleeptime = 1.5,error_handling=None) -> bool:
+=======
+    def run_until(func1, func2, times=None, sleeptime = None) -> bool:
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
         """
         重复执行func1，至多times次或直到func2成立
         
@@ -142,6 +196,12 @@ class Task:
 
         如果func2成立退出，返回true，否则返回false
         """
+        # 设置times，如果传进来是None，就用config里的值
+        if(times == None):
+            times = config.userconfigdict["RUN_UNTIL_TRY_TIMES"]
+        # 设置sleeptime，如果传进来是None，就用config里的值
+        if(sleeptime == None):
+            sleeptime = config.userconfigdict["RUN_UNTIL_WAIT_TIME"]
         for i in range(times):
             screenshot()
             if(func2()):
@@ -195,5 +255,23 @@ class Task:
         """
         for i in range(times):
             swipe((264, 558), (265, 254), sleeptime=0.2)
+        sleep(0.5)
+    
+    @staticmethod
+    def scroll_to_left(times=3):
+        """
+        scroll to left
+        """
+        for i in range(times):
+            swipe((459, 375), (797, 375), sleeptime=0.2)
+        sleep(0.5)
+    
+    @staticmethod
+    def scroll_to_right(times=3):
+        """
+        scroll to right
+        """
+        for i in range(times):
+            swipe((797, 375), (459, 375), sleeptime=0.2)
         sleep(0.5)
         

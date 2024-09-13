@@ -7,7 +7,7 @@ from modules.AllTask.Task import Task
 from modules.configs.MyConfig import config
 
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area_0
-import logging
+from modules.utils.log_utils import logging
 from .LocationSelect import LocationSelect
 
 class InTimeTable(Task):
@@ -26,10 +26,8 @@ class InTimeTable(Task):
         )
         # for each TIMETABLE_TASK, determine whether need to click in
         for i in range(len(config.userconfigdict['TIMETABLE_TASK'])):
-            # determine tickets left
-            nolefttickets:bool = ocr_area_0((72, 85), (322, 114))
-            if nolefttickets:
-                logging.warn("没有课程表票卷了，开始返回主页")
+            if config.sessiondict["TIMETABLE_NO_TICKET"]:
+                logging.info("课程表/时间表 无票卷， 退出此任务")
                 break
             # 如果这一location没有任务，就不点进去
             if len(config.userconfigdict['TIMETABLE_TASK'][i]) == 0:

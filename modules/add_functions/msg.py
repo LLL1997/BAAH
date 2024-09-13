@@ -90,7 +90,11 @@ async def push_msg(url, content, title=None,phone_number=''):
     json_data = {
         'msgtype': 'text',
         'text': {
+<<<<<<< HEAD
             'content': f'时间：{datetime.now().strftime("%Y年%m月%d日%H时%M分%S秒")}\n' + content,
+=======
+            'content': f'时间：{datetime.now().strftime("%d日%H时%M分")}\n' + content,
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
         },
         "at": {
             "atMobiles": [
@@ -139,6 +143,11 @@ def push_msg_fast_xizhi(text):
     try:
         Myini=IniFile('BAAH_CONFIGS\config.ini')
         url = Myini.get_value('Message', 'xizhi_url')
+<<<<<<< HEAD
+=======
+        text = str(text)
+
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
         asyncio.run(push_msg(url,text,title=text))
         return True
     except Exception as e:
@@ -148,7 +157,13 @@ def push_msg_fast(text):
     return push_msg_fast_Dingtalk(text) and push_msg_fast_xizhi(text)
     
 if __name__ == "__main__":
+<<<<<<< HEAD
     push_msg_fast_Dingtalk("狗修金SAMA🥵，B🥰A🥰A🥰H🥰，已经在运行了喵😊")
     push_msg_fast_xizhi("狗修金SAMA🥵，BAAH🥰，已经在运行了喵😊")
     push_msg_fast("游戏 2222")
     # https://xizhi.qqoq.net/XZ1b5ac315ebea4c12aa80ac391edf143b
+=======
+    push_msg_fast_Dingtalk("已经在运行了")
+    push_msg_fast_xizhi("BAAH🥰，已经在运行了😊")
+    push_msg_fast("游戏 2222")
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187

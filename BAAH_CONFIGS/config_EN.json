@@ -1,8 +1,23 @@
 {
     "ACTIVITY_PATH": "com.nexon.bluearchive/.MxUnityPlayerActivity",
     "TIMETABLE_TASK": [
+<<<<<<< HEAD
         [
             7
+=======
+        [],
+        [],
+        [],
+        [],
+        [
+            7,
+            8
+        ],
+        [],
+        [
+            7,
+            8
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
         ],
         [
             7
@@ -10,6 +25,7 @@
         [
             7,
             8
+<<<<<<< HEAD
         ],
         [],
         [],
@@ -32,12 +48,20 @@
             6
         ],
         []
+=======
+        ]
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
     ],
     "WANTED_HIGHEST_LEVEL": [
         [
             [
+<<<<<<< HEAD
                 2,
                 12,
+=======
+                3,
+                9,
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
                 -1
             ]
         ]
@@ -45,19 +69,55 @@
     "SPECIAL_HIGHTEST_LEVEL": [
         [
             [
+<<<<<<< HEAD
                 2,
                 13,
                 10
+=======
+                1,
+                12,
+                -1,
+                true
+            ],
+            [
+                2,
+                12,
+                -1,
+                false
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
             ]
         ]
     ],
     "EXCHANGE_HIGHEST_LEVEL": [
         [
             [
+<<<<<<< HEAD
                 3,
                 3,
                 -1
             ]
+=======
+                1,
+                4,
+                -1
+            ]
+        ],
+        [
+            [
+                2,
+                4,
+                -1,
+                true
+            ]
+        ],
+        [
+            [
+                3,
+                4,
+                -1,
+                true
+            ]
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
         ]
     ],
     "EVENT_QUEST_LEVEL": [
@@ -71,8 +131,13 @@
     "HARD": [
         [
             [
+<<<<<<< HEAD
                 20,
                 3,
+=======
+                21,
+                2,
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
                 -1,
                 true
             ],
@@ -83,7 +148,23 @@
                 false
             ],
             [
+<<<<<<< HEAD
                 18,
+=======
+                20,
+                3,
+                -1,
+                false
+            ],
+            [
+                19,
+                3,
+                -1,
+                true
+            ],
+            [
+                15,
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
                 3,
                 -1,
                 true
@@ -101,13 +182,27 @@
                 false
             ],
             [
+<<<<<<< HEAD
                 12,
+=======
+                18,
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
                 3,
                 -1,
                 true
             ],
             [
+<<<<<<< HEAD
                 8,
+=======
+                14,
+                1,
+                -1,
+                true
+            ],
+            [
+                15,
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
                 3,
                 -1,
                 true
@@ -116,11 +211,79 @@
                 19,
                 3,
                 -1,
+<<<<<<< HEAD
                 true
             ],
             [
                 15,
                 2,
+=======
+                false
+            ],
+            [
+                10,
+                3,
+                -1,
+                false
+            ],
+            [
+                14,
+                3,
+                -1,
+                false
+            ],
+            [
+                16,
+                1,
+                -1,
+                false
+            ],
+            [
+                14,
+                2,
+                -1,
+                false
+            ],
+            [
+                17,
+                2,
+                -1,
+                false
+            ],
+            [
+                11,
+                1,
+                -1,
+                false
+            ],
+            [
+                7,
+                2,
+                -1,
+                false
+            ],
+            [
+                11,
+                3,
+                -1,
+                false
+            ],
+            [
+                15,
+                1,
+                -1,
+                false
+            ],
+            [
+                13,
+                1,
+                -1,
+                false
+            ],
+            [
+                9,
+                3,
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
                 -1,
                 false
             ]
@@ -131,6 +294,7 @@
             [
                 23,
                 4,
+<<<<<<< HEAD
                 -1,
                 true
             ],
@@ -139,6 +303,9 @@
                 1,
                 -1,
                 true
+=======
+                -1
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
             ]
         ]
     ],
@@ -159,12 +326,16 @@
         "困难关卡",
         "特殊任务",
         "每日任务",
+<<<<<<< HEAD
         "清momotalk",
+=======
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
         "战术大赛",
         "活动关卡",
         "普通关卡",
         "每日任务"
     ],
+<<<<<<< HEAD
     "TARGET_EMULATOR_PATH": "D:/Program Files/Netease/MuMuPlayer-12.0/shell/MuMuPlayer.exe -v 1",
     "PIC_PATH": "./DATA/assets_global_en",
     "ADB_PATH": "./tools/adb/adb.exe",
@@ -173,6 +344,17 @@
     "TIME_AFTER_CLICK": 0.3,
     "NEXT_CONFIG": "",
     "SHOP_NORMAL": [
+=======
+    "TARGET_EMULATOR_PATH": "D:/Program Files/Netease/MuMu Player 12/shell/MuMuPlayer.exe -v 1",
+    "PIC_PATH": "./DATA/assets",
+    "ADB_PATH": "./tools/adb/adb.exe",
+    "SCREENSHOT_NAME": "e6c3adda.png",
+    "TARGET_PORT": 16416,
+    "TIME_AFTER_CLICK": 0.5,
+    "NEXT_CONFIG": "",
+    "SHOP_NORMAL": [
+        [],
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
         [
             1,
             2,
@@ -207,8 +389,13 @@
     "SHOP_CONTEST": [
         [],
         [
+<<<<<<< HEAD
             2,
             3
+=======
+            3,
+            2
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
         ]
     ],
     "TASK_ACTIVATE": [
@@ -221,14 +408,21 @@
         true,
         true,
         true,
+<<<<<<< HEAD
         true,
+=======
+        false,
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
         true,
         true,
         true,
         true,
         false,
         true,
+<<<<<<< HEAD
         false,
+=======
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
         true,
         true,
         false,
@@ -237,14 +431,70 @@
     "TARGET_IP_PATH": "127.0.0.1",
     "RESPOND_Y": 40,
     "LOCK_SERVER_TO_RESPOND_Y": true,
+<<<<<<< HEAD
     "CAFE_CAMERA_FULL": false,
     "SHOP_NORMAL_REFRESH_TIME": 0,
     "SHOP_CONTEST_REFRESH_TIME": 3,
     "SERVER_TYPE": "GLOBAL_EN",
+=======
+    "CAFE_CAMERA_FULL": true,
+    "SHOP_NORMAL_REFRESH_TIME": 0,
+    "SHOP_CONTEST_REFRESH_TIME": 3,
+    "SERVER_TYPE": "GLOBAL",
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
     "CLOSE_EMULATOR_BAAH": true,
     "FANHEXIE": false,
     "KILL_PORT_IF_EXIST": true,
     "CAFE_EXHAUSTIVITY_TOUCH_HEAD": true,
+<<<<<<< HEAD
     "SHOP_CONTEST_switch": false,
     "SHOP_CONTEST_SWITCH": true
+=======
+    "PUSH_NORMAL_QUEST": 0,
+    "PUSH_NORMAL_QUEST_LEVEL": 1,
+    "PUSH_HARD_QUEST": 0,
+    "PUSH_HARD_QUEST_LEVEL": 1,
+    "GRID_SOL_PATH": "./DATA/grid_solution",
+    "AUTO_EVENT_STORY_PUSH": true,
+    "SHOP_CONTEST_SWITCH": true,
+    "EXPLORE_RAINBOW_TEAMS": true,
+    "ENABLE_MAIL_NOTI": false,
+    "CAFE_TOUCH_WAY_DIFF": true,
+    "USE_VPN": false,
+    "VPN_CONFIG": {
+        "VPN_ACTIVITY": "com.github.kr328.clash/com.github.kr328.clash.MainActivity",
+        "CLICK_AND_WAIT_LIST": [
+            [
+                [
+                    622,
+                    248
+                ],
+                2
+            ]
+        ]
+    },
+    "AUTO_PUSH_EVENT_QUEST": true,
+    "CAFE_COLLECT": true,
+    "CAFE_TOUCH": true,
+    "CAFE_INVITE": true,
+    "RAISE_ERROR_IF_CANNOT_PUSH_EVENT_QUEST": true,
+    "MAIL_USER": "",
+    "MAIL_PASS": "",
+    "ADVANCED_EMAIL": false,
+    "SENDER_EMAIL": "",
+    "RECEIVER_EMAIL": "",
+    "MAIL_HOST": "",
+    "AUTO_ASSAULT_LEVEL": 4,
+    "RUN_UNTIL_TRY_TIMES": 6,
+    "RUN_UNTIL_WAIT_TIME": 1.5,
+    "ADB_DIRECT_USE_SERIAL_NUMBER": false,
+    "ADB_SEIAL_NUMBER": "emulator-5554",
+    "IS_AUTO_ASSAULT_STUDENT_HELP": false,
+    "AUTO_ASSAULT_HELP_STUDENT_IS_SUPPORT": false,
+    "AUTO_ASSAULT_HELP_STUDENT": "",
+    "ENABLE_HTTP_NOTI": false,
+    "TARGET_HTTP_URL": "",
+    "TARGET_HTTP_TOKEN": "",
+    "USE_MEMORY_IMAGE": false
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
 }

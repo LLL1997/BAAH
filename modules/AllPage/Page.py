@@ -7,7 +7,7 @@ class Page:
     """
     Center of the screen
     """
-    MAGICPOINT = (300, 2)
+    MAGICPOINT = tuple((300, 2))
     """
     Magicpoint is the point that never contains any activable item
     """
@@ -22,11 +22,25 @@ class Page:
 
     COLOR_WHITE = ((240, 240, 240), (255, 255, 255))
     COLOR_RED = ((24, 70, 250), (26, 72, 252))
+<<<<<<< HEAD
     COLOR_BUTTON_WHITE = ((230, 230, 230), (255, 255, 255))
     """
     按钮有时半透明，受到游戏内交战环境影响，阈值可以低点
     """
     COLOR_BUTTON_GRAY = ((200, 200, 200), (230, 230, 230))
+=======
+    COLOR_BUTTON_WHITE = ((220, 220, 220), (255, 255, 255))
+    """
+    用于交战时右上角暂停按钮的像素识别，按钮有时半透明，受到游戏内交战环境影响，阈值可以低点
+    """
+    COLOR_BUTTON_GRAY = ((200, 200, 200), (230, 230, 230))
+    
+
+    COLOR_BUTTON_PINK =  ((123,245,171), (143,255,191))
+    '''
+    用于检测双倍按钮的颜色,粉色 rgb 255,133,181  格式是 b r g   黄色255,188,16
+    '''
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
     # 父类
     def __init__(self, pagename) -> None:
         self.name = pagename

@@ -23,7 +23,11 @@ class InClub(Task):
     def on_run(self) -> None:
         if config.userconfigdict["SERVER_TYPE"]=="JP":
             # 日服适配新界面
+<<<<<<< HEAD
             click((502, 669), sleeptime=3)
+=======
+            click((565, 669), sleeptime=3)
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
             click((299, 330), sleeptime=3)
         else:
             self.run_until(

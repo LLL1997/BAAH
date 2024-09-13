@@ -1,6 +1,7 @@
 class PageName:
     PAGE_PV_LOGIN = "PAGE_PV_LOGIN"
-    
+    PAGE_IN_PROGRESS = "PAGE_IN_PROGRESS" # 用来判断当日是否在双倍来决定是否执行的图像识别，在exchange等使用
+
     PAGE_HOME = "PAGE_HOME"
     
     PAGE_CAFE = "PAGE_CAFE"
@@ -43,4 +44,13 @@ class PageName:
     PAGE_SHOP = "PAGE_SHOP"
 
     PAGE_GRID_FIGHT = "PAGE_GRID_FIGHT"
+<<<<<<< HEAD
     PAGE_GRID_FIGHTING = "PAGE_GRID_FIGHTING"
+=======
+    PAGE_GRID_FIGHTING = "PAGE_GRID_FIGHTING"
+    
+    PAGE_STORY_SELECT_SECTION = "PAGE_STORY_SELECT_SECTION"
+    
+    PAGE_ASSAULT = "PAGE_ASSAULT"
+    
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187

@@ -1,5 +1,9 @@
  
+<<<<<<< HEAD
 import logging
+=======
+from modules.utils.log_utils import logging
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
 
 from DATA.assets.PageName import PageName
 from DATA.assets.ButtonName import ButtonName

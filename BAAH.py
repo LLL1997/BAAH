@@ -6,12 +6,21 @@ import os
 current_dir = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(current_dir)
 
+<<<<<<< HEAD
 import logging
 from modules.utils.MyConfig import config
+=======
+from modules.utils.log_utils import logging
+from modules.configs.MyConfig import config
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
 from modules.utils import *
 from modules.AllTask.myAllTask import my_AllTask
 from modules.add_functions.add_function import *
 from modules.add_functions.msg import push_msg_fast
+<<<<<<< HEAD
+=======
+from modules.utils.add_function import daily_report
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
 def BAAH_release_adb_port(justDoIt=False):
     """
     释放adb端口，通常被一个后台进程占用
@@ -96,6 +105,36 @@ def BAAH_check_adb_connect():
         raise Exception("检测到启动BAAH前 端口已被占用，但BAAH无法连接至该端口。上次模拟器可能未被正常关闭，请在启动BAAH前关闭模拟器")
     raise Exception("adb连接失败, 请检查配置里的adb端口")
 
+
+def BAAH_start_VPN():
+    """
+    启动加速器
+    """
+    if config.userconfigdict["USE_VPN"]:
+        logging.info("启动指定的加速器")
+        try:
+            if config.userconfigdict['VPN_CONFIG']['VPN_ACTIVITY']:
+                open_app(config.userconfigdict['VPN_CONFIG']['VPN_ACTIVITY'])
+            sleep(5)
+            logging.info(f"当前打开的应用: {get_now_running_app()}")
+            # 点击
+            for click_sleep_pair in config.userconfigdict['VPN_CONFIG']['CLICK_AND_WAIT_LIST']:
+                screenshot()
+                click_pos, sleep_time = click_sleep_pair
+                # 如果为列表且第一个元素为负数，表示不点击
+                if type(click_pos) == list and click_pos[0]<0 and click_pos[1]<0:
+                    if sleep_time > 0:
+                        sleep(sleep_time)
+                    continue
+                logging.info(f"点击{click_pos}, 等待{sleep_time}秒")
+                print(type(sleep_time))
+                click(click_pos, sleeptime=sleep_time)
+        except Exception as e:
+            logging.error("启动加速器失败, 可能是配置有误")
+            logging.error(e)
+    else:
+        logging.info("跳过启动加速器")
+
 def BAAH_open_target_app():
     """
     打开游戏
@@ -105,6 +144,14 @@ def BAAH_open_target_app():
     if check_app_running(config.userconfigdict['ACTIVITY_PATH']):
         logging.info("检测到游戏已经在运行")
         return True
+<<<<<<< HEAD
+=======
+    open_app(config.userconfigdict['ACTIVITY_PATH'])
+    time.sleep(30)
+    if check_app_running(config.userconfigdict['ACTIVITY_PATH']):
+        logging.info("检测到游戏已经在运行")
+        return True
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
     for i in range(10,87):
         logging.info("打开游戏")
         open_app(config.userconfigdict['ACTIVITY_PATH'])
@@ -128,9 +175,13 @@ def BAAH_kill_emulator():
         try:
             if not config.sessiondict["EMULATOR_PROCESS_PID"]:
                 logging.error("未能获取到模拟器进程，跳过关闭模拟器")
+<<<<<<< HEAD
                 from modules.add_functions.msg import push_msg_fast
                 push_msg_fast("碧蓝档案,BAAH未能获取到模拟器进程"+config.userconfigdict['SERVER_TYPE'])
                 return
+=======
+                raise Exception("未能获取到模拟器进程，跳过关闭模拟器")
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
             # 提取出模拟器的exe名字
             full_path = config.userconfigdict['TARGET_EMULATOR_PATH']
             emulator_exe=os.path.basename(full_path).split(".exe")[0]+".exe"
@@ -145,7 +196,52 @@ def BAAH_kill_emulator():
     else:
         logging.info("跳过关闭模拟器")
 
+<<<<<<< HEAD
 def BAAH_restart_emulator():
+=======
+def BAAH_send_email():
+    """
+    发送邮件
+    """
+    logging.info("尝试发送通知")
+    try:
+        # 构造通知对象
+        notificationer = create_notificationer()
+        # 构造邮件内容
+        content = []
+        content.append("BAAH任务结束")
+        content.append("配置文件名称: "+config.nowuserconfigname)
+        content.append("任务开始时间: "+config.sessiondict["BAAH_START_TIME"])
+        content.append("开始时资源: "+str(config.sessiondict["BEFORE_BAAH_SOURCES"]))
+        content.append("任务结束时间: "+time.strftime("%Y-%m-%d %H:%M:%S"))
+        content.append("结束时资源: "+str(config.sessiondict["AFTER_BAAH_SOURCES"]))
+        content.append("游戏区服: "+config.userconfigdict["SERVER_TYPE"])
+        # 任务内容
+        content.append("执行的任务内容:")
+        tasks_str = ""
+        for ind, task in enumerate(config.userconfigdict["TASK_ORDER"]):
+            if config.userconfigdict["TASK_ACTIVATE"][ind]:
+                tasks_str += f" -> {task}"
+        content.append(tasks_str)
+        # 其他消息
+        content.append("其他消息:")
+        info_str = ""
+        # INFO_DICT 和 INFO_LIST 里的信息
+        for key, value in config.sessiondict["INFO_DICT"].items():
+            info_str += f"{value}\n"
+        for info in config.sessiondict["INFO_LIST"]:
+            info_str += f"{info}\n"
+        content.append(info_str)
+        # 发送
+        notificationer.send("\n".join(content))
+        logging.info("通知发送结束")
+    except Exception as e:
+        logging.error("发送通知失败")
+        logging.error(e)
+
+def BAAH_restart_emulator():
+    config.sessiondict["BAAH_START_TIME"] = time.strftime("%Y-%m-%d %H:%M:%S")
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
     '''
     重启模拟器
     '''
@@ -165,10 +261,20 @@ def BAAH_main():
             BAAH_start_emulator()
             time.sleep(30)# 考虑渣机，稍微等下          
             BAAH_check_adb_connect()
+<<<<<<< HEAD
         BAAH_open_target_app()
         # 运行任务
         logging.info("运行任务")
         my_AllTask.run()
+=======
+            BAAH_start_VPN()
+            BAAH_open_target_app()
+        # 运行任务
+        logging.info("运行任务")
+        my_AllTask.run()
+        daily_report().on_run()
+        
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
     except Exception as e:
         from modules.add_functions.msg import push_msg_fast
         if e.args[0] == "找到维护弹窗，退出":
@@ -177,13 +283,23 @@ def BAAH_main():
         else:
             push_msg_fast("碧蓝档案,BAAH运行出错"+config.userconfigdict['SERVER_TYPE'])
             print(e)
+<<<<<<< HEAD
+=======
+            # input("运行出错，按回车退出")
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
             raise Exception("运行出错")
             
     finally:
         time.sleep(3)
         BAAH_kill_emulator()
         logging.info(f"{config.userconfigdict['SERVER_TYPE']}任务结束")
+<<<<<<< HEAD
         # input('Press any key to continue...')
+=======
+        if not config.userconfigdict["CLOSE_EMULATOR_BAAH"]:
+            input()
+
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
 
 if __name__ in ["__main__", "__mp_main__"]:
     # 不带GUI运行

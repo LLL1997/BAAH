@@ -1,6 +1,7 @@
 {
     "ACTIVITY_PATH": "com.RoamingStar.BlueArchive.bilibili/com.yostar.supersdk.activity.YoStarSplashActivity",
     "TIMETABLE_TASK": [
+<<<<<<< HEAD
         [
             7
         ],
@@ -18,6 +19,22 @@
             7,
             6,
             5,
+=======
+        [],
+        [],
+        [],
+        [],
+        [],
+        [
+            7,
+            8,
+            6,
+            5
+        ],
+        [
+            1,
+            3,
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
             4
         ]
     ],
@@ -26,17 +43,29 @@
             [
                 1,
                 9,
+<<<<<<< HEAD
                 2
+=======
+                -1
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
             ],
             [
                 2,
                 9,
+<<<<<<< HEAD
                 2
+=======
+                -1
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
             ],
             [
                 3,
                 9,
+<<<<<<< HEAD
                 2
+=======
+                -1
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
             ]
         ]
     ],
@@ -44,8 +73,20 @@
         [
             [
                 1,
+<<<<<<< HEAD
                 9,
                 33
+=======
+                10,
+                -1,
+                true
+            ],
+            [
+                2,
+                10,
+                -1,
+                false
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
             ]
         ]
     ],
@@ -53,8 +94,65 @@
         [
             [
                 1,
+<<<<<<< HEAD
                 1,
                 1,
+=======
+                3,
+                -1,
+                true
+            ],
+            [
+                2,
+                3,
+                -1,
+                true
+            ],
+            [
+                3,
+                3,
+                -1,
+                true
+            ]
+        ],
+        [
+            [
+                1,
+                3,
+                -1,
+                true
+            ],
+            [
+                2,
+                3,
+                -1,
+                true
+            ],
+            [
+                3,
+                3,
+                -1,
+                true
+            ]
+        ],
+        [
+            [
+                1,
+                3,
+                -1,
+                true
+            ],
+            [
+                2,
+                3,
+                -1,
+                true
+            ],
+            [
+                3,
+                3,
+                -1,
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
                 true
             ]
         ]
@@ -63,13 +161,18 @@
         [
             [
                 11,
+<<<<<<< HEAD
                 99
+=======
+                -1
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
             ]
         ]
     ],
     "HARD": [
         [
             [
+<<<<<<< HEAD
                 20,
                 3,
                 -1,
@@ -110,17 +213,58 @@
                 3,
                 -1,
                 false
+=======
+                18,
+                3,
+                -1,
+                true
+            ],
+            [
+                14,
+                1,
+                -1,
+                true
+            ],
+            [
+                17,
+                2,
+                -1,
+                true
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
             ],
             [
                 19,
                 3,
                 -1,
+<<<<<<< HEAD
                 false
+=======
+                true
+            ],
+            [
+                14,
+                2,
+                -1,
+                true
+            ],
+            [
+                16,
+                1,
+                -1,
+                true
+            ],
+            [
+                7,
+                1,
+                -1,
+                true
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
             ],
             [
                 15,
                 2,
                 -1,
+<<<<<<< HEAD
                 false
             ],
             [
@@ -151,17 +295,54 @@
                 15,
                 3,
                 3,
+=======
+                true
+            ],
+            [
+                10,
+                3,
+                -1,
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
                 false
             ],
             [
                 11,
                 2,
+<<<<<<< HEAD
                 3,
+=======
+                -1,
+                false
+            ],
+            [
+                8,
+                2,
+                -1,
+                false
+            ],
+            [
+                11,
+                3,
+                -1,
+                false
+            ],
+            [
+                15,
+                1,
+                -1,
+                false
+            ],
+            [
+                13,
+                1,
+                -1,
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
                 false
             ],
             [
                 9,
                 3,
+<<<<<<< HEAD
                 3,
                 false
             ],
@@ -199,6 +380,9 @@
                 14,
                 2,
                 3,
+=======
+                -1,
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
                 false
             ]
         ]
@@ -206,10 +390,17 @@
     "NORMAL": [
         [
             [
+<<<<<<< HEAD
                 17,
                 4,
                 -1,
                 false
+=======
+                16,
+                1,
+                -1,
+                true
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
             ]
         ]
     ],
@@ -218,27 +409,44 @@
         "战术大赛",
         "社团",
         "邮件",
+<<<<<<< HEAD
         "咖啡馆只摸头",
+=======
+        "咖啡馆",
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
         "战术大赛",
         "课程表",
         "悬赏通缉",
         "战术大赛",
         "学园交流会",
         "商店",
+<<<<<<< HEAD
+=======
+        "战术大赛",
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
         "每日任务",
         "困难关卡",
         "战术大赛",
         "活动关卡",
         "战术大赛",
+<<<<<<< HEAD
         "普通关卡",
         "特殊任务",
         "每日任务"
     ],
     "TARGET_EMULATOR_PATH": "D:/Program Files/Netease/MuMuPlayer-12.0/shell/MuMuPlayer.exe -v 3",
+=======
+        "特殊任务",
+        "普通关卡",
+        "每日任务"
+    ],
+    "TARGET_EMULATOR_PATH": "D:/Program Files/Netease/MuMu Player 12/shell/MuMuPlayer.exe -v 3",
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
     "PIC_PATH": "./DATA/assets_cn",
     "ADB_PATH": "./tools/adb/adb.exe",
     "SCREENSHOT_NAME": "c5fd3201.png",
     "TARGET_PORT": 16480,
+<<<<<<< HEAD
     "TIME_AFTER_CLICK": 0.2,
     "NEXT_CONFIG": "config_CN_xiaohao.json",
     "SHOP_NORMAL": [
@@ -260,29 +468,77 @@
         [],
         [],
         [
+=======
+    "TIME_AFTER_CLICK": 0.3,
+    "NEXT_CONFIG": "",
+    "SHOP_NORMAL": [
+        [],
+        [],
+        [
+            1,
+            2,
+            3,
+            4
+        ],
+        [
+            4,
+            1,
+            2,
+            3
+        ],
+        [
+            1,
+            2,
+            3,
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
             4
         ],
         [
             1,
             2,
+<<<<<<< HEAD
             3
+=======
+            3,
+            4
+        ]
+    ],
+    "SHOP_CONTEST": [
+        [],
+        [
+            1,
+            2
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
         ]
     ],
     "TASK_ACTIVATE": [
         true,
         true,
         true,
+<<<<<<< HEAD
         true,
         true,
         true,
         true,
         true,
         true,
+=======
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
         false,
         true,
         true,
         true,
         true,
+<<<<<<< HEAD
+=======
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
         false,
         true,
         false,
@@ -290,6 +546,7 @@
         true
     ],
     "TARGET_IP_PATH": "127.0.0.1",
+<<<<<<< HEAD
     "RESPOND_Y": 50,
     "LOCK_SERVER_TO_RESPOND_Y": false,
     "CAFE_CAMERA_FULL": false,
@@ -302,4 +559,62 @@
     "CAFE_EXHAUSTIVITY_TOUCH_HEAD": true,
     "SHOP_CONTEST_switch": false,
     "SHOP_CONTEST_SWITCH": false
+=======
+    "RESPOND_Y": 40,
+    "LOCK_SERVER_TO_RESPOND_Y": false,
+    "CAFE_CAMERA_FULL": true,
+    "SHOP_NORMAL_REFRESH_TIME": 0,
+    "SHOP_CONTEST_REFRESH_TIME": 0,
+    "SERVER_TYPE": "CN_BILI",
+    "CLOSE_EMULATOR_BAAH": true,
+    "FANHEXIE": false,
+    "KILL_PORT_IF_EXIST": true,
+    "CAFE_EXHAUSTIVITY_TOUCH_HEAD": false,
+    "PUSH_NORMAL_QUEST": 0,
+    "PUSH_NORMAL_QUEST_LEVEL": 1,
+    "PUSH_HARD_QUEST": 0,
+    "PUSH_HARD_QUEST_LEVEL": 1,
+    "GRID_SOL_PATH": "./DATA/grid_solution",
+    "AUTO_EVENT_STORY_PUSH": true,
+    "SHOP_CONTEST_SWITCH": false,
+    "EXPLORE_RAINBOW_TEAMS": false,
+    "ENABLE_MAIL_NOTI": false,
+    "CAFE_TOUCH_WAY_DIFF": true,
+    "USE_VPN": false,
+    "VPN_CONFIG": {
+        "VPN_ACTIVITY": "com.github.kr328.clash/com.github.kr328.clash.MainActivity",
+        "CLICK_AND_WAIT_LIST": [
+            [
+                [
+                    622,
+                    248
+                ],
+                2
+            ]
+        ]
+    },
+    "AUTO_PUSH_EVENT_QUEST": true,
+    "CAFE_COLLECT": true,
+    "CAFE_TOUCH": true,
+    "CAFE_INVITE": true,
+    "RAISE_ERROR_IF_CANNOT_PUSH_EVENT_QUEST": true,
+    "MAIL_USER": "",
+    "MAIL_PASS": "",
+    "ADVANCED_EMAIL": false,
+    "SENDER_EMAIL": "",
+    "RECEIVER_EMAIL": "",
+    "MAIL_HOST": "",
+    "AUTO_ASSAULT_LEVEL": 4,
+    "RUN_UNTIL_TRY_TIMES": 6,
+    "RUN_UNTIL_WAIT_TIME": 1.5,
+    "ADB_DIRECT_USE_SERIAL_NUMBER": false,
+    "ADB_SEIAL_NUMBER": "emulator-5554",
+    "IS_AUTO_ASSAULT_STUDENT_HELP": false,
+    "AUTO_ASSAULT_HELP_STUDENT_IS_SUPPORT": false,
+    "AUTO_ASSAULT_HELP_STUDENT": "",
+    "ENABLE_HTTP_NOTI": false,
+    "TARGET_HTTP_URL": "",
+    "TARGET_HTTP_TOKEN": "",
+    "USE_MEMORY_IMAGE": false
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
 }

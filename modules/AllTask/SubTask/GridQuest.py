@@ -1,5 +1,9 @@
  
+<<<<<<< HEAD
 import logging
+=======
+from modules.utils.log_utils import logging
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
 import os
 
 from DATA.assets.PageName import PageName
@@ -13,6 +17,7 @@ from modules.AllTask.Task import Task
 
 import json
 
+<<<<<<< HEAD
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, config, screenshot, get_screenshot_cv_data, match_pixel
 
 from modules.utils.grid_analyze import GridAnalyzer
@@ -65,6 +70,71 @@ class GridQuest(Task):
         self.last_click_position = [-1, -1]
 
     
+=======
+from modules.utils import (
+    click,
+    swipe,
+    match,
+    page_pic,
+    button_pic,
+    popup_pic,
+    sleep,
+    ocr_area,
+    config,
+    screenshot,
+    get_screenshot_cv_data,
+    match_pixel,
+)
+
+from modules.utils.grid_analyze import GridAnalyzer
+
+
+class GridQuest(Task):
+    """
+    进行一次走格子战斗，一般可以从点击任务资讯里的黄色开始战斗按钮后接管
+
+    从走格子界面开始到走格子战斗结束，离开战斗结算页面。skip开，phase自动结束关
+
+    一个GridQuest实例对应一个目标（三星或拿钻石）
+
+    Parameters
+    ==========
+        grider:
+            读取过json的GridAnalyzer对象
+        backtopic:
+            最后领完奖励回到的页面的匹配逻辑，回调函数
+    """
+
+    BUTTON_TASK_START_POS = (1171, 668)
+    BUTTON_TASK_INFO_POS = (996, 665)
+    BUTTON_SEE_OTHER_TEAM_POS = (82, 554)
+
+    TEAM_TYPE_NAME = {
+        "red": "爆发",
+        "blue": "神秘",
+        "yellow": "贯穿",
+        "purple": "振动",
+        "any": "任意",
+    }
+
+    def __init__(
+        self, grider: GridAnalyzer, backtopic, require_type, name="GridQuest"
+    ) -> None:
+        super().__init__(name)
+        self.backtopic = backtopic
+        self.grider = grider
+        self.require_type = require_type
+
+        # 当前关注的队伍下标
+        self.now_focus_on_team = 0
+        # 用于本策略的队伍名字，字母列表，["A","B","C"...]， 其内涵的潜在关系是队伍“A"对应的下标为0，队伍编号为1
+        self.team_names = []
+        # 上一次action
+        self.lastaction = {"team": "", "action": "", "target": ""}
+        # 上一次为了队伍移动点击的位置
+        self.last_click_position = [-1, -1]
+
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
     def pre_condition(self) -> bool:
         click(Page.MAGICPOINT, 1)
         click(Page.MAGICPOINT, 1)
@@ -74,8 +144,13 @@ class GridQuest(Task):
         # 可能有剧情
         SkipStory(pre_times=2).run()
         return Page.is_page(PageName.PAGE_GRID_FIGHT)
+<<<<<<< HEAD
     
     def whether_contain_number(self, string:str):
+=======
+
+    def whether_contain_number(self, string: str):
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
         """
         判断字符串是否包含数字
         """
@@ -84,10 +159,52 @@ class GridQuest(Task):
                 return True
         return False
     
+<<<<<<< HEAD
+=======
+    def judge_whether_pre_set(self):
+        """
+        将自动战斗开启，PHASE自动结束关闭
+        """
+        logging.info("判断是否需要设置自动战斗开启和PHASE自动结束关闭")
+        # 清除弹窗
+        self.run_until(
+            lambda: click(Page.MAGICPOINT),
+            lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
+        )
+        # 开启的勾的蓝色
+        blue_pixel = ((245, 225, 80), (255, 235, 90))
+        positions_map = {
+            "CN":[(1121, 551), (1080, 606)],
+            "CN_BILI":[(1121, 551), (1080, 606)],
+            "JP":[(1088, 550), (952, 604)],
+            "GLOBAL":[(1116, 550), (1055, 605)],
+            "GLOBAL_EN":[(1096, 550), (1045, 604)]
+        }
+        server = config.userconfigdict["SERVER_TYPE"]
+        # 自动战斗和PHASE自动结束的位置
+        auto_fight_pos, auto_phase_pos = positions_map[server]
+        # 自动战斗开启
+        self.run_until(
+            lambda: click(auto_fight_pos),
+            lambda: match_pixel(auto_fight_pos, blue_pixel),
+            times=2
+        )
+        # PHASE自动结束关闭
+        self.run_until(
+            lambda: click(auto_phase_pos),
+            lambda: not match_pixel(auto_phase_pos, blue_pixel),
+            times=2
+        )
+    
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
     def wait_end(self, possible_fight = False):
         """
         点击右下任务资讯，等待战斗结束可以弹出弹窗，然后点击魔法点关掉弹窗
         """
+<<<<<<< HEAD
+=======
+        logging.info(f"等待阶段，是否可能会进入局内战斗：{possible_fight}")
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
         # 如果返回到了self.backtopic()指定的页面，那么直接返回
         if self.backtopic():
             return True
@@ -103,6 +220,7 @@ class GridQuest(Task):
                 # 试试有没有开关弹窗效果
                 pre_close = self.run_until(
                     lambda: click(Page.MAGICPOINT),
+<<<<<<< HEAD
                     lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
                 )
                 can_open = self.run_until(
@@ -112,6 +230,18 @@ class GridQuest(Task):
                 can_close = self.run_until(
                     lambda: click(Page.MAGICPOINT),
                     lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
+=======
+                    lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE),
+                )
+                # (250, 136), (365, 180)
+                can_open = self.run_until(
+                    lambda: click(self.BUTTON_TASK_INFO_POS, 1.5),
+                    lambda: not match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE),
+                )
+                can_close = self.run_until(
+                    lambda: click(Page.MAGICPOINT),
+                    lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE),
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
                 )
                 if pre_close and can_open and can_close:
                     # 有开关弹窗效果
@@ -120,24 +250,42 @@ class GridQuest(Task):
                         # 在走格子界面，铁定没进局内战斗
                         return
                 else:
+<<<<<<< HEAD
                     # 没有开关弹窗效果
                     if match(page_pic(PageName.PAGE_GRID_FIGHTING)):
+=======
+                    logging.info("没有开关弹窗效果")
+                    # 没有开关弹窗效果
+                    if match(page_pic(PageName.PAGE_GRID_FIGHTING)):
+                        logging.info("在走格子界面，可能进局内战斗，可能不进")
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
                         # 在走格子界面，可能进局内战斗，可能不进，继续判断
                         continue
                     elif not self.backtopic():
                         # 不在走格子界面，没有返回backtopic,那么就是进入了局内战斗
+<<<<<<< HEAD
+=======
+                        logging.info("不在走格子界面，判断进入了局内战斗")
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
                         FightQuest(self.backtopic, start_from_editpage=False).run()
                         return
         # 清弹窗
         self.run_until(
             lambda: click(Page.MAGICPOINT),
+<<<<<<< HEAD
             lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
         )
+=======
+            lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE),
+        )
+        logging.info("尝试呼出弹窗")
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
         # 出弹窗
         self.run_until(
             lambda: click(self.BUTTON_TASK_INFO_POS),
             lambda: not match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE),
             times=18,
+<<<<<<< HEAD
             sleeptime=1.5
         )
         # 清弹窗
@@ -169,6 +317,46 @@ class GridQuest(Task):
         self.now_focus_on_team = nowteam_ind
         return nowteam_ind
         
+=======
+            sleeptime=1.5,
+        )
+        logging.info("尝试清空弹窗")
+        # 清弹窗
+        self.run_until(
+            lambda: click(Page.MAGICPOINT),
+            lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE),
+        )
+
+    def get_now_focus_on_team(self):
+        """
+        得到当前注意的队伍，左下角数字减一
+        """
+        self.run_until(
+            lambda: click(Page.MAGICPOINT),
+            lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE),
+        )
+        # 识别左下角切换队伍的按钮文字
+        # 国际服繁中不偏移，其他服往右偏移45
+        offsetx = 45
+        if config.userconfigdict["SERVER_TYPE"] == "GLOBAL":
+            offsetx = 0
+        now_team_str, loss = ocr_area((72+offsetx, 544), (91+offsetx, 569), multi_lines=False)
+        logging.info(f"ocr结果{now_team_str}")
+        try:
+            nowteam_ind = int(now_team_str) - 1
+        except ValueError as e:
+            logging.error("识别左下角切换队伍的按钮文字失败，请确保你的游戏设置-战斗时上下黑边为关闭，且走格子右下角的跳过战斗选项为开启")
+            raise Exception("识别左下角切换队伍的按钮文字失败，请确保你的游戏设置-战斗时上下黑边为关闭，且走格子右下角的跳过战斗选项为开启")
+        self.now_focus_on_team = nowteam_ind
+        return nowteam_ind
+        
+    def print_team_config(self, _now_need_team_set):
+        """
+        格式化输出队伍的初始位置以及配置这些信息
+        """
+        for ind in range(len(_now_need_team_set)):
+            logging.info(f"    编辑部队-> {ind+1}部队: {_now_need_team_set[ind]} {self.TEAM_TYPE_NAME.get(_now_need_team_set[ind])} {list(self.grider.get_initialteams(self.require_type))[ind]['position']}")
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
     
     def on_run(self) -> None:
         # 尝试读取json文件
@@ -176,13 +364,18 @@ class GridQuest(Task):
         if self.grider.level_data is None:
             logging.error(f"关卡文件{self.grider.jsonfilename}读取失败")
             self.run_until(
+<<<<<<< HEAD
                 lambda: click(Page.TOPLEFTBACK),
                 lambda: self.backtopic(),
                 sleeptime=2
+=======
+                lambda: click(Page.TOPLEFTBACK), lambda: self.backtopic(), sleeptime=2
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
             )
             return False
         logging.info(f"成功读取关卡文件{self.grider.jsonfilename}，开始执行")
         # 设置队伍数量
+<<<<<<< HEAD
         self.team_names = [item["name"] for item in self.grider.get_initialteams(self.require_type)]
         # ========== 配队 ============
         last_team_set_list = config.sessiondict["LAST_TEAM_SET"]
@@ -199,6 +392,31 @@ class GridQuest(Task):
             logging.info("未保存适合的配置，请按照以下队伍要求配队")
             for ind in range(len(now_need_team_set_list)):
                 logging.info(f"    编辑部队-> {ind+1}部队: {now_need_team_set_list[ind]} {self.TEAM_TYPE_NAME[now_need_team_set_list[ind]]} {list(self.grider.get_initialteams(self.require_type))[ind]['position']}")
+=======
+        self.team_names = [
+            item["name"] for item in self.grider.get_initialteams(self.require_type)
+        ]
+        # ========== 配队 ============
+        last_team_set_list = config.sessiondict["LAST_TEAM_SET"]
+        now_need_team_set_list = [item["type"] for item in self.grider.get_initialteams(self.require_type)]  # 内涵的潜在关系是队伍类型对应的队伍编号
+        need_user_set_teams = False
+        # 判断能否直接用上次的队伍
+        for ind in range(len(now_need_team_set_list)):
+            if len(last_team_set_list) <= ind or (
+                last_team_set_list[ind] != now_need_team_set_list[ind]
+                and now_need_team_set_list[ind] != "any"
+            ):
+                # 让用户去配队！
+                need_user_set_teams = True
+                break
+        # 如果开启了彩虹队配置，则不用配队
+        if config.userconfigdict["EXPLORE_RAINBOW_TEAMS"]:
+            need_user_set_teams = False
+        if need_user_set_teams:
+            # 需要用户配队
+            logging.info("未保存适合的配置，请按照以下队伍要求配队")
+            self.print_team_config(now_need_team_set_list)
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
             logging.info("同时，请确保你的SKIP战斗设置为开启，PHASE自动结束为关闭")
             input("配队结束后请直接返回至走格子界面，不用点击出击。输入回车继续：")
             # 更新队伍信息
@@ -206,6 +424,7 @@ class GridQuest(Task):
             logging.info("配队信息已更新")
         else:
             # 不需要用户配队的话就继续用上次的队伍
+<<<<<<< HEAD
             display_str = " ".join([self.TEAM_TYPE_NAME[item] for item in last_team_set_list])
             logging.info(f"使用上次的队伍配置: {display_str}")
         screenshot()
@@ -214,6 +433,18 @@ class GridQuest(Task):
         # 选择队伍START
         # 尚未配队的队伍的相对文字化角度描述
         tobe_setted_team_poses = [item["position"] for item in self.grider.get_initialteams(self.require_type)]
+=======
+            display_str = " ".join([self.TEAM_TYPE_NAME.get(item) for item in last_team_set_list])
+            logging.info(f"使用上次的队伍配置: {display_str}")
+        screenshot()
+        if match(page_pic(PageName.PAGE_EDIT_QUEST_TEAM)):
+            click(Page.TOPLEFTBACK, 2)
+        # 选择队伍START
+        # 尚未配队的队伍的相对文字化角度描述
+        tobe_setted_team_poses = [
+            item["position"] for item in self.grider.get_initialteams(self.require_type)
+        ]
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
         for focus_team_ind in range(len(self.team_names)):
             for try_times in range(3):
                 # 设置队伍初始位置的时候，重复尝试三次，如果失败了（无法跳到编辑队伍页面）就点一下切换队伍按钮
@@ -222,11 +453,16 @@ class GridQuest(Task):
                     lambda: click(Page.MAGICPOINT),
                     lambda: match(page_pic(PageName.PAGE_GRID_FIGHT)),
                     sleeptime=1,
+<<<<<<< HEAD
                     times=3
+=======
+                    times=3,
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
                 )
                 if not res_gridpage:
                     logging.error("未识别到走格子界面")
                     raise Exception("未识别到走格子界面，请确保当前界面是走格子界面且未出击任何队伍")
+<<<<<<< HEAD
                 # 得到初始中心
                 center_poses, loss, global_center = self.grider.multikmeans(self.grider.get_mask(get_screenshot_cv_data(), self.grider.PIXEL_START_YELLOW), len(self.team_names))
                 # 得到相应偏角和距离
@@ -245,18 +481,53 @@ class GridQuest(Task):
                 edit_page_result = self.run_until(
                     lambda: click(Page.MAGICPOINT),
                     lambda: match(page_pic(PageName.PAGE_EDIT_QUEST_TEAM))
+=======
+                # 如果队伍配队配置里面有click参数，那么就点击相对应的位置就行了
+                if "click" in list(self.grider.get_initialteams(self.require_type))[focus_team_ind]:
+                    target_click_team_center = list(self.grider.get_initialteams(self.require_type))[focus_team_ind]["click"]
+                    logging.info(f"使用配置文件中的click参数{target_click_team_center}")
+                else:
+                    # 如果没有click参数，那么就用knn识别初始方格
+                    # 得到初始中心
+                    center_poses, loss, global_center = self.grider.multikmeans(self.grider.get_mask(get_screenshot_cv_data(), self.grider.PIXEL_START_YELLOW), len(self.team_names))
+                    # 得到相应偏角和距离
+                    angles, distances = self.grider.get_angle(center_poses, global_center)
+                    # 得到初始中心对应的文字化角度描述
+                    directions = self.grider.get_direction(angles, distances, tobe_setted_team_poses)
+                    # 接下来为这个队伍设置人员，点击相应的center_poses然后确定即可
+                    # 现在要处理的队伍的文字化角度描述
+                    now_team_pos = tobe_setted_team_poses[focus_team_ind]
+                    # 找到这个角度描述是derections里的第几个
+                    now_team_pos_ind = directions.index(now_team_pos)
+                    # 点击这个中心
+                    target_click_team_center = center_poses[now_team_pos_ind]
+                    target_click_team_center = [int(target_click_team_center[1]), int(target_click_team_center[0])]
+                # 点击队伍初始位置
+                click(target_click_team_center, 1)
+                edit_page_result = self.run_until(
+                    lambda: click(Page.MAGICPOINT),
+                    lambda: match(page_pic(PageName.PAGE_EDIT_QUEST_TEAM)),
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
                 )
                 if edit_page_result:
                     break
                 else:
                     click(self.BUTTON_SEE_OTHER_TEAM_POS, 1)
             if not edit_page_result:
+<<<<<<< HEAD
                 raise Exception("未识别到配队界面，请确保当前界面是配队界面且你未手动出击任何队伍")
+=======
+                logging.error("未识别到配队界面，可能是队伍起始点被遮挡导致识别失败")
+                self.print_team_config(now_need_team_set_list)
+                input("请按照以上要求手动出击队伍，然后返回至格子地图界面，回车以继续...")
+
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
             # 点击确定
             logging.info("点击出击")
             self.run_until(
                 lambda: click(self.BUTTON_TASK_START_POS),
                 lambda: not match(page_pic(PageName.PAGE_EDIT_QUEST_TEAM)),
+<<<<<<< HEAD
                 sleeptime=3
             )
             
@@ -264,12 +535,30 @@ class GridQuest(Task):
             self.run_until(
                 lambda: click(Page.MAGICPOINT),
                 lambda: match(page_pic(PageName.PAGE_GRID_FIGHT))
+=======
+                sleeptime=3,
+            )
+
+            # 等待回到走格子界面
+            self.run_until(
+                lambda: click(Page.MAGICPOINT),
+                lambda: match(page_pic(PageName.PAGE_GRID_FIGHT)),
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
             )
         # ==========开打！============
         sleep(1.5)
         logging.info("开始战斗！")
         # 点击任务开始，这边多等一会，有的服战斗开始时会强制转到二队视角
         click(self.BUTTON_TASK_START_POS, sleeptime=4)
+<<<<<<< HEAD
+=======
+        # 清除弹窗
+        self.run_until(
+            lambda: click(Page.MAGICPOINT),
+            lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
+        )
+        self.judge_whether_pre_set()
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
         for step_ind in range(self.grider.get_num_of_steps(self.require_type)):
             # 循环每一个回合
             actions = self.grider.get_action_of_step(self.require_type, step_ind)
@@ -278,6 +567,7 @@ class GridQuest(Task):
                 # 循环回合的每一个action
                 target_team_ind = self.team_names.index(action["team"])
                 # 聚焦到目标队伍，每次都获取最新的当前聚焦队伍
+<<<<<<< HEAD
                 while(self.get_now_focus_on_team()!=target_team_ind):
                     click(self.BUTTON_SEE_OTHER_TEAM_POS, sleeptime=1)
                 logging.info(f'当前聚焦队伍{self.team_names[self.now_focus_on_team]}')
@@ -312,11 +602,69 @@ class GridQuest(Task):
                     print(e)
                     logging.warn("队伍位置识别失败")
                     if action["team"]==self.lastaction["team"] and action["action"]=="portal" and action["target"]=="center":
+=======
+                while self.get_now_focus_on_team() != target_team_ind:
+                    click(self.BUTTON_SEE_OTHER_TEAM_POS, sleeptime=1)
+                logging.info(f"当前聚焦队伍{self.team_names[self.now_focus_on_team]}")
+                logging.info(
+                    f'执行step:{step_ind} action:{action_ind} 队伍{action["team"]}->{action["action"]} {action["target"]}'
+                )
+                sleep(1.5)
+                # 专注到一个队伍上后，分析队伍当前位置
+                screenshot()
+                try:
+                    # 如果有click参数，那么就直接用click参数
+                    if "click" in action:
+                        logging.info(f"使用配置文件中的click参数{action['click']}")
+                        need_click_position = action["click"]
+                    else:
+                        mode = "head"
+                        # 优先使用三角逼近
+                        knn_positions = [self.grider.get_head_triangle(get_screenshot_cv_data())]
+                        if knn_positions[0][0]<0 or knn_positions[0][1]<0:
+                            # 如果三角逼近失败，那么使用头部黄色标识KNN识别
+                            logging.warn("三角逼近失败，尝试识别头部黄色标识中心")
+                            # 需要蒙版的颜色
+                            need_to_mask_color = self.grider.PIXEL_HEAD_YELLOW
+                            # 国服的话头顶颜色会深一些
+                            if config.userconfigdict["SERVER_TYPE"]=="CN" or config.userconfigdict["SERVER_TYPE"]=="CN_BILI":
+                                need_to_mask_color = self.grider.PIXEL_HEAD_YELLOW_CN_DARKER
+                            knn_positions, _, _ = self.grider.multikmeans(self.grider.get_mask(get_screenshot_cv_data(), need_to_mask_color, shrink_kernels=[(2, 4)]), 1)
+                            if knn_positions[0][0]<0 or knn_positions[0][1]<0:
+                                mode = "foot"
+                                # 如果用头上三角箭头KNN识别队伍位置失败，那么用脚底黄色标识识别
+                                logging.warn("三角中心识别失败，尝试使用砖块识别")
+                                knn_positions, _, _ = self.grider.multikmeans(self.grider.get_mask(get_screenshot_cv_data(), self.grider.PIXEL_MAIN_YELLOW), 1)
+                                if knn_positions[0][0]<0 or knn_positions[0][1]<0:
+                                    # 如果还是失败，那么就是失败了
+                                    raise Exception("队伍位置识别失败")
+                        # 此处坐标和opencv坐标相反
+                        target_team_position = knn_positions[0]
+                        # 根据攻略说明，偏移队伍位置得到点击的位置
+                        offset_pos = self.grider.WALK_MAP[action["target"]]
+                        # 前后反，将数组下标转为图像坐标
+                        if mode == "head":
+                            # 头部识别三角箭头，需要向下偏移定位到格子
+                            offset_from_cnn_to_real = 135
+                        else:
+                            offset_from_cnn_to_real = 0
+                        # 此处need_click_position的轴向就和opencv相同了
+                        need_click_position = [int(target_team_position[1]+offset_pos[1]), int(target_team_position[0]+offset_pos[0]+offset_from_cnn_to_real)] # 纵轴从人物头顶三角箭头往下偏移
+                except Exception as e:
+                    print(e)
+                    logging.warn("队伍位置识别失败")
+                    if (
+                        action["team"] == self.lastaction["team"]
+                        and action["action"] == "portal"
+                        and action["target"] == "center"
+                    ):
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
                         logging.info("动作为原地传送，尝试点击上次点击位置")
                         # 如果队伍与上一次一样，且是传送门，而且是点击队伍脚底下。
                         # 如果队伍上次是移动到传送门上，则此时会没有脚底黄色标
                         need_click_position = self.last_click_position
                     else:
+<<<<<<< HEAD
                         logging.error("队伍位置识别失败，这可能是由于识别参数不正确导致的，请反馈给开发者")
                         raise Exception("队伍位置识别失败")
                 # 点击使其移动
@@ -330,6 +678,23 @@ class GridQuest(Task):
                             lambda: click(button_pic(ButtonName.BUTTON_EXCHANGE_TEAM)),
                             lambda: not match(button_pic(ButtonName.BUTTON_EXCHANGE_TEAM))
                         )
+=======
+                        logging.error(
+                            "队伍位置识别失败，这可能是由于识别参数不正确导致的，请反馈给开发者"
+                        )
+                        raise Exception("队伍位置识别失败")
+                # 点击使其移动
+                logging.info(f"点击{need_click_position}")
+                click(need_click_position, sleeptime=1)
+                self.last_click_position = need_click_position
+                # 默认是move事件，此外还有portal，exchange需要特殊处理
+                if action["action"] == "exchange":
+                    sleep(5)
+                    exchange_res = self.run_until(
+                        lambda: click(button_pic(ButtonName.BUTTON_EXCHANGE_TEAM)),
+                        lambda: not match(button_pic(ButtonName.BUTTON_EXCHANGE_TEAM)),
+                    )
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
                     if not exchange_res:
                         logging.error(f"{self.grider.jsonfilename}：队伍交换失败")
                         raise Exception("未识别到交换队伍按钮，这可能是由于你的队伍练度过低；或者攻略配置文件不正确导致的，请反馈给开发者（群里或者issue）")
@@ -337,12 +702,26 @@ class GridQuest(Task):
                     sleep(2)
                     portal_result = self.run_until(
                         lambda: click(button_pic(ButtonName.BUTTON_CONFIRMB)),
+<<<<<<< HEAD
                         lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
                     )
                     if not portal_result:
                         logging.error("未识别到传送弹窗")
                         raise Exception("未识别到传送弹窗，这可能是由于攻略配置文件不正确导致的，请反馈给开发者")
                 if action_ind==len(actions)-1 and step_ind==self.grider.get_num_of_steps(self.require_type)-1:
+=======
+                        lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE),
+                    )
+                    if not portal_popup or not portal_result:
+                        logging.error("未识别到传送弹窗")
+                        raise Exception(
+                            "未识别到传送弹窗，这可能是由于攻略配置文件不正确导致的，请反馈给开发者"
+                        )
+                if (
+                    action_ind == len(actions) - 1
+                    and step_ind == self.grider.get_num_of_steps(self.require_type) - 1
+                ):
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
                     # 可能局内战斗，自己去碰boss
                     self.wait_end(possible_fight=True)
                 else:
@@ -355,15 +734,29 @@ class GridQuest(Task):
             click(self.BUTTON_TASK_START_POS, sleeptime=2)
             self.run_until(
                 lambda: click(button_pic(ButtonName.BUTTON_CONFIRMB)),
+<<<<<<< HEAD
                 lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)
             )
             if step_ind==self.grider.get_num_of_steps(self.require_type)-1:
+=======
+                lambda: match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE),
+            )
+            if step_ind == self.grider.get_num_of_steps(self.require_type) - 1:
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
                 # 等敌方行动结束，可能是回合结束boss凑过来
                 self.wait_end(possible_fight=True)
             else:
                 self.wait_end()
+<<<<<<< HEAD
         
         
      
     def post_condition(self) -> bool:
         return self.backtopic()
+=======
+        logging.info(f"{self.grider.jsonfilename}执行完毕")
+        
+     
+    def post_condition(self) -> bool:
+        return self.backtopic()
+>>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
