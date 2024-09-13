@@ -6,6 +6,41 @@ import subprocess
 from pathlib import Path
 import nicegui
 import time
+import pponnxcr
+import platform
+import requests
+
+def package_download_adb(platformstr = None):
+    
+    target_adb_path = os.path.join(os.getcwd(), "tools", "adb")
+    downloadurls = {
+        "Windows": "https://dl.google.com/android/repository/platform-tools-latest-windows.zip",
+        "Darwin": "https://dl.google.com/android/repository/platform-tools-latest-darwin.zip",
+        "Linux": "https://dl.google.com/android/repository/platform-tools-latest-linux.zip"
+    }
+    if not os.path.exists(target_adb_path):
+        if platformstr and platformstr in downloadurls.keys():
+            url = downloadurls[platformstr]
+        elif platform.system() in downloadurls.keys():
+            url = downloadurls[platform.system()]
+        else:
+            print(f"Unknown platform: {platform.system()}")
+            return
+        
+        # download zip
+        r = requests.get(url)
+        with open("platform-tools-latest.zip", "wb") as f:
+            f.write(r.content)
+        target_adb_path_parent_folder = os.path.dirname(target_adb_path)
+        # unzip to target_adb_path, rename the upper folder "playform-tools" to "adb"
+        with zipfile.ZipFile("platform-tools-latest.zip", 'r') as z:
+            z.extractall(target_adb_path_parent_folder)
+        print(f"adb downloaded to: {target_adb_path_parent_folder}")
+        package_rename(os.path.join(target_adb_path_parent_folder, "platform-tools"), target_adb_path)
+        
+        
+    else:
+        print(f"adb already exists: {target_adb_path}")
 
 def package_copyfolder(src, dst):
     try:
@@ -50,6 +85,9 @@ def package_remove_folder(path):
 
 config_version = config.NOWVERSION
 
+# mainly for windows, download adb
+package_download_adb(platformstr="Windows")
+
 package_remove_folder("./dist")
 
 # 打包main.py，名字为BAAH
@@ -58,6 +96,7 @@ baahcmd = [
     'main.py',
     '-n', 'BAAH',
     '--icon', './DATA/assets/kei.ico',
+    '--add-data', f'{Path(pponnxcr.__file__).parent}{os.pathsep}pponnxcr',
     '-y'
 ]
 subprocess.call(baahcmd)
@@ -73,6 +112,15 @@ guicmd = [
 ]
 subprocess.call(guicmd)
 
+# 打包update.py，名字为BAAH_UPDATE
+updatecmd = [
+    'pyinstaller',
+    'update.py',
+    '-n', 'BAAH_UPDATE',
+    '--icon', './DATA/assets/kayoko.ico',
+    '-y'
+]
+subprocess.call(updatecmd)
 
 # 当前目录
 print("当前目录：", os.getcwd())
@@ -91,7 +139,9 @@ for dirpath, dirnames, filenames in os.walk(os.path.join('./dist', 'jsoneditor',
     break
 
 package_copyfolder('./tools/adb', './dist/BAAH/tools/adb')
-package_copyfolder('./tools/pponnxcr', './dist/BAAH/_internal/pponnxcr')
+
+# pytinstall的时候已经把pponnxcr和nicegui文件拷贝进去了
+# package_copyfolder('./tools/pponnxcr', './dist/BAAH/_internal/pponnxcr')
 
 # 挪i18n进去创建下DATA文件夹
 package_copyfolder("./DATA/i18n", "./dist/BAAH/DATA/i18n")
@@ -111,6 +161,7 @@ package_copyfolder("./DATA/assets_cn", "./dist/BAAH/DATA/assets_cn")
 package_copyfolder("./DATA/assets_global_en", "./dist/BAAH/DATA/assets_global_en")
 package_copyfolder("./DATA/grid_solution", "./dist/BAAH/DATA/grid_solution")
 package_copyfile("./dist/jsoneditor/jsoneditor.exe", "./dist/BAAH/jsoneditor.exe")
+package_copyfile("./dist/BAAH_UPDATE/BAAH_UPDATE.exe", "./dist/BAAH/BAAH_UPDATE.exe")
 
 time.sleep(2)
 
@@ -121,6 +172,9 @@ package_rename("./dist/BAAH/jsoneditor.exe", f"./dist/BAAH/BAAH_GUI{config_versi
 package_rename("./dist/BAAH/jsoneditor.exe", "./dist/BAAH/BAAH_GUI.exe")
 >>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
 package_rename("./dist/BAAH", f"./dist/BAAH{config_version}")
+
+package_remove_file("./BAAH.exe")
+package_copyfile(f"./dist/BAAH{config_version}/BAAH.exe", "./BAAH.exe")
 
 print("开始压缩")
 time.sleep(2)

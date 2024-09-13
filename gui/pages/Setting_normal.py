@@ -14,7 +14,7 @@ def set_normal(config):
         ui.number(config.get_text("config_level"), min=1, precision=0, step=1).bind_value(config.userconfigdict, "PUSH_NORMAL_QUEST_LEVEL").style("width: 300px")
     
     ui.label(config.get_text("config_desc_times"))
-    
+    ui.switch(config.get_text("config_event_status")).bind_value(config.userconfigdict, "NORMAL_QUEST_EVENT_STATUS") 
     list_edit_area(
         config.userconfigdict["NORMAL"], 
         [
@@ -23,6 +23,7 @@ def set_normal(config):
             [
                 config.get_text("config_location"),
                 config.get_text("config_level"),
+<<<<<<< HEAD
                 config.get_text("config_times"),
                 "switch"
 <<<<<<< HEAD
@@ -37,6 +38,13 @@ def set_normal(config):
         '''
 >>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
         #config.get_text("config_desc_list_edit")
+=======
+                config.get_text("config_times")
+            ]
+        ], 
+        config.get_text("config_desc_list_edit"),
+        has_switch=True
+>>>>>>> 2ce304c89d22027e0bae9d555458b66424e15646
     )
     # explore
     ui.label(config.get_text("push_normal")).style('font-size: x-large')
@@ -44,6 +52,7 @@ def set_normal(config):
     ui.label(config.get_text("config_explore_attention"))
     
     with ui.card():
+        ui.checkbox(config.get_text("config_use_simple_explore")).bind_value(config.userconfigdict, "PUSH_NORMAL_USE_SIMPLE")
         ui.checkbox(config.get_text("config_rainbow_teams_desc")).bind_value(config.userconfigdict, "EXPLORE_RAINBOW_TEAMS")
         ui.number(config.get_text("config_push_normal_desc"), min=4, precision=0, step=1).bind_value(config.userconfigdict, "PUSH_NORMAL_QUEST", forward=lambda x: int(x)).style("width: 300px")
         ui.number(config.get_text("config_level"), min=1, precision=0, step=1).bind_value(config.userconfigdict, "PUSH_NORMAL_QUEST_LEVEL", forward=lambda x:int(x)).style("width: 300px")

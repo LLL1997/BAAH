@@ -9,58 +9,49 @@ from time import sleep, strftime
 current_dir = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(current_dir)
 
+
 if __name__ in ["__main__", "__mp_main__"]:
     try:
         # config logging before all imports
         from modules.utils.log_utils import logging
         # 从命令行参数获取要运行的config文件名，并将config实例parse为那个config文件
-        
-        configname = "config.json"
-        from modules.utils.MyConfig import config
-        logging.info("读取默认config文件: "+configname)
+        from modules.configs.MyConfig import config
+
+        logging.info({"zh_CN": f"当前运行目录: {os.getcwd()}", "en_US": f"Current running directory: {os.getcwd()}"})
+        now_config_files = config.get_all_user_config_names()
+        logging.info({"zh_CN": "BAAH_CONFIGS可用的配置文件: " + ", ".join(now_config_files), "en_US": "Available BAAH_CONFIGS config files: " + ", ".join(now_config_files)})
+
         if len(sys.argv) > 1:
-            configname = sys.argv[1]
-<<<<<<< HEAD
-            config.parse_config(configname)
-            logging.info("重新读取指定的config文件: "+configname)
-        logging.info(f"模拟器:{config.configdict['TARGET_EMULATOR_PATH']}")
-        logging.info(f"端口:{config.configdict['TARGET_PORT']}")
+            config_name = sys.argv[1]
+            logging.info({"zh_CN": f"读取指定的配置文件: {config_name}", "en_US": f"loading config from {config_name}"})
+            if config_name not in now_config_files:
+                logging.error({"zh_CN": "输入的配置文件名不在可用配置文件列表中", "en_US": "The entered config file name is not in the list of available config files"})
+                raise FileNotFoundError(f"config file {config_name} not found")
 
-        import base64
-        import traceback
-        from BAAH import BAAH_main
-        from modules.AllTask.myAllTask import my_AllTask
-        
-        # 打印BAAH信息
-        print("+"+"BAAH".center(80, "="), "+")
-        print("||"+f"Version: {config.NOWVERSION}".center(80, " ")+"||")
-        print("||"+"Bilibili: https://space.bilibili.com/7331920".center(80, " ")+"||")
-        print("||"+"Github: https://github.com/sanmusen214/BAAH".center(80, " ")+"||")
-        print("||" + "QQ群: 441069156".center(80, " ") + "||")
-        print("||"+"".center(80, " ")+"||")
-        print("+"+"".center(80, "=")+"+")
-    
-=======
-            logging.info("读取指定的config文件: "+configname)
-            config.parse_user_config(configname)
+            config.parse_user_config(config_name)
         else:
-            configname = "config.json"
-            logging.info("读取默认config文件: "+configname)
-            config.parse_user_config(configname)
-
+            logging.warn({"zh_CN": "启动程序时没有指定配置文件", "en_US": "No config file specified when starting the program"})
+            if len(now_config_files) == 1:
+                logging.info({"zh_CN": "自动读取唯一的配置文件", "en_US": "Automatically read the only config file"})
+                config_name = now_config_files[0]
+            else:
+                while(1):
+                    logging.info({"zh_CN": "请手动输入要运行的配置文件名(包含.json后缀)", "en_US": "Please enter the config file name to run (including .json suffix)"})
+                    config_name = input(": ")
+                    if config_name in now_config_files:
+                        break
+                    else:
+                        logging.warn({"zh_CN": "输入的配置文件名不在可用配置文件列表中", "en_US": "The entered config file name is not in the list of available config files"})
+            logging.info({"zh_CN": f"读取指定的配置文件: {config_name}", "en_US": f"loading config from {config_name}"})
+            config.parse_user_config(config_name)
+        # 按照该配置文件，运行BAAH
+        # 加载my_AllTask，BAAH_main，create_notificationer
+        # 以这时的config构建任务列表
         from BAAH import BAAH_main, my_AllTask, create_notificationer
-        
-        # 打印BAAH信息
-        print_BAAH_start()
-        
-        # 打印config信息
-        logging.info(f"读取的config文件: {configname}")
-        logging.info(f"模拟器:{config.userconfigdict['TARGET_EMULATOR_PATH']}")
-        logging.info(f"端口:{config.userconfigdict['TARGET_PORT']}")
-        logging.info(f"区服:{config.userconfigdict['SERVER_TYPE']}")
->>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
 
         # 不带GUI运行
+        BAAH_main()
+    
         # config历史列表
         config_history = [configname]
         while True:
@@ -132,43 +123,8 @@ if __name__ in ["__main__", "__mp_main__"]:
             else:
                 break
     except Exception as e:
-        # 打印完整的错误信息
+        import traceback
         traceback.print_exc()
-        print_BAAH_finish()
-<<<<<<< HEAD
-        # input("按回车键继续:")
-=======
-        # 发送错误通知邮件
-        if config.userconfigdict["ENABLE_MAIL_NOTI"]:
-            logging.info("发送错误通知邮件")
-            try:
-                # 构造通知对象
-                notificationer = create_notificationer()
-                # 构造邮件内容
-                content = []
-                content.append("BAAH任务出现错误")
-                content.append("配置文件名称: "+config.nowuserconfigname)
-                content.append("游戏区服: "+config.userconfigdict["SERVER_TYPE"])
-                content.append("错误信息: "+str(e))
-                print(notificationer.send("\n".join(content)))
-                logging.info("邮件发送结束")
-            except Exception as eagain:
-                logging.error("发送邮件失败")
-                logging.error(eagain)
-        # input("出现错误，按回车键退出:")
->>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
-        raise Exception("运行出错")
-    # 运行结束后，删除截图文件
-    try:
-        # 如果截图文件存在，删除截图文件
-        if os.path.exists(f"./{config.SCREENSHOT_NAME}"):
-            os.remove(f"./{config.SCREENSHOT_NAME}")
-    except:
-        pass
-    print("程序运行结束，如有问题请加群(441069156)反馈，在Github上检查下是否有版本更新")
-    print("https://github.com/sanmusen214/BAAH")
-
-
-    from modules.utils.msg import push_msg_fast
-    push_msg_fast(f"所有游戏，BAAH运行结束,")
-    # input("按回车键退出BAAH:")
+        # 用于GUI识别是否结束的关键字
+        print("GUI_BAAH_TASK_END")
+        input("Error, Enter to exit/错误，回车退出:")

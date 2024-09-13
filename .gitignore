@@ -2,14 +2,25 @@ tools/
 test.spec
 jsoneditor.spec
 <<<<<<< HEAD
+<<<<<<< HEAD
 BAAH.spec
 compact_log.txt
 =======
 >>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
+=======
+BAAH_UPDATE.spec
+>>>>>>> 2ce304c89d22027e0bae9d555458b66424e15646
 BAAH.spec
 compact_log.txt
 /*.png
 /DATA/CONFIGS/software_config.json
+/DATA/mu_bak
+/_internal
+/BAAH.exe
+/BAAH_GUI.exe
+/platform-tools-latest.zip
+/DATA/update/
+/BAAH*_update.zip
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -174,6 +185,7 @@ cython_debug/
 # ignore all config files, except example.json
 BAAH_CONFIGS/
 !BAAH_CONFIGS/example.json
+<<<<<<< HEAD
 DATA/assets/hard_strategy.jpg
 ./log/*
 *.txt
@@ -183,3 +195,6 @@ DATA/assets/hard_strategy.jpg
 .BAAH_CONFIGS/*.json
 
 skyland.py
+=======
+.nicegui
+>>>>>>> 2ce304c89d22027e0bae9d555458b66424e15646

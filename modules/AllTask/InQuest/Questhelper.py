@@ -12,7 +12,7 @@ def jump_to_page(to_num: int) -> bool:
     return Task.run_until(
         lambda: jump_to_neighbour_page(to_num),
         lambda: ocr_area((122, 179), (165, 211))[0] == str(to_num),
-        sleeptime=0.5
+        sleeptime=0.6
     )
      
 def jump_to_neighbour_page(to_num: int) -> bool:
@@ -62,4 +62,15 @@ def judge_whether_3star():
         if not match_pixel(pos, gray_star):
             has_star_count += 1
     return has_star_count == 3
-    
+
+# 集中指挥
+center_tab_pos_L = (589, 180)
+# 简易攻略
+easy_tab_pos_R = (702, 181)
+def quest_has_easy_tab():
+    # 集中指挥tab栏未选中时的绿色
+    unselect_color_L = ((175, 245, 193), (180, 250, 200))
+    # 简易攻略tab未选中的蓝色
+    unselect_color_R = ((241, 221, 166), (246, 226, 171))
+    has_easy_tab = match_pixel(center_tab_pos_L, unselect_color_L) or match_pixel(easy_tab_pos_R, unselect_color_R)
+    return has_easy_tab

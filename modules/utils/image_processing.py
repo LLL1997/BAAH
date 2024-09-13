@@ -35,16 +35,52 @@ def rotate_image_with_transparency(image_mat, angle):
     return rotated_image[y_offset:y_offset+image_mat.shape[0], x_offset:x_offset+image_mat.shape[1]]
 
 
+def check_the_pic_validity(_img, _templ):
+    """
+    检查图片和模板的维度色深是否一致，返回是否有效
+    
+    (depth == CV_8U || depth == CV_32F) && type == _templ.type() && _img.dims() <= 2
+    """
+    # int type = _img.type(), depth = CV_MAT_DEPTH(type), cn = CV_MAT_CN(type);
+    valid = True
+    if _img is None or _templ is None:
+        valid = False
+    else:
+        if isinstance(_img, np.ndarray):
+            # numpy ndarray类型
+            depth = _img.dtype
+        else:
+            # cv2 MatLike类型
+            depth = _img.type().depth()
+        if (depth == cv2.CV_8U or depth == cv2.CV_32F) and _img.type() == _templ.type() and _img.dims() <= 2:
+            valid = False
+    if not valid:
+        logging.warn({"zh_CN": "图像匹配出错：", "en_US":"Error in image matching:"})
+        if _img is None or _templ is None:
+            logging.warn({"zh_CN": "图片为空", "en_US":"Picture is null"}) if _img is None else logging.warn({"zh_CN": "模板为空", "en_US":"Pattern is null"})
+        else:
+            logging.warn(f"Pic type: {_img.type()}, Pattern type: {_templ.type()}")
+            logging.warn(f"Pic dims: {_img.dims()} <=2 : {_img.dims()<2}")
+        config.sessiondict["SCREENSHOT_READ_FAIL_TIMES"] += 1
+        if config.sessiondict["SCREENSHOT_READ_FAIL_TIMES"] > 5:
+            logging.error({"zh_CN": "读取截图文件失败次数过多，退出程序", "en_US":"The number of failed attempts to read the screenshot file is too many, exit the program"})
+            raise Exception("由于卡顿或其他原因，截图文件损坏过多次，请尝试清理电脑内存后重启程序")
+        return False
+    return True
+
 def match_pattern(sourcepic: str, patternpic: str,threshold: float = 0.9, show_result:bool = False, auto_rotate_if_trans = False) -> Tuple[bool, Tuple[float, float], float]:
     """
     Match the pattern picture in the source picture.
     
     If the pattern picture is a transparent picture, it will be rotated to match the source picture.
     """
+    logging.debug("Matching pattern {} in {}".format(patternpic, sourcepic))
+    default_response = (False, (0, 0), 0)
     try:
         logging.debug("Matching pattern {} in {}".format(patternpic, sourcepic))
 <<<<<<< HEAD
         screenshot = cv2.imread(sourcepic)
+<<<<<<< HEAD
         
 =======
         try:
@@ -155,6 +191,87 @@ def match_pattern(sourcepic: str, patternpic: str,threshold: float = 0.9, show_r
 def ocr_pic_area(imageurl, fromx, fromy, tox, toy):
 =======
         return (False, (0, 0), 0.01)
+=======
+    except:
+        logging.error({"zh_CN": "无法读取截图文件: {}".format(sourcepic), "en_US":"Cannot read the screenshot file: {}".format(sourcepic)})
+        config.sessiondict["SCREENSHOT_READ_FAIL_TIMES"] += 1
+        if config.sessiondict["SCREENSHOT_READ_FAIL_TIMES"] > 5:
+            logging.error({"zh_CN": "读取截图文件失败次数过多，退出程序", "en_US":"The number of failed attempts to read the screenshot file is too many, exit the program"})
+            raise Exception("由于卡顿或其他原因，截图文件损坏，请尝试清理电脑内存后重启程序")
+        return default_response
+    # 检查图片是否存在
+    if not exists(sourcepic):
+        logging.error({"zh_CN": "匹配的模板图片 文件不存在: {}".format(sourcepic), "en_US":"The pattern picture file does not exist: {}".format(sourcepic)})
+        return default_response
+    pattern = cv2.imread(patternpic, cv2.IMREAD_UNCHANGED)  # 读取包含透明通道的模板图像
+    have_alpha=False
+    if(pattern.shape[2] == 4 and auto_rotate_if_trans):
+        # 有透明度通道且开启了旋转匹配
+        have_alpha = True
+        best_max_val = -1
+        best_max_loc = (0, 0)
+        for i in range(-3, 4):
+            degree = i
+            # 旋转
+            rotate_pattern = rotate_image_with_transparency(pattern, degree)
+            # 以透明部分作为mask
+            rotate_mask = rotate_pattern[:, :, 3]  # 透明通道
+            rotate_mask[rotate_mask>0] = 255
+            rotate_pattern = rotate_pattern[:, :, :3] # 去除透明通道
+            # https://www.cnblogs.com/FHC1994/p/9123393.html
+            if not check_the_pic_validity(screenshot, rotate_pattern):
+                return default_response
+            result = cv2.matchTemplate(screenshot, rotate_pattern, cv2.TM_CCORR_NORMED, mask=rotate_mask)
+            min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
+            # print("角度为{}时，最大匹配值为{}".format(degree, max_val))
+            if max_val>best_max_val:
+                best_max_val = max_val
+                best_max_loc = max_loc
+        min_val, max_val, min_loc, max_loc = 0, best_max_val, 0, best_max_loc
+    else:
+        # 无旋转匹配
+        # TODO： 多点匹配：https://pyimagesearch.com/2021/03/29/multi-template-matching-with-opencv/
+        if pattern.shape[2] == 4:
+            # 有透明度通道
+            # 以透明部分作为mask
+            pattern_mask = pattern[:, :, 3]  # 透明通道
+            pattern_mask[pattern_mask>0] = 255
+            pattern = pattern[:, :, :3] # 去除透明通道
+            if not check_the_pic_validity(screenshot, pattern):
+                return default_response
+            result = cv2.matchTemplate(screenshot, pattern, cv2.TM_CCOEFF_NORMED, mask=pattern_mask)
+        else:
+            # 无透明度通道
+            if not check_the_pic_validity(screenshot, pattern):
+                return default_response
+            result = cv2.matchTemplate(screenshot, pattern[:,:,:3], cv2.TM_CCOEFF_NORMED)
+        min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
+    
+    h, w, _ = pattern.shape
+    top_left = max_loc
+    # get the center of the pattern
+    center_x = top_left[0] + int(w / 2)
+    center_y = top_left[1] + int(h / 2)
+    if (show_result):
+        bottom_right = (top_left[0] + w, top_left[1] + h)
+        # draw a rectangle on the screenshot
+        cv2.rectangle(screenshot, top_left, bottom_right, (0, 255, 0), 2)
+        # draw a circle on the center of the pattern
+        cv2.circle(screenshot, (center_x, center_y), 10, (0, 0, 255), -1)
+        print("max_val: ", max_val)
+        cv2.imshow('Matched Screenshot', screenshot)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
+    if(max_val >= threshold):
+        logging.debug("Pattern of {} and {} matched ({}). Center: ({}, {})".format(sourcepic, patternpic, max_val, center_x, center_y))
+        return (True, (center_x, center_y), max_val)
+    return (False, (0, 0), max_val)
+
+def filter_num(input: str):
+    """filter the number in the string"""
+    return "".join(filter(str.isdigit, input))
+
+>>>>>>> 2ce304c89d22027e0bae9d555458b66424e15646
 def ocr_pic_area(imageurl, fromx, fromy, tox, toy, multi_lines = False):
 >>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
     """
@@ -164,6 +281,10 @@ def ocr_pic_area(imageurl, fromx, fromy, tox, toy, multi_lines = False):
 <<<<<<< HEAD
     
     """
+    fromx = int(fromx)
+    fromy = int(fromy)
+    tox = int(tox)
+    toy = int(toy)
     def replace_mis(ocr_text):
         """
         替换容易识别错误的字符
@@ -230,11 +351,16 @@ def match_pixel_color_range(imageurl, x, y, low_range, high_range, printit = Fal
     return True if the color is between the range
     """
     img = cv2.imread(imageurl)
+<<<<<<< HEAD
     if img is None:
         if not img:
             return False
         else:
             return False
+=======
+    x = int(x)
+    y = int(y)
+>>>>>>> 2ce304c89d22027e0bae9d555458b66424e15646
     pixel = img[y, x][:3]
 <<<<<<< HEAD
 =======
@@ -256,16 +382,16 @@ def compare_diff(img1, img2, xfocus, yfocus):
         图片1
     img2 : np.ndarray
         图片2
-    xignore : List[int]
+    xfocus : List[int]
         关注的x范围, 图片坐标
-    yignore : List[int]
+    yfocus : List[int]
         关注的y范围, 图片坐标
     """
     # 忽略UI部分
     # xs = [1, 1279]
     # ys = [124, 568]
-    xs=xfocus
-    ys=yfocus
+    xs=[int(each) for each in xfocus]
+    ys=[int(each) for each in yfocus]
     
     img1 = img1[ys[0]:ys[1], xs[0]:xs[1]]
     img2 = img2[ys[0]:ys[1], xs[0]:xs[1]]
@@ -313,8 +439,8 @@ def screencut_tool(left_click = True, right_click = True, img_path = None, quick
         是否开启左键点击事件
     right_click : bool
         是否开启右键点击事件
-    img_data : np.ndarray
-        图片数据
+    img_path : string
+        要截取的图片路径
     quick_return : bool
         是否开启快速返回, 如果开启，点击右键后会返回坐标
     """
@@ -362,8 +488,10 @@ def screencut_tool(left_click = True, right_click = True, img_path = None, quick
             nowstr = time.strftime("%Y-%m-%d-%H_%M_%S", time.localtime(time.time()))
             filename = "selected_"+nowstr+".png"
             cv2.imwrite(filename, selected_region)
+            print(f"坐标点为起点[{start_x}, {start_y}] 终点[{end_x}, {end_y}]")
+            print(f"cut code = [{start_y}:{end_y}, {start_x}:{end_x}]")
             print(f"选定区域已被保存为/Saved as {filename}")
-            
+
             if quick_return:
                 quick_return_data = filename
                 cv2.destroyAllWindows()

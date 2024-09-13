@@ -24,8 +24,10 @@ defaultUserDict = {
     "TASK_ORDER": {"d":["登录游戏"]},
     "SHOP_NORMAL": {"d":[]},
     "SHOP_CONTEST": {"d":[]},
+    "PUSH_NORMAL_USE_SIMPLE": {"d":False},
     "PUSH_NORMAL_QUEST": {"d":0},
     "PUSH_NORMAL_QUEST_LEVEL": {"d":1},
+    "PUSH_HARD_USE_SIMPLE": {"d":False},
     "PUSH_HARD_QUEST": {"d":0},
     "PUSH_HARD_QUEST_LEVEL": {"d":1},
     "TASK_ACTIVATE": {"d":[True]},
@@ -87,7 +89,10 @@ defaultUserDict = {
         }
     },
     "SHOP_NORMAL_REFRESH_TIME":{"d": 0},
+    'SHOP_NORMAL_SWITCH':{"d":True},
     "SHOP_CONTEST_REFRESH_TIME":{"d": 0},
+    'SHOP_CONTEST_SWITCH':{"d":True},
+
     "LOCK_SERVER_TO_RESPOND_Y":{"d": True},
     "CAFE_CAMERA_FULL":{"d":True},
     "CAFE_EXHAUSTIVITY_TOUCH_HEAD":{"d":False},
@@ -110,6 +115,14 @@ defaultUserDict = {
     "CAFE_INVITE":{"d":True},
     "RAISE_ERROR_IF_CANNOT_PUSH_EVENT_QUEST":{"d":True},
     
+    # 多倍活动开启状态相关
+    "SPEICAL_EVENT_STATUS":{"d":False},
+    "NORMAL_QUEST_EVENT_STATUS":{"d":False},
+    "HARD_QUEST_EVENT_STATUS":{"d":False},
+    "EXCHANGE_EVENT_STATUS":{"d":False},
+
+
+
     # 邮件相关
     "MAIL_USER":{"d":""},
     "MAIL_PASS":{"d":""},
@@ -137,7 +150,34 @@ defaultUserDict = {
     
     # 是否直接在内存中获取图像数据
     "USE_MEMORY_IMAGE":{"d":False},
+<<<<<<< HEAD
 >>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
+=======
+    
+    # 时间表是否自动选择
+    "SMART_TIMETABLE":{"d":False},
+    # 时间表各项权重
+    "TIMETABLE_WEIGHT_OF_REWARD":{"d":10},
+    "TIMETABLE_WEIGHT_OF_HEART":{"d":20},
+    "TIMETABLE_WEIGHT_OF_LOCK":{"d":10},
+    
+    # 购买体力的最高单价价格，包含
+    "BUY_AP_MAX_PRICE":{"d":30},
+    "BUY_AP_ADD_TIMES":{"d":1},
+    
+    # 任务运行前后的命令
+    "PRE_COMMAND":{"d":""},
+    "POST_COMMAND":{"d":""},
+    
+    # 自定义任务
+    "USER_DEF_TASKS":{"d":""},
+    
+    "CRAFT_TIMES":{"d":1},
+    
+    # 竞技场优先级、
+    "CONTEST_LEVEL_PRIORITY":{"d":10},
+    "CONTEST_RANK_PRIORITY":{"d":10},
+>>>>>>> 2ce304c89d22027e0bae9d555458b66424e15646
 }
 
 # 软件的config里的默认值
@@ -162,7 +202,11 @@ defaultSoftwareDict = {
             "from": "LANGUAGE", # map功能必须要有from字段，这里充当占位符
             # 使用现在的时间戳作为加密key，长度截取最后五位，字符串！
             "map": lambda x:  str(int(time()))[-5:]
-        }}
+        }},
+    # 用户在GUI里的各种备注
+    "NOTE":{"d":{
+        "HARD_NOTE":"",
+    }}
 }
 
 # sessiondict是一个dict，存储一个BAAH配置任务的运行时信息，每次运行的时候都会按照以下内容初始化一个新的sessiondict
@@ -185,6 +229,10 @@ defaultSessionDict = {
     "INFO_DICT":{"d":{}},
     "INFO_LIST":{"d":[]},
     # 截图文件读取失败的次数
+<<<<<<< HEAD
     "SCREENSHOT_READ_FAIL_TIMES":{"d":0},
 >>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
+=======
+    "SCREENSHOT_READ_FAIL_TIMES":{"d":0}
+>>>>>>> 2ce304c89d22027e0bae9d555458b66424e15646
 }

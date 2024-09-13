@@ -6,6 +6,7 @@
     "task_timetable": "タイムテーブル／スケジュール",
     "task_club": "クラブ",
     "task_shop": "ショップ",
+    "task_buy_ap": "体力を購入する",
     "task_wanted": "指名手配／懸賞",
     "task_special": "特別任務／依頼",
     "task_exchange": "学園交流会",
@@ -19,6 +20,8 @@
     "push_hard": "難関ステージの攻略",
     "push_main_story": "メインストーリーの進行",
     "task_assault": "総力戦",
+    "task_user_def_task": "ユーザー定義タスク",
+    "task_craft":"クラフト",
 
     "setting_emulator": "エミュレータ設定",
     "setting_server": "サーバー設定",
@@ -36,13 +39,16 @@
     "notice_fail": "失敗",
     "notice_save_success": "保存に成功しました",
     "notice_start_run": "実行を開始します",
+    "notice_finish_run":"実行を停止します",
     "notice_get_new_version": "現在の最新バージョン",
     "notice_no_new_version": "現在、新しいバージョンはありません",
     "notice_download_version": "バージョンをダウンロードしています",
 
     "button_save": "保存",
-    "button_save_and_run": "保存して実行",
+    "button_save_and_run_gui": "保存して実行（GUI、実験的）",
+    "button_save_and_run_terminal": "保存して実行（ターミナル）",
     "button_check_version": "更新を確認してダウンロードする（BAAHが実行されていないことを確認してください）",
+    "button_update_advance":"最新バージョンに一括更新（実験的）",
     "button_select_all": "すべて選択",
     "button_select_none": "選択解除",
     "button_enable": "有効にする",
@@ -51,6 +57,8 @@
     "button_get_now_app": "現在のページを取得",
     "button_get_now_app_enter": "現在のアプリの入り口ページを取得",
     "button_edit": "編集",
+    "button_show":"表示",
+    "button_hide":"非表示",
 
     "config_cafe_attention": "カフェの視点を最大にしてください。以下の項目をチェックして効率を向上させます",
     "config_camera_full": "カフェに入るときに視点が最大になる",
@@ -71,6 +79,8 @@
     "config_shop_normal": "普通のショップ",
     "config_shop_contest": "競技場のショップ",
     "config_refresh": "リフレッシュ",
+    "config_shop_normal_switch":"ショップのスイッチ",
+    "config_shop_contest_switch":"競技場のショップのスイッチ",
     "config_row": "行",
     "config_column": "列",
     "config_desc_shop_edit": "行数は普通のショップの右側のアイテムの行数を指し、列はその行の左から右に並んだ4つのアイテムを指します。特定の行のアイテムを買わない場合は、その行にアイテムを追加しないでください。",
@@ -117,6 +127,19 @@
     "config_api_noti":"API通知",
     "config_api_noti_url":"API通知URL",
     "config_api_noti_token":"API通知トークン",
+    "config_smart_timetable_desc":"スマートタイムテーブルは、タイムテーブルの部屋を自動的に検出します。部屋が変更された場合、自動的に部屋を変更します",
+    "config_weight_of_rewards":"報酬の重み（偏向報酬を取得する）",
+    "config_weight_of_hearts":"ハートの重み（偏向ハートを取得する）",
+    "config_weight_of_lock":"ロックの重み（偏向ロックを取得する）",
+    "config_buy_ap_attention":"APを購入する際は、十分なダイヤモンドがあることを確認してください",
+    "config_buy_ap_max_price":"APの最大価格(含む)",
+    "config_buy_ap_add_times":"APを購入する回数",
+    "config_pre_command":"タスク開始前に実行するコマンド",
+    "config_post_command":"タスク終了後に実行するコマンド",
+    "config_use_simple_explore":"簡易攻略を使用する",
+    "config_craft_desc":"現在、クラフトタスクは1つのノードのみをサポートし、指定されたアイテムの優先順位をサポートしていません。国内サーバーがワンクリック製造を実装した後、ワンクリック製造を使用してサポートする予定です",
+    "config_craft_max_times":"最大製造回数",
+    "desc_note":"備考",
 
     "config_server_jp": "日本サーバー",
     "config_server_cn": "中国公式サーバー",
@@ -125,8 +148,7 @@
     "config_server_global_en": "国際版（英語）",
 
 
-
-
+    "config_event_status": "イベントがアクティブな状態のときにのみ実行する",
 
 
 

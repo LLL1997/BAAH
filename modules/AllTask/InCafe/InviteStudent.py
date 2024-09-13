@@ -1,4 +1,3 @@
- 
 from modules.utils.log_utils import logging
 
 from DATA.assets.PageName import PageName
@@ -10,24 +9,29 @@ from modules.AllTask.Task import Task
 
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, config
 
+
 class InviteStudent(Task):
     """
     stuind 从0开始，邀请的学生的下标
     """
+
     def __init__(self, stuind, name="InviteStudent") -> None:
         super().__init__(name)
         self.stuind = stuind
 
-     
     def pre_condition(self) -> bool:
 <<<<<<< HEAD
         return Page.is_page(PageName.PAGE_CAFE) and match(button_pic(ButtonName.BUTTON_CAFE_CANINVITE))
 =======
         return Page.is_page(PageName.PAGE_CAFE)
+<<<<<<< HEAD
 >>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
     # TODO 增加限定时间到gui
     from modules.utils.add_function import time_restriction
     @time_restriction((16, 0, 18, 0),(3, 00, 6, 00)) 
+=======
+
+>>>>>>> 2ce304c89d22027e0bae9d555458b66424e15646
     def on_run(self) -> None:
         # 打开邀请界面
         open_momo = self.run_until(
@@ -36,7 +40,8 @@ class InviteStudent(Task):
             times=3
         )
         if not open_momo:
-            logging.warn("咖啡馆邀请界面打开失败, 跳出邀请任务")
+            logging.warn({"zh_CN": "咖啡馆邀请界面打开失败, 跳出邀请任务",
+                          "en_US": "Failed to open the cafe invite interface, jump out of the invitation task"})
             click(Page.MAGICPOINT)
             click(Page.MAGICPOINT)
             return
@@ -60,6 +65,5 @@ class InviteStudent(Task):
         click(Page.MAGICPOINT)
         config.sessiondict["CAFE_HAD_INVITED"] = True
 
-     
     def post_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_CAFE)

@@ -8,7 +8,11 @@ from .grid_analyze import *
 =======
 from .notification import *
 from .data_utils import *
+<<<<<<< HEAD
 >>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
+=======
+from .I18nstr import *
+>>>>>>> 2ce304c89d22027e0bae9d555458b66424e15646
 
 from modules.utils.log_utils import logging
 import time
@@ -52,7 +56,7 @@ def click(item:Union[str, Tuple[float, float]], sleeptime = -1, threshold=0.9) -
                 time.sleep(get_config_time_after_click())
             return True
         else:
-            logging.warning("无法匹配模板图像: {} ".format(item))
+            logging.warning({"zh_CN": "无法匹配模板图像: {} ".format(item), "en_US":"Cannot match the pattern: {} ".format(item)})
             return False
     else:
         click_on_screen(item[0], item[1])
@@ -168,7 +172,8 @@ def page_pic(picname):
     """
     给定页面的图片名称，得到图片的路径
     """
-    return get_config_pic_path() + "/PAGE" + f"/{picname}.png"
+    # get_config_pic_path() + "/PAGE" + f"/{picname}.png"
+    return os.path.join(get_config_pic_path(), "PAGE", f"{picname}.png")
 
 def button_pic(buttonname):
     """
@@ -177,7 +182,8 @@ def button_pic(buttonname):
     # 如果是反和谐，就把按钮名称改成反和谐的
     if config.userconfigdict["FANHEXIE"] and buttonname == "BUTTON_CFIGHT_START":
         buttonname = "BUTTON_CFIGHT_START_FANHEXIE"
-    return get_config_pic_path() + "/BUTTON" + f"/{buttonname}.png"
+    # get_config_pic_path() + "/BUTTON" + f"/{buttonname}.png"
+    return os.path.join(get_config_pic_path(), "BUTTON", f"{buttonname}.png")
 
 def popup_pic(popupname):
     """
@@ -186,7 +192,8 @@ def popup_pic(popupname):
     # 如果是反和谐，就把名称改成反和谐的
     if config.userconfigdict["FANHEXIE"] and popupname == "POPUP_MOMOTALK":
         popupname = "POPUP_MOMOTALK_FANHEXIE"
-    return get_config_pic_path() + "/POPUP" + f"/{popupname}.png"
+    # get_config_pic_path() + "/POPUP" + f"/{popupname}.png"
+    return os.path.join(get_config_pic_path(), "POPUP", f"{popupname}.png")
 
 def get_grid_solution_json(location, level, ishard=False):
     # 读取DATA/grid_config/quest/里的文件
@@ -215,30 +222,47 @@ def screenshot():
 def check_connect():
     # 检查当前python目录下是否有screenshot.png文件，如果有就删除
     if os.path.exists(f"./{get_config_screenshot_name()}"):
-        logging.info(f"删除{get_config_screenshot_name()}")
+        logging.info({"zh_CN": f"删除{get_config_screenshot_name()}", "en_US":f"Detele {get_config_screenshot_name()}"})
         os.remove(f"./{get_config_screenshot_name()}")
     connect_to_device()
     # 尝试截图
     screenshot()
     time.sleep(2)
     if os.path.exists(f"./{get_config_screenshot_name()}"):
-        logging.info(f"截图文件大小为{os.path.getsize(f'./{get_config_screenshot_name()}')//1024}KB")
+        logging.info({"zh_CN": f"截图文件大小为{os.path.getsize(f'./{get_config_screenshot_name()}')//1024}KB", "en_US":f"The size of the screenshot file is {os.path.getsize(f'./{get_config_screenshot_name()}')//1024}KB"})
         # 检查文件大小
         if os.path.getsize(f"./{get_config_screenshot_name()}") !=0: # 不为0
-            logging.info("adb与模拟器连接正常")
+            logging.info({"zh_CN":"adb与模拟器连接正常" , "en_US":"The connection between adb and the emulator is normal"})
             # 检查图片长和宽
             img = cv2.imread(f"./{get_config_screenshot_name()}")
+            if img is None:
+                logging.error({"zh_CN": "图片读取失败，多次出现请尝试重启模拟器", "en_US":"Image read failed, try restart emulator if encountered multiple times"})
             # 第一维度是高，第二维度是宽
-            if img.shape[0] == 720 and img.shape[1] == 1280:
-                logging.info("图片分辨率为1280*720")
+            elif img.shape[0] == 720 and img.shape[1] == 1280:
+                logging.info({"zh_CN": "图片分辨率为1280*720", "en_US":"The resolution is 1280*720"})
+                dpi_res = get_dpi()
+                logging.info(f"DPI: {dpi_res}")
+                if "240" not in dpi_res:
+                    logging.warn(istr({
+                        CN: "请设置模拟器dpi为240",
+                        EN: "Please set the emulator dpi to 240"
+                    }))
+                    # auto fix
+                    set_dpi(240)
+                    return False
                 return True
             elif img.shape[0] == 1280 and img.shape[1] == 720:
-                logging.warn("图片分辨率为720*1280，可能是模拟器设置错误，也可能是模拟器bug")
-                logging.warn("继续运行，但是可能会出现问题，请确保模拟器分辨率为1280*720")
+                logging.warn({"zh_CN": "图片分辨率为720*1280，可能是模拟器设置错误，也可能是模拟器bug", "en_US":"The resolution is 720*1280, it may be the wrong setting of the emulator, or it may be a bug of the emulator"})
+                logging.warn({"zh_CN": "继续运行，但是可能会出现问题，请确保模拟器分辨率为1280*720", "en_US":"Continue to run, but there may be problems, please make sure the emulator resolution is 1280*720"})
+                if "240" not in get_dpi():
+                    raise Exception(istr({
+                        CN: "请设置模拟器dpi为240",
+                        EN: "Please set the emulator dpi to 240"
+                    }))
                 return True
             else:
-                logging.error("图片分辨率不为1280*720，请设置模拟器分辨率为1280*720（当前{}*{}）".format(img.shape[1], img.shape[0]))
+                logging.error({"zh_CN": "图片分辨率不为1280*720，请设置模拟器分辨率为1280*720（当前{}*{}）".format(img.shape[1], img.shape[0]), "en_US":"The resolution is not 1280*720, please set the resolution to 1280*720 (current {}*{})".format(img.shape[1], img.shape[1])})
                 raise Exception("图片分辨率不为1280*720，请设置模拟器分辨率为1280*720（当前{}*{}）".format(img.shape[1], img.shape[0]))
-    logging.error("adb与模拟器连接失败")
-    logging.info("请检查adb与模拟器连接端口号是否正确")
+    logging.error({"zh_CN": "adb与模拟器连接失败", "en_US":"Failed to connect to the emulator"})
+    logging.info({"zh_CN": "请检查adb与模拟器连接端口号是否正确", "en_US":"Please check if the adb and emulator connection port number is correct"})
     return False

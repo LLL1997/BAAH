@@ -17,4 +17,16 @@ def set_event(config):
     
 >>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
     ui.label(config.get_text("config_desc_times"))
-    list_edit_area(config.userconfigdict["EVENT_QUEST_LEVEL"], [config.get_text("config_day"), "", [config.get_text("config_level"), config.get_text("config_times")]], config.get_text("config_desc_list_edit"))
+    list_edit_area(
+        config.userconfigdict["EVENT_QUEST_LEVEL"], 
+        [
+            config.get_text("config_day"), 
+            "", 
+            [
+                config.get_text("config_level"), 
+                config.get_text("config_times")
+            ]
+        ], 
+        config.get_text("config_desc_list_edit"),
+        has_switch=True
+    )

@@ -135,7 +135,12 @@ if __name__=="__main__":
     #         print(response.json()['data'])
     
     connect_to_device()
+<<<<<<< HEAD
     # screenshot()
+=======
+    screenshot()
+
+>>>>>>> 2ce304c89d22027e0bae9d555458b66424e15646
     # print(Page.is_page(PageName.PAGE_CAFE))
     # print(match(button_pic(ButtonName.BUTTON_COLLECT_GRAY)))
     # print(match(button_pic(ButtonName.BUTTON_COLLECT_GRAY), returnpos=True)[2])
@@ -143,11 +148,15 @@ if __name__=="__main__":
     
     # 测match
 <<<<<<< HEAD
+<<<<<<< HEAD
     # res1 = match_pattern(config.userconfigdict['SCREENSHOT_NAME'], "./DATA/assets_global_en/BUTTON/BUTTON_CONFIRMY.png",  show_result=True, auto_rotate_if_trans=False)
     
 =======
     # res1 = match_pattern(config.userconfigdict['SCREENSHOT_NAME'], button_pic(ButtonName.BUTTON_NEW_STORY_LEVEL),  show_result=True, auto_rotate_if_trans=False)
 >>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
+=======
+    # res1 = match_pattern(config.userconfigdict['SCREENSHOT_NAME'], page_pic(PageName.PAGE_GRID_FIGHT),  show_result=True, auto_rotate_if_trans=False)
+>>>>>>> 2ce304c89d22027e0bae9d555458b66424e15646
 
     # 比划点
     screencut_tool()

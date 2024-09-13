@@ -6,6 +6,7 @@
     "task_timetable":"课程表/日程",
     "task_club":"社团",
     "task_shop":"商店",
+    "task_buy_ap":"购买体力",
     "task_wanted":"悬赏通缉/指名手配",
     "task_special":"特殊任务/委托/依赖",
     "task_exchange":"学园交流会",
@@ -19,6 +20,8 @@
     "push_hard":"困难图推图",
     "push_main_story":"推主线剧情",
     "task_assault":"总力战",
+    "task_user_def_task": "自定义任务",
+    "task_craft":"制造",
 
     "setting_emulator":"模拟器配置",
     "setting_server":"服务器配置",
@@ -36,17 +39,25 @@
     "notice_fail":"失败",
     "notice_save_success":"保存成功",
     "notice_start_run":"开始执行",
+    "notice_finish_run":"停止执行",
     "notice_get_new_version":"目前发布的最新版本",
     "notice_no_new_version":"目前没有新版本",
     "notice_download_version":"正在下载版本",
 
     "button_save":"保存",
+<<<<<<< HEAD
     "button_save_and_run":"保存并执行",
 <<<<<<< HEAD
     "button_check_version":"检查更新并下载（确保BAAH不在运行）",
 =======
     "button_check_version":"检查更新并下载（确保BAAH不在运行），下载完成后请关闭BAAH手动解压更新补丁",
 >>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
+=======
+    "button_save_and_run_gui":"保存并执行(GUI，实验性功能)",
+    "button_save_and_run_terminal":"保存并执行(终端)",
+    "button_check_version":"检查更新并下载（确保BAAH不在运行），下载完成后请关闭BAAH手动解压更新补丁",
+    "button_update_advance":"一键更新到最新版本（实验性功能）",
+>>>>>>> 2ce304c89d22027e0bae9d555458b66424e15646
     "button_select_all":"全选",
     "button_select_none":"全不选",
     "button_enable":"开关",
@@ -55,6 +66,8 @@
     "button_get_now_app":"获取当前页面",
     "button_get_now_app_enter":"获取当前应用的入口页面",
     "button_edit":"编辑",
+    "button_show":"显示",
+    "button_hide":"隐藏",
 
     "config_cafe_attention":"请将咖啡馆视角拉到最高，保持勾选以下这项以提高效率",
     "config_camera_full":"进入咖啡馆时视角为最高",
@@ -75,6 +88,8 @@
     "config_desc_timetable":"其中地区指课程表/日程右侧那些列表的不同选项卡（夏莱办公室，夏莱居住区等）\n房间指课程表/日程每个学院里的房间，从左往右从上往下数，数字从1到9\n如果某个地区没有设置点击的房间则会跳过那个地区",
     "config_shop_normal":"普通商店",
     "config_shop_contest":"竞技场商店",
+    "config_shop_normal_switch":"普通商店购买开关",
+    "config_shop_contest_switch":"竞技场商店购买开关",
     "config_refresh":"刷新",
     "config_row":"行",
     "config_column":"列",
@@ -106,7 +121,7 @@
     "email_account":"邮件账号/QQ号",
     "email_pwd":"SMTP授权码",
     "get_email_pwd":"如何获取授权码",
-    "notice_example_json": "你正在使用example.json，这是一个示例配置文件，请在BAAH_CONFIGS文件夹里重命名此文件然后编辑",
+    "notice_example_json": "你正在使用example.json，这是一个示例配置文件，请在BAAH_CONFIGS文件夹里重命名此文件然后重新打开GUI编辑",
     "enable_diff_touch":"是否识别人物的位置点击",
     "vpn_desc":"勾选此项来模拟手动开启模拟器里的加速器软件（建议使用MUMU自动加速）。点击编辑后，左键拖拽截图；右键点击确定坐标点",
     "cafe_collect_desc":"咖啡馆是否收集",
@@ -128,7 +143,23 @@
     "config_api_noti":"是否启用API通知。自定义需注意关键字段格式",
     "config_api_noti_url":"API通知URL(get请求)",
     "config_api_noti_token":"API通知Token",
+<<<<<<< HEAD
 >>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
+=======
+    "config_smart_timetable_desc":"是否开启智能识别课程表/日程，开启后会自动识别当前课程表/日程的房间权重",
+    "config_weight_of_rewards":"奖励权重（偏向拿取更高质量的光盘奖励）",
+    "config_weight_of_hearts":"爱心权重（偏向获取更多学生的好感度）",
+    "config_weight_of_lock":"未解锁房间权重（偏向解锁更多房间）",
+    "config_buy_ap_attention":"购买体力时请确保有足够的钻石",
+    "config_buy_ap_max_price":"体力单价的最大值（包含）",
+    "config_buy_ap_add_times":"购买体力组数",
+    "config_pre_command":"任务开始前执行命令, 留空忽略",
+    "config_post_command":"任务结束后执行命令, 留空忽略",
+    "config_use_simple_explore":"使用简易攻略",
+    "config_craft_desc":"制造任务目前只能一个节点，且不支持指定物品的优先级，等国服实装一键制造后会通过一键制造来支持",
+    "config_craft_max_times":"尝试制造次数",
+    "desc_note":"备注",
+>>>>>>> 2ce304c89d22027e0bae9d555458b66424e15646
 
     "config_server_jp":"日服",
     "config_server_cn":"国服官服",
@@ -137,8 +168,7 @@
     "config_server_global_en" : "国际服(英文)",
 
 
-
-
+    "config_event_status": "是否只在活动开启状态下执行",
 
 
 

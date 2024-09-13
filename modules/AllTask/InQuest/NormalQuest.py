@@ -11,7 +11,7 @@ from modules.AllTask.SubTask.ScrollSelect import ScrollSelect
 from modules.AllTask.Task import Task
 
 from modules.utils import click, swipe, match, page_pic, button_pic, popup_pic, sleep, ocr_area, match_pixel, config, screenshot
-from .Questhelper import jump_to_page, close_popup_until_see
+from .Questhelper import jump_to_page, close_popup_until_see, quest_has_easy_tab, easy_tab_pos_R, center_tab_pos_L
 import numpy as np
 
 class NormalQuest(Task):
@@ -19,23 +19,28 @@ class NormalQuest(Task):
         super().__init__(name)
         self.questlist = questlist
 
-     
+    
     def pre_condition(self) -> bool:
         return Page.is_page(PageName.PAGE_QUEST_SEL)
     
      
     def on_run(self) -> None:
-        logging.info("switch to normal quest")
+        logging.info({"zh_CN": "切换到普通关卡", "en_US": "switch to normal quest"})
         self.run_until(
             lambda: click((798, 159)),
             lambda: match(button_pic(ButtonName.BUTTON_NORMAL))
         )
+        if config.userconfigdict["NORMAL_QUEST_EVENT_STATUS"] and not (match_pixel((155, 266), Page.COLOR_PINK,printit=True) or
+                                                                     match_pixel((224, 265), Page.COLOR_PINK,printit=True)):
+            logging.warn({"zh_CN": "今天没有开启活动，跳过", "en_US":"Today is not in the activity, skip"})
+            return
         # after switch to normal, go to the page
         for each_quest in self.questlist:
             to_page_num = each_quest[0]+1
             level_ind = each_quest[1]
             repeat_times = each_quest[2]
-            if each_quest[-1] == 'false' or each_quest[-1] == False or each_quest[-1] == 0 : # 开关关闭
+            # congfig里的开关关闭
+            if each_quest[-1] == 'false' or each_quest[-1] == False or each_quest[-1] == 0 : 
                 logging.info(f"{to_page_num}-{level_ind+1}设置为关, 忽略这关扫荡")
                 continue
             if repeat_times == 0:
@@ -43,25 +48,25 @@ class NormalQuest(Task):
                 continue
             jumpres = jump_to_page(to_page_num)
             if not jumpres:
-                logging.error("go to page {} failed, ignore this quest".format(to_page_num))
+                logging.error({"zh_CN": "无法到达页面 {}, 忽略此关卡".format(to_page_num), "en_US":"go to page {} failed, ignore this quest".format(to_page_num)})
                 continue
             click(Page.MAGICPOINT)
             ScrollSelect(level_ind, 190, 288, 628, 1115, lambda: not match_pixel(Page.MAGICPOINT, Page.COLOR_WHITE)).run()
             # 如果匹配到弹窗，看看是不是扫荡的弹窗，
             
-            if config.userconfigdict["SERVER_TYPE"] == "JP":
-                # 适配日服简易攻略
+            if quest_has_easy_tab():
+                # 适配简易攻略
                 click((385, 183))
                 screenshot()
                 if not match(popup_pic(PopupName.POPUP_EASY_QUEST)):
                     # 匹配简易攻略弹窗失败
-                    logging.warn("日服：未能匹配到扫荡弹窗，跳过")
+                    logging.warn({"zh_CN": "简易攻略：未能匹配到扫荡弹窗，跳过", "en_US":"Easy Quest: Cannot match the raid popup, skip"})
                     break
             else:
                 screenshot()
                 if not match(popup_pic(PopupName.POPUP_TASK_INFO)):
                     # 匹配弹窗失败
-                    logging.warn("未能匹配到扫荡弹窗，跳过")
+                    logging.warn({"zh_CN": "未能匹配到扫荡弹窗，跳过", "en_US":"Cannot match the raid popup, skip"})
                     break
             # 扫荡
             RaidQuest(repeat_times, has_easy_tab=config.userconfigdict["SERVER_TYPE"]=="JP").run()

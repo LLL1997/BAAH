@@ -14,6 +14,7 @@ task_dict= {
     "咖啡馆只摸头":[InCafe,{}], # 此方法弃用，现在所有咖啡馆参数通过config调整
     "课程表":[InTimeTable,{}],
     "社团":[InClub,{}],
+    "制造":[InCraft,{}],
     "商店":[InShop,{}],
     "悬赏通缉":[InWanted,{}],
     "特殊任务":[InSpecial,{}],
@@ -35,7 +36,12 @@ task_dict= {
     "普通推图":[InQuest, {'types':["push-normal"]}],
     "困难推图":[InQuest, {'types':["push-hard"]}],
     "主线剧情":[AutoStory,{}],
+<<<<<<< HEAD
 >>>>>>> e7da5a2baec6560ca7c05328828f6d271b96d187
+=======
+    "购买AP":[BuyAP,{}],
+    "自定义任务":[UserTask,{}],
+>>>>>>> 2ce304c89d22027e0bae9d555458b66424e15646
 }
 
 class AllTask:
@@ -68,7 +74,7 @@ class AllTask:
             if last_contest:
                 last_contest.set_collect(True)
         else:
-            logging.error("配置文件严重错误，请删除config.json后打开GUI.exe生成config.py文件或进群询问")
+            logging.error({"zh_CN": "配置文件严重错误，请删除config.json后打开GUI.exe生成config.py文件或进群询问", "en_US":"Serious error in config file, please delete config.json and open GUI.exe to generate config.py file or ask in the group"})
         # 任务列表末尾添加一个PostAllTask任务，用于统计资源
         self.add_task(PostAllTask())
         
